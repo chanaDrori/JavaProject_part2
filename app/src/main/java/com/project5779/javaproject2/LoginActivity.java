@@ -39,7 +39,7 @@ public class LoginActivity extends Activity {
      */
     private void findViews() {
         loginLayout = (LinearLayout)findViewById( R.id.login_layout );
-        etUsername = (EditText)findViewById( R.id.etUsername );
+        etUsername = (EditText)findViewById( R.id.EditTextId );
         password = (EditText)findViewById( R.id.password );
         CheckBoxRememberMe = (CheckBox)findViewById( R.id.CheckBoxRememberMe );
         ButtonLogin = (Button)findViewById( R.id.ButtonLogin );

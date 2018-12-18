@@ -14,4 +14,6 @@
     <string name="credit_card_number">מספר כרטיס אשראי</string>
     <string name="create_an_account">צור חשבון</string>
     <string name="confirm_password">אישור סיסמה</string>
+    <string name="created_successfully">The account was created successfully</string>
+    <string name="error_creating_the_account">There was an error creating the account</string>
 </resources>
