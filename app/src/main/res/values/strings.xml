@@ -7,4 +7,12 @@
     <string name="enter">Login</string>
     <string name="remember_me_later">Remember me</string>
     <string name="no_account_yet_create_one">No account yet? Create one</string>
+    <string name="first_name">first name</string>
+    <string name="last_name">last name</string>
+    <string name="id">ID</string>
+    <string name="phone">phone</string>
+    <string name="Email">Email</string>
+    <string name="credit_card_number">Credit card number</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="confirm_password">Confirm password</string>
 </resources>

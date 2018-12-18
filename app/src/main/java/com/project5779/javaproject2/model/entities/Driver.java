@@ -8,6 +8,7 @@ public class Driver {
     private String phone;
     private String email;
     private String creditCard;
+    private String password;
 
     /**
      * constructor of driver.
@@ -127,5 +128,21 @@ public class Driver {
      */
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    /**
+     * getter function
+     * @return password String
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * setter function
+     * @param password String password
+     */
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

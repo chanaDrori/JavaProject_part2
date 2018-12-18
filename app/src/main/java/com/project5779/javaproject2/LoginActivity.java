@@ -1,6 +1,7 @@
 package com.project5779.javaproject2;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.project5779.javaproject2.controller.Register;
 
 public class LoginActivity extends Activity {
 
@@ -53,7 +55,8 @@ public class LoginActivity extends Activity {
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(LoginActivity.this, Register.class);
+                startActivity(intent);
             }
         });
 
