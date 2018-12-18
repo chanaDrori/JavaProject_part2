@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="password">password</string>
+    <string name="user_name">שם משתמש</string>
+    <string name="action_sign_in_short">התחבר</string>
+    <string name="password">סיסמה</string>
+    <string name="enter">התחבר</string>
+    <string name="remember_me_later">זכור אותי</string>
+    <string name="no_account_yet_create_one">אין לך חשבון? צור עכשיו</string>
 </resources>

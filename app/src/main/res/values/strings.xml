@@ -2,7 +2,9 @@
     <string name="app_name">Get Taxi</string>
 
     <string name="user_name">User name</string>
-
     <string name="action_sign_in_short">Sign in</string>
-    <string name="password">password</string>
+    <string name="password">Password</string>
+    <string name="enter">Login</string>
+    <string name="remember_me_later">Remember me</string>
+    <string name="no_account_yet_create_one">No account yet? Create one</string>
 </resources>
