@@ -1,7 +1,9 @@
 package com.project5779.javaproject2.controller;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
@@ -32,8 +34,7 @@ public class Register extends Activity {
     }
 
     /**
-     * Find the Views in the layout<br />
-     * <br />
+     * Find the Views in the layout
      * Auto-created on 2018-12-18 15:26:21 by Android Layout Finder
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
@@ -75,9 +76,15 @@ public class Register extends Activity {
 
                     }
                 });
+                BackEndFactory.getInstance(Register.this).register(driver.getEmail(), driver.getPassword());
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                SharedPreferences.Editor editor = sharedPreferences.edit();
 
+                editor.putString(String.valueOf(R.string.Email), driver.getEmail());
+                editor.putString(String.valueOf(R.string.password), driver.getPassword());
+                editor.putBoolean(getString(R.string.save_Password), true);
+                editor.commit();
             }
         });
     }
-
 }

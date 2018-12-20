@@ -2,7 +2,9 @@ package com.project5779.javaproject2;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
@@ -17,8 +19,8 @@ import com.project5779.javaproject2.controller.Register;
 
 public class LoginActivity extends Activity {
 
-    private LinearLayout loginLayout;
-    private EditText etUsername;
+    //private LinearLayout loginLayout;
+    private EditText Email;
     private EditText password;
     private CheckBox CheckBoxRememberMe;
     private Button ButtonLogin;
@@ -29,6 +31,13 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         findViews();
+        CheckBoxRememberMe.setChecked(true);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPreferences.getBoolean(getString(R.string.save_Password), false)) {
+            Email.setText(sharedPreferences.getString(String.valueOf(R.string.Email), null));
+            password.setText(sharedPreferences.getString(String.valueOf(R.string.password), null));
+        }
     }
 
     /**
@@ -38,8 +47,8 @@ public class LoginActivity extends Activity {
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
-        loginLayout = (LinearLayout)findViewById( R.id.login_layout );
-        etUsername = (EditText)findViewById( R.id.EditTextId );
+       // loginLayout = (LinearLayout)findViewById( R.id.login_layout );
+        Email = (EditText)findViewById( R.id.EditTextEmail );
         password = (EditText)findViewById( R.id.password );
         CheckBoxRememberMe = (CheckBox)findViewById( R.id.CheckBoxRememberMe );
         ButtonLogin = (Button)findViewById( R.id.ButtonLogin );
@@ -48,6 +57,9 @@ public class LoginActivity extends Activity {
         ButtonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(getString(R.string.save_Password), CheckBoxRememberMe.isChecked());
 
             }
         });
@@ -76,10 +88,8 @@ public class LoginActivity extends Activity {
 
             }
         };
-        etUsername.addTextChangedListener(textWatcher);
+        Email.addTextChangedListener(textWatcher);
         password.addTextChangedListener(textWatcher);
     }
-
-
 
 }

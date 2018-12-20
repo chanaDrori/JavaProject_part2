@@ -11,13 +11,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <EditText
-            android:id="@+id/EditTextId"
+            android:id="@+id/EditTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:hint="@string/id"
-            android:inputType="number"
-            android:maxLength="9"/>
+            android:hint="@string/Email"
+            android:inputType="textEmailAddress" />
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
