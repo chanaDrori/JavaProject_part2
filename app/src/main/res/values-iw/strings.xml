@@ -16,5 +16,5 @@
     <string name="confirm_password">אישור סיסמה</string>
     <string name="created_successfully">החשבון נוצר בהצלחה</string>
     <string name="error_creating_the_account">חלה שגיאה בהוספת החשבון</string>
-    <string name="save_Password">save Password</string>
+    <string name="save_Password">שמור סיסמה</string>
 </resources>

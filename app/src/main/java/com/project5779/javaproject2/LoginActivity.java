@@ -31,12 +31,12 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         findViews();
-        CheckBoxRememberMe.setChecked(true);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (sharedPreferences.getBoolean(getString(R.string.save_Password), false)) {
             Email.setText(sharedPreferences.getString(String.valueOf(R.string.Email), null));
             password.setText(sharedPreferences.getString(String.valueOf(R.string.password), null));
+            CheckBoxRememberMe.setChecked(true);
         }
     }
 
@@ -59,8 +59,11 @@ public class LoginActivity extends Activity {
             public void onClick(View v) {
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean(getString(R.string.save_Password), CheckBoxRememberMe.isChecked());
 
+                editor.putString(String.valueOf(R.string.Email), Email.getText().toString());
+                editor.putString(String.valueOf(R.string.password), password.getText().toString());
+                editor.putBoolean(getString(R.string.save_Password), CheckBoxRememberMe.isChecked());
+                editor.apply();
             }
         });
 

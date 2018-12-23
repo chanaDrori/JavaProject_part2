@@ -52,8 +52,8 @@ public class DataBaseFirebase implements BackEnd {
 
     @Override
     public void register(String email, String password) {
-        FirebaseAuth auth;
-        auth = FirebaseAuth.getInstance();
+       // FirebaseAuth auth;
+       // auth = FirebaseAuth.getInstance();
        /* auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
