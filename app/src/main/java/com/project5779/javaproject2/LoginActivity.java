@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.project5779.javaproject2.controller.Register;
+import com.project5779.javaproject2.model.backend.BackEndFactory;
 
 public class LoginActivity extends Activity {
 
@@ -31,6 +32,7 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         findViews();
+       // BackEndFactory.getInstance(LoginActivity.this).getListDriveAvailable();
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (sharedPreferences.getBoolean(getString(R.string.save_Password), false)) {

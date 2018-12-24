@@ -11,6 +11,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
 import com.project5779.javaproject2.model.backend.BackEnd;
 import com.project5779.javaproject2.model.entities.Drive;
 import com.project5779.javaproject2.model.entities.Driver;
@@ -22,9 +26,11 @@ import java.util.List;
 
 public class DataBaseFirebase implements BackEnd {
     private static DatabaseReference DriverRef;
+    private static DatabaseReference DriveRef;
     static {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DriverRef = database.getReference("Drivers");
+        DriveRef = database.getReference("Drive");
     }
 
     @Override
@@ -69,7 +75,34 @@ public class DataBaseFirebase implements BackEnd {
 
     @Override
     public List<Drive> getListDriveAvailable() {
-        return null;
+        Query query = DriveRef.orderByChild("state").equalTo("AVAILABLE");
+        query.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return ((List<Drive>) query);
     }
 
     @Override
