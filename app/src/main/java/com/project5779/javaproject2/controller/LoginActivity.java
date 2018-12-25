@@ -1,4 +1,4 @@
-package com.project5779.javaproject2;
+package com.project5779.javaproject2.controller;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,16 +7,13 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import com.project5779.javaproject2.controller.Register;
-import com.project5779.javaproject2.model.backend.BackEndFactory;
+
+import com.project5779.javaproject2.R;
 
 public class LoginActivity extends Activity {
 
@@ -55,6 +52,7 @@ public class LoginActivity extends Activity {
         CheckBoxRememberMe = (CheckBox)findViewById( R.id.CheckBoxRememberMe );
         ButtonLogin = (Button)findViewById( R.id.ButtonLogin );
         createAccount = (TextView)findViewById( R.id.createAccount );
+        createAccount.setTextColor(getResources().getColor(R.color.blue));
 
         ButtonLogin.setOnClickListener(new View.OnClickListener() {
             @Override

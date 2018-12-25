@@ -21,17 +21,154 @@ import com.project5779.javaproject2.model.entities.Driver;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class DataBaseFirebase implements BackEnd {
+
+    public interface NotifyDataChange<T>{
+        void onDataChange(T obj);
+        void onFailure(Exception exp);
+    }
+
     private static DatabaseReference DriverRef;
     private static DatabaseReference DriveRef;
-   // private
+    static List<Drive> driveList;
+    static List<Driver> driverList;
     static {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DriverRef = database.getReference("Drivers");
         DriveRef = database.getReference("Drive");
+
+        driveList = new ArrayList<>();
+        driverList = new ArrayList<>();
+    }
+
+    private static ChildEventListener driveRefChildEventListener;
+    private static ChildEventListener driverRefChildEventListener;
+
+    public static void notifyToDriveList(final NotifyDataChange<List<Drive>> notifyDataChange){
+        if(notifyDataChange != null){
+            if(driveRefChildEventListener != null){
+                notifyDataChange.onFailure(new Exception("first unNotify drive list"));
+                return;
+            }
+            driveList.clear();
+            driveRefChildEventListener = new ChildEventListener(){
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    Drive drive = dataSnapshot.getValue(Drive.class);
+                    driveList.add(drive);
+
+                    notifyDataChange.onDataChange(driveList);
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    Drive drive = dataSnapshot.getValue(Drive.class);
+                    for (int i=0; i<driveList.size(); i++){
+                        if(driveList.get(i).equals(drive)) {
+                            driveList.set(i, drive);
+                            break;
+                        }
+                    }
+                    notifyDataChange.onDataChange(driveList);
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    Drive drive = dataSnapshot.getValue(Drive.class);
+                    for (int i=0; i<driveList.size(); i++){
+                        if(driveList.get(i).equals(drive)) {
+                            driveList.remove(i);
+                            break;
+                        }
+                    }
+                    notifyDataChange.onDataChange(driveList);
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    notifyDataChange.onFailure(databaseError.toException());
+                }
+            };
+            DriveRef.addChildEventListener(driveRefChildEventListener);
+        }
+    }
+
+    public static void stopNotifyToDriveList(){
+        if(driveRefChildEventListener != null){
+            DriveRef.removeEventListener(driveRefChildEventListener);
+            driveRefChildEventListener = null;
+        }
+    }
+
+
+    public static void notifyToDriverList(final NotifyDataChange<List<Driver>> notifyDataChange){
+        if(notifyDataChange != null){
+            if(driverRefChildEventListener != null){
+                notifyDataChange.onFailure(new Exception("first unNotify driver list"));
+                return;
+            }
+            driverList.clear();
+            driverRefChildEventListener = new ChildEventListener(){
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    Driver driver = dataSnapshot.getValue(Driver.class);
+                    driverList.add(driver);
+
+                    notifyDataChange.onDataChange(driverList);
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    Driver driver = dataSnapshot.getValue(Driver.class);
+                    for (int i=0; i<driverList.size(); i++){
+                        if(driverList.get(i).equals(driver)) {
+                            driverList.set(i, driver);
+                            break;
+                        }
+                    }
+                    notifyDataChange.onDataChange(driverList);
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    Driver driver = dataSnapshot.getValue(Driver.class);
+                    for (int i=0; i<driverList.size(); i++){
+                        if(driverList.get(i).equals(driver)) {
+                            driverList.remove(i);
+                            break;
+                        }
+                    }
+                    notifyDataChange.onDataChange(driverList);
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    notifyDataChange.onFailure(databaseError.toException());
+                }
+            };
+            DriverRef.addChildEventListener(driverRefChildEventListener);
+        }
+    }
+
+    public static void stopNotifyToDriverList(){
+        if(driverRefChildEventListener != null){
+            DriverRef.removeEventListener(driverRefChildEventListener);
+            driverRefChildEventListener = null;
+        }
     }
 
     @Override

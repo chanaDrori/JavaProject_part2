@@ -6,7 +6,7 @@
     <string name="password">Password</string>
     <string name="enter">Login</string>
     <string name="remember_me_later">Remember me</string>
-    <string name="no_account_yet_create_one">No account yet? Create one</string>
+    <string name="no_account_yet_create_one">No account yet? Create one <u>underline</u>.</string>
     <string name="first_name">first name</string>
     <string name="last_name">last name</string>
     <string name="id">ID</string>

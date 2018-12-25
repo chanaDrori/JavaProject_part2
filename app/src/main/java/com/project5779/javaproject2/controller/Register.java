@@ -1,6 +1,7 @@
 package com.project5779.javaproject2.controller;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -52,6 +53,7 @@ public class Register extends Activity {
         EditTextPassword = (EditText)findViewById( R.id.EditTextPassword );
         EditTextConfirmPassword = (EditText)findViewById( R.id.EditTextConfirmPassword );
         ButtonCreatAccount = (Button)findViewById( R.id.Button );
+        ButtonCreatAccount.setEnabled(false);
 
         ButtonCreatAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +90,8 @@ public class Register extends Activity {
                 editor.putString(String.valueOf(R.string.password), driver.getPassword());
                 editor.putBoolean(getString(R.string.save_Password), true);
                 editor.apply();
+
+                finish();
             }
         });
         TextWatcher textWatcher = new TextWatcher() {

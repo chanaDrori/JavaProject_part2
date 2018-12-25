@@ -5,7 +5,7 @@
     <string name="password">סיסמה</string>
     <string name="enter">התחבר</string>
     <string name="remember_me_later">זכור אותי</string>
-    <string name="no_account_yet_create_one">אין לך חשבון? צור עכשיו</string>
+    <string name="no_account_yet_create_one">אין לך חשבון? <u>צור עכשיו </u>.</string>
     <string name="first_name">שם פרטי</string>
     <string name="last_name">שם משפחה</string>
     <string name="id">תעודת זהות</string>
