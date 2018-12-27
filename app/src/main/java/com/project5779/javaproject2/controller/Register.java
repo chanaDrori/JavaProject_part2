@@ -15,11 +15,17 @@ import android.widget.Toast;
 import com.project5779.javaproject2.R;
 import com.project5779.javaproject2.model.backend.BackEnd;
 import com.project5779.javaproject2.model.backend.BackEndFactory;
+import com.project5779.javaproject2.model.datasource.DataBaseFirebase;
 import com.project5779.javaproject2.model.entities.Driver;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.text.TextUtils.isEmpty;
 
 public class Register extends Activity {
+
+    List<Driver> driverList =new ArrayList<>();
 
     private EditText EditTextFirstName;
     private EditText EditTextLastName;
@@ -36,6 +42,19 @@ public class Register extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         findViews();
+        DataBaseFirebase.notifyToDriverList(new DataBaseFirebase.NotifyDataChange<List<Driver>>() {
+
+            @Override
+            public void onDataChange(List<Driver> obj) {
+                driverList = obj;
+            }
+
+            @Override
+            public void onFailure(Exception exp) {
+                Toast.makeText(getBaseContext(), getString(R.string.Error_to_get_drivers_list)
+                        + exp.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     /**
@@ -66,32 +85,44 @@ public class Register extends Activity {
                 driver.setEmail(EditTextEmail.getText().toString());
                 driver.setCreditCard(EditTextCredit.getText().toString());
                 driver.setPassword(EditTextPassword.getText().toString());
-                BackEndFactory.getInstance(Register.this).addDriver(driver, new BackEnd.Action<String>() {
-                    @Override
-                    public void onSuccess(String obj) {
-                        Toast.makeText(Register.this, R.string.created_successfully, Toast.LENGTH_LONG).show();
-                    }
 
-                    @Override
-                    public void onFailure(Exception exp) {
-                        Toast.makeText(Register.this, R.string.error_creating_the_account, Toast.LENGTH_LONG).show();
-                    }
+                Boolean exist = false;
+               for(Driver d: driverList ){
+                   if(d.getEmail().equals(driver.getEmail())
+                           || d.getId().equals(driver.getId())){
+                       exist = true;
+                   }
+               }
+               if(exist){
+                   Toast.makeText(getBaseContext(), "The ID or email exist in the system" , Toast.LENGTH_LONG).show();
+               }
+               else {
+                   BackEndFactory.getInstance(Register.this).addDriver(driver, new BackEnd.Action<String>() {
+                       @Override
+                       public void onSuccess(String obj) {
+                           Toast.makeText(Register.this, R.string.created_successfully, Toast.LENGTH_LONG).show();
+                       }
 
-                    @Override
-                    public void onProgress(String status, double precent) {
+                       @Override
+                       public void onFailure(Exception exp) {
+                           Toast.makeText(Register.this, R.string.error_creating_the_account, Toast.LENGTH_LONG).show();
+                       }
 
-                    }
-                });
-               // BackEndFactory.getInstance(Register.this).register(driver.getEmail(), driver.getPassword());
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                SharedPreferences.Editor editor = sharedPreferences.edit();
+                       @Override
+                       public void onProgress(String status, double precent) {
 
-                editor.putString(String.valueOf(R.string.Email), driver.getEmail());
-                editor.putString(String.valueOf(R.string.password), driver.getPassword());
-                editor.putBoolean(getString(R.string.save_Password), true);
-                editor.apply();
+                       }
+                   });
+                   // BackEndFactory.getInstance(Register.this).register(driver.getEmail(), driver.getPassword());
+                   SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                   SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                finish();
+                   editor.putString(String.valueOf(R.string.Email), driver.getEmail());
+                   editor.putString(String.valueOf(R.string.password), driver.getPassword());
+                   editor.putBoolean(getString(R.string.save_Password), true);
+                   editor.apply();
+                   finish();
+               }
             }
         });
         TextWatcher textWatcher = new TextWatcher() {

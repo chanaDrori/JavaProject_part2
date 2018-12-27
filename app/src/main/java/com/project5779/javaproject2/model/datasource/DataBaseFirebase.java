@@ -20,6 +20,7 @@ import com.project5779.javaproject2.model.entities.Drive;
 import com.project5779.javaproject2.model.entities.Driver;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.project5779.javaproject2.model.entities.StateOfDrive;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -173,7 +174,11 @@ public class DataBaseFirebase implements BackEnd {
 
     @Override
     public List<String> getListNamesDrivers() {
-        return null;
+        List<String> names = new ArrayList<>();
+        for (Driver driver: driverList) {
+            names.add(driver.getName() + " " + driver.getLastName());
+        }
+        return names;
     }
 
     @Override
@@ -213,39 +218,24 @@ public class DataBaseFirebase implements BackEnd {
 
     @Override
     public List<Drive> getListDriveAvailable() {
-        Query query = DriveRef.orderByChild("state").equalTo("AVAILABLE");
-        query.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
+        List<Drive> available = new ArrayList<>();
+        for(Drive drive: driveList){
+            if(drive.getState().toString().equals(StateOfDrive.AVAILABLE.toString())){
+                available.add(drive);
             }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        return ((List<Drive>) query);
+        }
+        return  available;
     }
 
     @Override
-    public List<Drive> getListDriveByDriver(String nameDriver) {
-        return null;
+    public List<Drive> getListDriveByDriver(String id) {
+        List<Drive> driveByDriver = new ArrayList<>();
+        for(Drive drive: driveList){
+            if(drive.getDriverID().equals(id)){
+                driveByDriver.add(drive);
+            }
+        }
+        return  driveByDriver;
     }
 
     @Override
@@ -254,17 +244,23 @@ public class DataBaseFirebase implements BackEnd {
     }
 
     @Override
-    public List<Drive> getListdriveByKM(int KM) {
+    public List<Drive> getListDriveByKM(int KM) {
         return null;
     }
 
     @Override
-    public List<Drive> getListdriveByDate(Date date) {
-        return null;
+    public List<Drive> getListDriveByTime(String time) {
+        List<Drive> driveByTime = new ArrayList<>();
+        for(Drive drive: driveList){
+            if(drive.getStartTime().equals(time)){
+                driveByTime.add(drive);
+            }
+        }
+        return  driveByTime;
     }
 
     @Override
-    public List<Drive> getListdriveByPayment(int payment) {
+    public List<Drive> getListDriveByPayment(int payment) {
         return null;
     }
 }

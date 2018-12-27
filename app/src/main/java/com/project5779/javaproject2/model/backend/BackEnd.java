@@ -18,9 +18,9 @@ public interface BackEnd {
     public void addDriver(Driver driver, final Action<String> action);
     public void register(String email, String password);
     public List<Drive> getListDriveAvailable();
-    public List<Drive> getListDriveByDriver(String nameDriver);
+    public List<Drive> getListDriveByDriver(String id);
     public List<Drive> getListDriveByTarget(String city);
-    public List<Drive> getListdriveByKM(int KM);
-    public List<Drive> getListdriveByDate(Date date);
-    public List<Drive> getListdriveByPayment(int payment);
+    public List<Drive> getListDriveByKM(int KM);
+    public List<Drive> getListDriveByTime(String time);
+    public List<Drive> getListDriveByPayment(int payment);
 }

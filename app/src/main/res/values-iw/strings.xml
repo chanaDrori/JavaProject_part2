@@ -17,4 +17,14 @@
     <string name="created_successfully">החשבון נוצר בהצלחה</string>
     <string name="error_creating_the_account">חלה שגיאה בהוספת החשבון</string>
     <string name="save_Password">שמור סיסמה</string>
+    <string name="Error_to_get_drivers_list">Error to get drivers list</string>
+    <string name="not_found_user">The email or password does not exist in the system</string>
+    <string name="menu">menu</string>
+
+    <string-array name="nav_drawer_item">
+        <item>הצג נסיעות פנויות</item>
+        <item>הנסיעות שלי</item>
+        <item>התנתק</item>
+    </string-array>
+
 </resources>

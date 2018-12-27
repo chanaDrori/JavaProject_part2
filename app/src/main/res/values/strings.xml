@@ -18,4 +18,19 @@
     <string name="created_successfully">The account was created successfully</string>
     <string name="error_creating_the_account">There was an error creating the account</string>
     <string name="save_Password">save Password</string>
+    <string name="Error_to_get_drivers_list">Error to get drivers list</string>
+    <string name="not_found_user">The email or password does not exist in the system</string>
+    <string name="menu">menu</string>
+
+    <string-array name="nav_drawer_item">
+        <item>Show available drives</item>
+        <item>Show my drives</item>
+        <item>Logout</item>
+    </string-array>
+
+    <array name="nav_drawer_icons">
+        <item>@drawable/taxi_icon</item>
+        <item>@drawable/person_yellow_icon</item>
+        <item>@drawable/close_yellow_icon</item>
+    </array>
 </resources>

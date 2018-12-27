@@ -12,10 +12,17 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.project5779.javaproject2.R;
+import com.project5779.javaproject2.model.datasource.DataBaseFirebase;
+import com.project5779.javaproject2.model.entities.Driver;
+
+import java.util.List;
 
 public class LoginActivity extends Activity {
+
+    private List<Driver> driverList;
 
     //private LinearLayout loginLayout;
     private EditText Email;
@@ -29,7 +36,6 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         findViews();
-       // BackEndFactory.getInstance(LoginActivity.this).getListDriveAvailable();
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (sharedPreferences.getBoolean(getString(R.string.save_Password), false)) {
@@ -37,6 +43,25 @@ public class LoginActivity extends Activity {
             password.setText(sharedPreferences.getString(String.valueOf(R.string.password), null));
             CheckBoxRememberMe.setChecked(true);
         }
+
+        DataBaseFirebase.notifyToDriverList(new DataBaseFirebase.NotifyDataChange<List<Driver>>() {
+            @Override
+            public void onDataChange(List<Driver> obj) {
+                driverList = obj;
+            }
+
+            @Override
+            public void onFailure(Exception exp) {
+                Toast.makeText(getBaseContext(), getString(R.string.Error_to_get_drivers_list)
+                        + exp.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        DataBaseFirebase.stopNotifyToDriverList();
+        super.onDestroy();
     }
 
     /**
@@ -46,24 +71,39 @@ public class LoginActivity extends Activity {
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
-       // loginLayout = (LinearLayout)findViewById( R.id.login_layout );
+
         Email = (EditText)findViewById( R.id.EditTextEmail );
         password = (EditText)findViewById( R.id.password );
         CheckBoxRememberMe = (CheckBox)findViewById( R.id.CheckBoxRememberMe );
         ButtonLogin = (Button)findViewById( R.id.ButtonLogin );
         createAccount = (TextView)findViewById( R.id.createAccount );
-        createAccount.setTextColor(getResources().getColor(R.color.blue));
 
         ButtonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                SharedPreferences.Editor editor = sharedPreferences.edit();
+                Driver user =null;
+               for(Driver driver: driverList){
+                   if(driver.getEmail().equals(Email.getText().toString())
+                           && driver.getPassword().equals(password.getText().toString())){
+                       user = driver;
+                   }
+               }
+               if(user != null){
+                   SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                   SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                editor.putString(String.valueOf(R.string.Email), Email.getText().toString());
-                editor.putString(String.valueOf(R.string.password), password.getText().toString());
-                editor.putBoolean(getString(R.string.save_Password), CheckBoxRememberMe.isChecked());
-                editor.apply();
+                   editor.putString(String.valueOf(R.string.Email), Email.getText().toString());
+                   editor.putString(String.valueOf(R.string.password), password.getText().toString());
+                   editor.putBoolean(getString(R.string.save_Password), CheckBoxRememberMe.isChecked());
+                   editor.apply();
+
+                   Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                   intent.putExtra(String.valueOf(R.string.id), user.getId());
+                   startActivity(intent);
+               }
+               else {
+                   Toast.makeText(getBaseContext(), R.string.not_found_user, Toast.LENGTH_LONG).show();
+               }
             }
         });
 
