@@ -1,3 +1,9 @@
+/**
+ * Project in java-Android part 2
+ * writers: Tirtza Rubinstain and Chana Drori
+ * 01/2019
+ * Login Activity code.
+ */
 package com.project5779.javaproject2.controller;
 
 import android.app.Activity;
@@ -6,11 +12,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +26,7 @@ import com.project5779.javaproject2.R;
 import com.project5779.javaproject2.model.datasource.DataBaseFirebase;
 import com.project5779.javaproject2.model.entities.Driver;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LoginActivity extends Activity {
@@ -30,6 +39,7 @@ public class LoginActivity extends Activity {
     private CheckBox CheckBoxRememberMe;
     private Button ButtonLogin;
     private TextView createAccount;
+    private ImageView eyePassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +63,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onFailure(Exception exp) {
                 Toast.makeText(getBaseContext(), getString(R.string.Error_to_get_drivers_list)
-                        + exp.toString(), Toast.LENGTH_LONG).show();
+                        + exp.toString() +"\n login", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -77,33 +87,34 @@ public class LoginActivity extends Activity {
         CheckBoxRememberMe = (CheckBox)findViewById( R.id.CheckBoxRememberMe );
         ButtonLogin = (Button)findViewById( R.id.ButtonLogin );
         createAccount = (TextView)findViewById( R.id.createAccount );
+        eyePassword = (ImageView)findViewById(R.id.eyePassword);
 
         ButtonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Driver user =null;
-               for(Driver driver: driverList){
-                   if(driver.getEmail().equals(Email.getText().toString())
-                           && driver.getPassword().equals(password.getText().toString())){
-                       user = driver;
-                   }
-               }
-               if(user != null){
-                   SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                   SharedPreferences.Editor editor = sharedPreferences.edit();
+                Driver user = null;
+                for (Driver driver : driverList) {
+                    if (driver.getEmail().equals(Email.getText().toString())
+                            && driver.getPassword().equals(password.getText().toString())) {
+                        user = driver;
+                        break;
+                    }
+                }
+                if (user != null) {
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                   editor.putString(String.valueOf(R.string.Email), Email.getText().toString());
-                   editor.putString(String.valueOf(R.string.password), password.getText().toString());
-                   editor.putBoolean(getString(R.string.save_Password), CheckBoxRememberMe.isChecked());
-                   editor.apply();
+                    editor.putString(String.valueOf(R.string.Email), Email.getText().toString());
+                    editor.putString(String.valueOf(R.string.password), password.getText().toString());
+                    editor.putBoolean(getString(R.string.save_Password), CheckBoxRememberMe.isChecked());
+                    editor.apply();
 
-                   Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                   intent.putExtra(String.valueOf(R.string.id), user.getId());
-                   startActivity(intent);
-               }
-               else {
-                   Toast.makeText(getBaseContext(), R.string.not_found_user, Toast.LENGTH_LONG).show();
-               }
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra(getString(R.string.id), user.getId());
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getBaseContext(), R.string.not_found_user, Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -133,6 +144,17 @@ public class LoginActivity extends Activity {
         };
         Email.addTextChangedListener(textWatcher);
         password.addTextChangedListener(textWatcher);
+
+        eyePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (password.getInputType() ==  (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+                    password.setInputType( InputType.TYPE_CLASS_TEXT );
+                } else {
+                    password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+            }
+        });
     }
 
 }

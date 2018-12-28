@@ -21,6 +21,7 @@
     <string name="Error_to_get_drivers_list">Error to get drivers list</string>
     <string name="not_found_user">The email or password does not exist in the system</string>
     <string name="menu">menu</string>
+    <string name="hello">Hello</string>
 
     <string-array name="nav_drawer_item">
         <item>Show available drives</item>

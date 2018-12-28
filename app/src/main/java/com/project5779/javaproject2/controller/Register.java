@@ -25,7 +25,7 @@ import static android.text.TextUtils.isEmpty;
 
 public class Register extends Activity {
 
-    List<Driver> driverList =new ArrayList<>();
+    List<Driver> driverList = new ArrayList<>();
 
     private EditText EditTextFirstName;
     private EditText EditTextLastName;
@@ -228,5 +228,11 @@ public class Register extends Activity {
         EditTextFirstName.setText("");
         EditTextLastName.setText("");
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        DataBaseFirebase.stopNotifyToDriverList();
+        super.onDestroy();
     }
 }

@@ -10,16 +10,17 @@
     <string name="last_name">שם משפחה</string>
     <string name="id">תעודת זהות</string>
     <string name="phone">מספר פלאפון</string>
-    <string name="Email">אמייל</string>
+    <string name="Email">אימייל</string>
     <string name="credit_card_number">מספר כרטיס אשראי</string>
     <string name="create_an_account">צור חשבון</string>
     <string name="confirm_password">אישור סיסמה</string>
     <string name="created_successfully">החשבון נוצר בהצלחה</string>
     <string name="error_creating_the_account">חלה שגיאה בהוספת החשבון</string>
     <string name="save_Password">שמור סיסמה</string>
-    <string name="Error_to_get_drivers_list">Error to get drivers list</string>
-    <string name="not_found_user">The email or password does not exist in the system</string>
-    <string name="menu">menu</string>
+    <string name="Error_to_get_drivers_list">שגיאה בהוספת נהג לרשימה</string>
+    <string name="not_found_user">האימייל והסיסמה לא קיימים במערכת, נסה שנית.</string>
+    <string name="menu">תפריט</string>
+    <string name="hello">שלום</string>
 
     <string-array name="nav_drawer_item">
         <item>הצג נסיעות פנויות</item>
