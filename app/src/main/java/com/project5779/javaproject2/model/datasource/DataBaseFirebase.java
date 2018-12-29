@@ -1,3 +1,10 @@
+/**
+ * Project in java-Android part 2
+ * writers: Tirtza Rubinstain and Chana Drori
+ * 01/2019
+ * DataBaseFirebase code.
+ * Manager the data in the firebase
+ */
 package com.project5779.javaproject2.model.datasource;
 
 import android.app.Activity;
@@ -26,13 +33,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+//Manager the data in the firebase
 public class DataBaseFirebase implements BackEnd {
 
+    /**
+     * interface NotifyDataChange. For update the list from the firebase.
+     * @param <T>
+     */
     public interface NotifyDataChange<T>{
         void onDataChange(T obj);
         void onFailure(Exception exp);
     }
 
+    //define the fields.
     private static DatabaseReference DriverRef;
     private static DatabaseReference DriveRef;
     static List<Drive> driveList;
@@ -49,6 +62,10 @@ public class DataBaseFirebase implements BackEnd {
     private static ChildEventListener driveRefChildEventListener;
     private static ChildEventListener driverRefChildEventListener;
 
+    /**
+     * notifyToDriveList function. Notify when the data change.
+     * @param notifyDataChange NotifyDataChange<List<Drive>>.
+     */
     public static void notifyToDriveList(final NotifyDataChange<List<Drive>> notifyDataChange){
         if(notifyDataChange != null){
             if(driveRefChildEventListener != null){
@@ -57,6 +74,11 @@ public class DataBaseFirebase implements BackEnd {
             }
             driveList.clear();
             driveRefChildEventListener = new ChildEventListener(){
+                /**
+                 * onChildAdded - add the new to the list
+                 * @param dataSnapshot DataSnapshot
+                 * @param s String
+                 */
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     Drive drive = dataSnapshot.getValue(Drive.class);
@@ -65,6 +87,11 @@ public class DataBaseFirebase implements BackEnd {
                     notifyDataChange.onDataChange(driveList);
                 }
 
+                /**
+                 * onChildChanged- onChildChanged update the list
+                 * @param dataSnapshot DataSnapshot
+                 * @param s String
+                 */
                 @Override
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                     Drive drive = dataSnapshot.getValue(Drive.class);
@@ -77,6 +104,10 @@ public class DataBaseFirebase implements BackEnd {
                     notifyDataChange.onDataChange(driveList);
                 }
 
+                /**
+                 * onChildRemoved update the list
+                 * @param dataSnapshot DataSnapshot
+                 */
                 @Override
                 public void onChildRemoved(DataSnapshot dataSnapshot) {
                     Drive drive = dataSnapshot.getValue(Drive.class);
@@ -103,6 +134,9 @@ public class DataBaseFirebase implements BackEnd {
         }
     }
 
+    /**
+     * stopNotifyToDriveList remove Event Listener
+     */
     public static void stopNotifyToDriveList(){
         if(driveRefChildEventListener != null){
             DriveRef.removeEventListener(driveRefChildEventListener);
@@ -110,7 +144,10 @@ public class DataBaseFirebase implements BackEnd {
         }
     }
 
-
+    /**
+     * notifyToDriverList function. Notify when the data change.
+     * @param notifyDataChange NotifyDataChange<List<Driver>>.
+     */
     public static void notifyToDriverList(final NotifyDataChange<List<Driver>> notifyDataChange){
         if(notifyDataChange != null){
             if(driverRefChildEventListener != null){
@@ -119,6 +156,11 @@ public class DataBaseFirebase implements BackEnd {
             }
             driverList.clear();
             driverRefChildEventListener = new ChildEventListener(){
+                /**
+                 * onChildAdded - add the new to the list
+                 * @param dataSnapshot DataSnapshot
+                 * @param s String
+                 */
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     Driver driver = dataSnapshot.getValue(Driver.class);
@@ -126,7 +168,11 @@ public class DataBaseFirebase implements BackEnd {
 
                     notifyDataChange.onDataChange(driverList);
                 }
-
+                /**
+                 * onChildChanged- onChildChanged update the list
+                 * @param dataSnapshot DataSnapshot
+                 * @param s String
+                 */
                 @Override
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                     Driver driver = dataSnapshot.getValue(Driver.class);
@@ -138,7 +184,10 @@ public class DataBaseFirebase implements BackEnd {
                     }
                     notifyDataChange.onDataChange(driverList);
                 }
-
+                /**
+                 * onChildRemoved update the list
+                 * @param dataSnapshot DataSnapshot
+                 */
                 @Override
                 public void onChildRemoved(DataSnapshot dataSnapshot) {
                     Driver driver = dataSnapshot.getValue(Driver.class);
@@ -165,6 +214,9 @@ public class DataBaseFirebase implements BackEnd {
         }
     }
 
+    /**
+     * stopNotifyToDriverList remove Event Listener
+     */
     public static void stopNotifyToDriverList(){
         if(driverRefChildEventListener != null){
             DriverRef.removeEventListener(driverRefChildEventListener);
@@ -172,6 +224,9 @@ public class DataBaseFirebase implements BackEnd {
         }
     }
 
+    /**
+     * @return List<String> list driver's names.
+     */
     @Override
     public List<String> getListNamesDrivers() {
         List<String> names = new ArrayList<>();
@@ -181,6 +236,11 @@ public class DataBaseFirebase implements BackEnd {
         return names;
     }
 
+    /**
+     *
+     * @param driver Driver to add to the list
+     * @param action Action<String>. help functions to add new driver to firebase
+     */
     @Override
     public void addDriver(final Driver driver, final Action<String> action) {
         DriverRef.child(driver.getId()).setValue(driver).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -199,6 +259,11 @@ public class DataBaseFirebase implements BackEnd {
 
     }
 
+    /**
+     * register function. login with email and password
+     * @param email String Email
+     * @param password String password
+     */
     @Override
     public void register(String email, String password) {
        // FirebaseAuth auth;
@@ -216,6 +281,9 @@ public class DataBaseFirebase implements BackEnd {
         });*/
     }
 
+    /**
+     * @return List<Drive> available
+     */
     @Override
     public List<Drive> getListDriveAvailable() {
         List<Drive> available = new ArrayList<>();
@@ -227,6 +295,11 @@ public class DataBaseFirebase implements BackEnd {
         return  available;
     }
 
+    /**
+     * getListDriveByDriver
+     * @param id String id of the user
+     * @return  List<Drive> driveByDriver
+     */
     @Override
     public List<Drive> getListDriveByDriver(String id) {
         List<Drive> driveByDriver = new ArrayList<>();
@@ -238,16 +311,31 @@ public class DataBaseFirebase implements BackEnd {
         return  driveByDriver;
     }
 
+    /**
+     * getListDriveByTarget
+     * @param city String location
+     * @return List<Drive>
+     */
     @Override
     public List<Drive> getListDriveByTarget(String city) {
         return null;
     }
 
+    /**
+     * getListDriveByKM
+     * @param KM int num of kilo meters.
+     * @return List<Drive>
+     */
     @Override
     public List<Drive> getListDriveByKM(int KM) {
         return null;
     }
 
+    /**
+     * getListDriveByTime
+     * @param time String
+     * @return List<Drive> driveByTime
+     */
     @Override
     public List<Drive> getListDriveByTime(String time) {
         List<Drive> driveByTime = new ArrayList<>();
@@ -259,6 +347,11 @@ public class DataBaseFirebase implements BackEnd {
         return  driveByTime;
     }
 
+    /**
+     * getListDriveByPayment calculate the payment of the drives.
+     * @param payment int.
+     * @return List<Drive>
+     */
     @Override
     public List<Drive> getListDriveByPayment(int payment) {
         return null;

@@ -1,3 +1,10 @@
+/**
+ * Project in java-Android part 2
+ * writers: Tirtza Rubinstain and Chana Drori
+ * 01/2019
+ * Main Activity code.
+ *
+ */
 package com.project5779.javaproject2.controller;
 
 import android.app.ActionBar;
@@ -20,6 +27,10 @@ public class MainActivity extends Activity {
 
     private List<Driver> driverList;
 
+    /**
+     * onCreate function
+     * @param savedInstanceState Bundle.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,11 +38,19 @@ public class MainActivity extends Activity {
         findViews();
 
         DataBaseFirebase.notifyToDriverList(new DataBaseFirebase.NotifyDataChange<List<Driver>>() {
+            /**
+             * onDataChange function. Work when the data change.
+             * @param obj List<Driver>.
+             */
             @Override
             public void onDataChange(List<Driver> obj) {
                 driverList = obj;
             }
 
+            /**
+             * onFailure function. work when failure notify
+             * @param exp exception
+             */
             @Override
             public void onFailure(Exception exp) {
                 Toast.makeText(getBaseContext(), getString(R.string.Error_to_get_drivers_list)
@@ -57,6 +76,9 @@ public class MainActivity extends Activity {
         helloTextView = (TextView)findViewById(R.id.helloTextView);
     }
 
+    /**
+     * onDestroy function. Sent to  DataBaseFirebase.stopNotifyToDriverList();
+     */
     @Override
     protected void onDestroy() {
         DataBaseFirebase.stopNotifyToDriverList();

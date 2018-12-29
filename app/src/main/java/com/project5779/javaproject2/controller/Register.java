@@ -1,3 +1,10 @@
+/**
+ * Project in java-Android part 2
+ * writers: Tirtza Rubinstain and Chana Drori
+ * 01/2019
+ * Register Activity code.
+ * add new driver to the system
+ */
 package com.project5779.javaproject2.controller;
 
 import android.app.Activity;
@@ -23,10 +30,14 @@ import java.util.List;
 
 import static android.text.TextUtils.isEmpty;
 
+/**
+ *Register activity. Add new driver to the system
+ */
 public class Register extends Activity {
 
     List<Driver> driverList = new ArrayList<>();
 
+    // the elements views
     private EditText EditTextFirstName;
     private EditText EditTextLastName;
     private EditText EditTextId;
@@ -35,20 +46,33 @@ public class Register extends Activity {
     private EditText EditTextCredit;
     private EditText EditTextPassword;
     private EditText EditTextConfirmPassword;
-    private Button ButtonCreatAccount;
+    private Button ButtonCreateAccount;
 
+    /**
+     * onCreate function
+     * @param savedInstanceState Bundle.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         findViews();
+
         DataBaseFirebase.notifyToDriverList(new DataBaseFirebase.NotifyDataChange<List<Driver>>() {
 
+            /**
+             * onDataChange function. Work when the data change.
+             * @param obj List<Driver>.
+             */
             @Override
             public void onDataChange(List<Driver> obj) {
                 driverList = obj;
             }
 
+            /**
+             * onFailure function. work when failure notify
+             * @param exp exception
+             */
             @Override
             public void onFailure(Exception exp) {
                 Toast.makeText(getBaseContext(), getString(R.string.Error_to_get_drivers_list)
@@ -71,10 +95,14 @@ public class Register extends Activity {
         EditTextCredit = (EditText)findViewById( R.id.EditTextCredit );
         EditTextPassword = (EditText)findViewById( R.id.EditTextPassword );
         EditTextConfirmPassword = (EditText)findViewById( R.id.EditTextConfirmPassword );
-        ButtonCreatAccount = (Button)findViewById( R.id.Button );
-        ButtonCreatAccount.setEnabled(false);
+        ButtonCreateAccount = (Button)findViewById( R.id.Button );
+        ButtonCreateAccount.setEnabled(false);
 
-        ButtonCreatAccount.setOnClickListener(new View.OnClickListener() {
+        ButtonCreateAccount.setOnClickListener(new View.OnClickListener() {
+            /**
+             * onClick function. check the valid input and add new driver.
+             * @param v View.
+             */
             @Override
             public void onClick(View v) {
                 Driver driver = new Driver();
@@ -93,10 +121,12 @@ public class Register extends Activity {
                        exist = true;
                    }
                }
-               if(exist){
+               if(exist){//exist is true if driver exist in the system
                    Toast.makeText(getBaseContext(), "The ID or email exist in the system" , Toast.LENGTH_LONG).show();
                }
-               else {
+               else {// add new driver
+
+                    // sent to the data base for add new driver.
                    BackEndFactory.getInstance(Register.this).addDriver(driver, new BackEnd.Action<String>() {
                        @Override
                        public void onSuccess(String obj) {
@@ -125,6 +155,7 @@ public class Register extends Activity {
                }
             }
         });
+        //check the validation of the input when the text change
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -146,10 +177,10 @@ public class Register extends Activity {
                         EditTextPassword.getText().toString().trim().length() == 0 ||
                         EditTextConfirmPassword.getText().toString().trim().length() == 0 ||
                         EditTextPhoneNum.getText().toString().trim().length() == 0) {
-                    ButtonCreatAccount.setEnabled(false);
+                    ButtonCreateAccount.setEnabled(false);
                 }
                 else {
-                    ButtonCreatAccount.setEnabled(true);
+                    ButtonCreateAccount.setEnabled(true);
                 }
                 //check if string of the phone is valid.
                 boolean isValidPhone = true;
@@ -208,7 +239,7 @@ public class Register extends Activity {
      */
     public void validationEnable(Boolean valid, EditText editText) {
         if (!valid) {
-            ButtonCreatAccount.setEnabled(false);
+            ButtonCreateAccount.setEnabled(false);
             editText.setTextColor(getResources().getColor(R.color.red));
         } else {
             editText.setTextColor(getResources().getColor(R.color.black));
@@ -230,6 +261,9 @@ public class Register extends Activity {
 
     }
 
+    /**
+     * onDestroy function. Sent to  DataBaseFirebase.stopNotifyToDriverList();
+     */
     @Override
     protected void onDestroy() {
         DataBaseFirebase.stopNotifyToDriverList();

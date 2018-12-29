@@ -3,6 +3,8 @@
  * writers: Tirtza Rubinstain and Chana Drori
  * 01/2019
  * Login Activity code.
+ * First activity login for the user.
+ * If not exist account possible to register
  */
 package com.project5779.javaproject2.controller;
 
@@ -29,11 +31,15 @@ import com.project5779.javaproject2.model.entities.Driver;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Login Activity
+ *  First activity login for the user.
+ * If not exist account possible to register
+ */
 public class LoginActivity extends Activity {
 
     private List<Driver> driverList;
 
-    //private LinearLayout loginLayout;
     private EditText Email;
     private EditText password;
     private CheckBox CheckBoxRememberMe;
@@ -41,12 +47,18 @@ public class LoginActivity extends Activity {
     private TextView createAccount;
     private ImageView eyePassword;
 
+    /**
+     *  onCreate function
+     *  load the user detail if is exist in the device.
+     * @param savedInstanceState Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         findViews();
 
+        //SharedPreferences load the user detail
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (sharedPreferences.getBoolean(getString(R.string.save_Password), false)) {
             Email.setText(sharedPreferences.getString(String.valueOf(R.string.Email), null));
@@ -55,11 +67,19 @@ public class LoginActivity extends Activity {
         }
 
         DataBaseFirebase.notifyToDriverList(new DataBaseFirebase.NotifyDataChange<List<Driver>>() {
+            /**
+             * onDataChange function. Work when the data change.
+             * @param obj List<Driver>.
+             */
             @Override
             public void onDataChange(List<Driver> obj) {
                 driverList = obj;
             }
 
+            /**
+             * onFailure function. work when failure notify
+             * @param exp exception
+             */
             @Override
             public void onFailure(Exception exp) {
                 Toast.makeText(getBaseContext(), getString(R.string.Error_to_get_drivers_list)
@@ -68,6 +88,9 @@ public class LoginActivity extends Activity {
         });
     }
 
+    /**
+     * onDestroy function. Sent to  DataBaseFirebase.stopNotifyToDriverList();
+     */
     @Override
     protected void onDestroy() {
         DataBaseFirebase.stopNotifyToDriverList();
@@ -90,6 +113,10 @@ public class LoginActivity extends Activity {
         eyePassword = (ImageView)findViewById(R.id.eyePassword);
 
         ButtonLogin.setOnClickListener(new View.OnClickListener() {
+            /**
+             * on Click function. sign in to the app.
+             * @param v View
+             */
             @Override
             public void onClick(View v) {
                 Driver user = null;
@@ -113,12 +140,17 @@ public class LoginActivity extends Activity {
                     intent.putExtra(getString(R.string.id), user.getId());
                     startActivity(intent);
                 } else {
+                    //there is problem with the input.
                     Toast.makeText(getBaseContext(), R.string.not_found_user, Toast.LENGTH_LONG).show();
                 }
             }
         });
 
         createAccount.setOnClickListener(new View.OnClickListener() {
+            /**
+             * onClick function. moving to the register activity.
+             * @param v
+             */
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, Register.class);
@@ -126,6 +158,7 @@ public class LoginActivity extends Activity {
             }
         });
 
+        //check the validation of the input when the text change
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -146,6 +179,10 @@ public class LoginActivity extends Activity {
         password.addTextChangedListener(textWatcher);
 
         eyePassword.setOnClickListener(new View.OnClickListener() {
+            /**
+             * onClick function. show the password or write points.
+             * @param v View
+             */
             @Override
             public void onClick(View v) {
                 if (password.getInputType() ==  (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
