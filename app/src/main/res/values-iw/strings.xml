@@ -21,8 +21,9 @@
     <string name="not_found_user">האימייל והסיסמה לא קיימים במערכת, נסה שנית.</string>
     <string name="menu">תפריט</string>
     <string name="hello">שלום</string>
-    <string name="Register">Register</string>
-    <string name="log_in">log in</string>
+    <string name="Register">הרשמה</string>
+    <string name="log_in">התחבר</string>
+    <string name="create_a_new_account_for_free">צור חשבון חדש כעת!</string>
 
     <string-array name="nav_drawer_item">
         <item>הצג נסיעות פנויות</item>

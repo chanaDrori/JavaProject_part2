@@ -203,6 +203,7 @@ public class Register extends Activity {
                 if (dotSign == -1 || dotSign == 0 || dotSign == email.length() - 1
                         || dotSign - atSign < 2)
                     isValidEmail = false;
+
                 Boolean isValidPassword = true;
                 String password1 = EditTextPassword.getText().toString();
                 String password2 = EditTextConfirmPassword.getText().toString();

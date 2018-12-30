@@ -5,30 +5,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".controller.Register">
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_a_new_account_for_free"
+        android:textColor="@color/yellow"
+        android:textSize="30sp"
+        android:fontFamily="casual"
+        android:layout_gravity="center"/>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/yellow"
+        android:layout_margin="20dp">
         <EditText
             android:id="@+id/EditTextFirstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/first_name"
-            android:inputType="textPersonName"/>
+            android:inputType="textPersonName"
+            android:drawableStart="@drawable/face_black_icon" />
         <EditText
             android:id="@+id/EditTextLastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:hint="@string/last_name"/>
+            android:hint="@string/last_name"
+            android:drawableStart="@drawable/face_black_icon"/>
         <EditText
             android:id="@+id/EditTextId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
             android:hint="@string/id"
-            android:maxLength="9"/>
+            android:maxLength="9"
+            android:drawableStart="@drawable/open_book_black_icon"/>
         <EditText
             android:id="@+id/EditTextPhoneNum"
             android:layout_width="match_parent"
@@ -36,20 +53,23 @@
             android:inputType="phone"
             android:hint="@string/phone"
             android:digits="0123456789"
-            android:maxLength="10"/>
+            android:maxLength="10"
+            android:drawableStart="@drawable/phone_black_icon"/>
         <EditText
             android:id="@+id/EditTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:hint="@string/Email"/>
+            android:hint="@string/Email"
+            android:drawableStart="@drawable/email_black_icon"/>
         <EditText
             android:id="@+id/EditTextCredit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
             android:hint="@string/credit_card_number"
-            android:maxLength="18"/>
+            android:maxLength="18"
+            android:drawableStart="@drawable/credit_card_black_icon"/>
         <EditText
             android:id="@+id/EditTextPassword"
             android:layout_width="match_parent"
@@ -62,10 +82,17 @@
             android:layout_height="wrap_content"
             android:hint="@string/confirm_password"
             android:inputType="textPassword"/>
-        <Button
-            android:id="@+id/Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/create_an_account"/>
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_an_account"
+        android:background="@color/yellow"
+        android:textColor="@color/black"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"/>
+</LinearLayout>
 </android.support.constraint.ConstraintLayout>

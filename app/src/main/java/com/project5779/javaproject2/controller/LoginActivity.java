@@ -11,6 +11,7 @@ package com.project5779.javaproject2.controller;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -30,6 +31,9 @@ import com.project5779.javaproject2.model.entities.Driver;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.graphics.drawable.Drawable.*;
+import static android.text.TextUtils.isEmpty;
 
 /**
  * Login Activity
@@ -172,7 +176,27 @@ public class LoginActivity extends Activity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                //check if string of the Email is valid.
+                boolean isValidEmail = true;
+                String email = Email.getText().toString();
+                if (isEmpty(email) || email.length() < 5)
+                    isValidEmail = false;
+                int atSign = email.indexOf('@');
+                if (atSign == -1 || atSign != email.lastIndexOf('@') ||
+                        atSign == 0 || atSign == email.length() - 1 || email.contains("\""))
+                    isValidEmail = false;
+                int dotSign = email.indexOf('.', atSign);
+                if (dotSign == -1 || dotSign == 0 || dotSign == email.length() - 1
+                        || dotSign - atSign < 2)
+                    isValidEmail = false;
 
+                if (!isValidEmail) {
+                    ButtonLogin.setEnabled(false);
+                    Email.setTextColor(getResources().getColor(R.color.red));
+                } else {
+                    Email.setTextColor(getResources().getColor(R.color.white));
+                    ButtonLogin.setEnabled(true);
+                }
             }
         };
         Email.addTextChangedListener(textWatcher);
@@ -187,8 +211,10 @@ public class LoginActivity extends Activity {
             public void onClick(View v) {
                 if (password.getInputType() ==  (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
                     password.setInputType( InputType.TYPE_CLASS_TEXT );
+                    eyePassword.setImageResource(R.drawable.eye_off_yellow_icon);
                 } else {
                     password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    eyePassword.setImageResource(R.drawable.eye_yellow_icon);
                 }
             }
         });

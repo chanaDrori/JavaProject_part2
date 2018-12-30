@@ -24,6 +24,7 @@
     <string name="hello">Hello</string>
     <string name="Register">Register</string>
     <string name="log_in">log in</string>
+    <string name="create_a_new_account_for_free">Create a new account now!</string>
 
     <string-array name="nav_drawer_item">
         <item>Show available drives</item>
