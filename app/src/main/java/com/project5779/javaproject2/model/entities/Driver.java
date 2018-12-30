@@ -19,8 +19,7 @@ public class Driver {
      * @param email string - The driver's mail address.
      * @param creditCard string - The credit card number of te driver.
      */
-    public Driver ( String name, String lastName, String id, String phone, String email, String creditCard)
-    {
+    public Driver ( String name, String lastName, String id, String phone, String email, String creditCard) {
         this.creditCard = creditCard;
         this.email = email;
         this.id = id;

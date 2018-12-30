@@ -22,6 +22,8 @@
     <string name="not_found_user">The email or password does not exist in the system</string>
     <string name="menu">menu</string>
     <string name="hello">Hello</string>
+    <string name="Register">Register</string>
+    <string name="log_in">log in</string>
 
     <string-array name="nav_drawer_item">
         <item>Show available drives</item>

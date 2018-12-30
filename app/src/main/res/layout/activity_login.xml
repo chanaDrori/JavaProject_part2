@@ -10,33 +10,45 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/lightYellow">
+        android:background="@color/lightYellow"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@mipmap/taxi_background"
+            android:contentDescription="@string/log_in" />
         <EditText
             android:id="@+id/EditTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:hint="@string/Email"
-            android:inputType="textEmailAddress" />
+            android:drawableStart="@drawable/email_yellow_icon"
+            android:inputType="textEmailAddress"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
             <ImageView
                 android:id="@+id/eyePassword"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@drawable/eye_icon"
                 android:contentDescription="@drawable/eye_icon"
                 android:layout_weight="1"/>
             <EditText
                 android:id="@+id/password"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:hint="@string/password"
-                android:layout_weight="10"/>
+                android:layout_weight="12"/>
 
         </LinearLayout>
 
@@ -49,7 +61,11 @@
             android:id="@+id/ButtonLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/enter" />
+            android:text="@string/enter"
+            android:background="@color/yellow"
+            android:gravity="center"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"/>
         <TextView
             android:id="@+id/createAccount"
             android:layout_width="match_parent"
