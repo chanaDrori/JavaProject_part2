@@ -25,6 +25,7 @@
     <string name="log_in">התחבר</string>
     <string name="create_a_new_account_for_free">צור חשבון חדש כעת!</string>
 
+
     <string-array name="nav_drawer_item">
         <item>הצג נסיעות פנויות</item>
         <item>הנסיעות שלי</item>

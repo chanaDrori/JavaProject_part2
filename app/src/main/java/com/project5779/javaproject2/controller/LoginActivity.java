@@ -140,8 +140,8 @@ public class LoginActivity extends Activity {
                     editor.putBoolean(getString(R.string.save_Password), CheckBoxRememberMe.isChecked());
                     editor.apply();
 
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.putExtra(getString(R.string.id), user.getId());
+                    Intent intent = new Intent(LoginActivity.this, Nav_drawer.class);
+                  //  intent.putExtra(getString(R.string.id), user.getId());
                     startActivity(intent);
                 } else {
                     //there is problem with the input.

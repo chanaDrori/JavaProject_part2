@@ -26,15 +26,22 @@
     <string name="log_in">log in</string>
     <string name="create_a_new_account_for_free">Create a new account now!</string>
 
-    <string-array name="nav_drawer_item">
-        <item>Show available drives</item>
-        <item>Show my drives</item>
-        <item>Logout</item>
-    </string-array>
+
 
     <array name="nav_drawer_icons">
-        <item>@drawable/taxi_icon</item>
+        <!--item>@drawable/taxi_icon</item-->
         <item>@drawable/person_yellow_icon</item>
         <item>@drawable/close_yellow_icon</item>
     </array>
+    <string name="title_activity_nav_drawer">Nav_drawer</string>
+    <string name="title_section1">Show available drives</string>
+    <string name="title_section2">Show my drives</string>
+    <string name="title_section3">Logout</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
