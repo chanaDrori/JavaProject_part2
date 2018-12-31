@@ -54,7 +54,9 @@
             android:hint="@string/phone"
             android:digits="0123456789"
             android:maxLength="10"
-            android:drawableStart="@drawable/phone_black_icon"/>
+            android:drawableStart="@drawable/phone_black_icon"
+            android:textDirection="locale"
+            android:textAlignment="viewStart"/>
         <EditText
             android:id="@+id/EditTextEmail"
             android:layout_width="match_parent"
@@ -75,13 +77,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:hint="@string/password"/>
+            android:hint="@string/password"
+            android:textDirection="locale"
+            android:textAlignment="viewStart"/>
         <EditText
             android:id="@+id/EditTextConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/confirm_password"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            android:textDirection="locale"
+            android:textAlignment="viewStart"/>
 
     </LinearLayout>
 
