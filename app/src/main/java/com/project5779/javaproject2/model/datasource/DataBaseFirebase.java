@@ -66,7 +66,7 @@ public class DataBaseFirebase implements BackEnd {
      * notifyToDriveList function. Notify when the data change.
      * @param notifyDataChange NotifyDataChange<List<Drive>>.
      */
-    public static void notifyToDriveList(final NotifyDataChange<List<Drive>> notifyDataChange){
+    public void notifyToDriveList(final NotifyDataChange<List<Drive>> notifyDataChange){
         if(notifyDataChange != null){
             if(driveRefChildEventListener != null){
                 notifyDataChange.onFailure(new Exception("first unNotify drive list"));
@@ -137,7 +137,7 @@ public class DataBaseFirebase implements BackEnd {
     /**
      * stopNotifyToDriveList remove Event Listener
      */
-    public static void stopNotifyToDriveList(){
+    public void stopNotifyToDriveList(){
         if(driveRefChildEventListener != null){
             DriveRef.removeEventListener(driveRefChildEventListener);
             driveRefChildEventListener = null;
@@ -148,7 +148,7 @@ public class DataBaseFirebase implements BackEnd {
      * notifyToDriverList function. Notify when the data change.
      * @param notifyDataChange NotifyDataChange<List<Driver>>.
      */
-    public static void notifyToDriverList(final NotifyDataChange<List<Driver>> notifyDataChange){
+    public void notifyToDriverList(final NotifyDataChange<List<Driver>> notifyDataChange){
         if(notifyDataChange != null){
             if(driverRefChildEventListener != null){
                 notifyDataChange.onFailure(new Exception("first unNotify driver list"));
@@ -217,7 +217,7 @@ public class DataBaseFirebase implements BackEnd {
     /**
      * stopNotifyToDriverList remove Event Listener
      */
-    public static void stopNotifyToDriverList(){
+    public void stopNotifyToDriverList(){
         if(driverRefChildEventListener != null){
             DriverRef.removeEventListener(driverRefChildEventListener);
             driverRefChildEventListener = null;

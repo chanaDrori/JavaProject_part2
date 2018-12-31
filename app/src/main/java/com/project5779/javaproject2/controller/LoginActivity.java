@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project5779.javaproject2.R;
+import com.project5779.javaproject2.model.backend.BackEndFactory;
 import com.project5779.javaproject2.model.datasource.DataBaseFirebase;
 import com.project5779.javaproject2.model.entities.Driver;
 
@@ -70,7 +71,7 @@ public class LoginActivity extends Activity {
             CheckBoxRememberMe.setChecked(true);
         }
 
-        DataBaseFirebase.notifyToDriverList(new DataBaseFirebase.NotifyDataChange<List<Driver>>() {
+        BackEndFactory.getInstance(this).notifyToDriverList(new DataBaseFirebase.NotifyDataChange<List<Driver>>() {
             /**
              * onDataChange function. Work when the data change.
              * @param obj List<Driver>.
@@ -97,7 +98,7 @@ public class LoginActivity extends Activity {
      */
     @Override
     protected void onDestroy() {
-        DataBaseFirebase.stopNotifyToDriverList();
+        BackEndFactory.getInstance(this).stopNotifyToDriveList();
         super.onDestroy();
     }
 
@@ -158,6 +159,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, Register.class);
+                BackEndFactory.getInstance(getBaseContext()).stopNotifyToDriveList();
                 startActivity(intent);
             }
         });

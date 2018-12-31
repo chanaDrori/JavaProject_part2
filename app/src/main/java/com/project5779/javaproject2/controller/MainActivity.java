@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project5779.javaproject2.R;
+import com.project5779.javaproject2.model.backend.BackEndFactory;
 import com.project5779.javaproject2.model.datasource.DataBaseFirebase;
 import com.project5779.javaproject2.model.entities.Driver;
 
@@ -37,7 +38,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         findViews();
 
-        DataBaseFirebase.notifyToDriverList(new DataBaseFirebase.NotifyDataChange<List<Driver>>() {
+        BackEndFactory.getInstance(this).notifyToDriverList(new DataBaseFirebase.NotifyDataChange<List<Driver>>() {
             /**
              * onDataChange function. Work when the data change.
              * @param obj List<Driver>.
@@ -81,8 +82,8 @@ public class MainActivity extends Activity {
      */
     @Override
     protected void onDestroy() {
-        DataBaseFirebase.stopNotifyToDriverList();
-        //DataBaseFirebase.stopNotifyToDriveList();
+        BackEndFactory.getInstance(this).stopNotifyToDriverList();
+        //BackEndFactory.getInstance(this).stopNotifyToDriveList();
         super.onDestroy();
     }
 }

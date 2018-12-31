@@ -8,6 +8,7 @@ package com.project5779.javaproject2.model.backend;
 
 import android.drm.DrmStore;
 
+import com.project5779.javaproject2.model.datasource.DataBaseFirebase;
 import com.project5779.javaproject2.model.entities.Drive;
 import com.project5779.javaproject2.model.entities.Driver;
 
@@ -34,4 +35,12 @@ public interface BackEnd {
     public List<Drive> getListDriveByKM(int KM);
     public List<Drive> getListDriveByTime(String time);
     public List<Drive> getListDriveByPayment(int payment);
+
+
+    public void stopNotifyToDriveList();
+    public void stopNotifyToDriverList();
+
+    public void notifyToDriverList(final DataBaseFirebase.NotifyDataChange<List<Driver>> notifyDataChange);
+    public void notifyToDriveList(final DataBaseFirebase.NotifyDataChange<List<Drive>> notifyDataChange);
+
 }

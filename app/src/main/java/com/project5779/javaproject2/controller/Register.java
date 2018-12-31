@@ -58,7 +58,7 @@ public class Register extends Activity {
         setContentView(R.layout.activity_register);
         findViews();
 
-        DataBaseFirebase.notifyToDriverList(new DataBaseFirebase.NotifyDataChange<List<Driver>>() {
+        BackEndFactory.getInstance(this).notifyToDriverList(new DataBaseFirebase.NotifyDataChange<List<Driver>>() {
 
             /**
              * onDataChange function. Work when the data change.
@@ -267,7 +267,7 @@ public class Register extends Activity {
      */
     @Override
     protected void onDestroy() {
-        DataBaseFirebase.stopNotifyToDriverList();
+        BackEndFactory.getInstance(this).stopNotifyToDriverList();
         super.onDestroy();
     }
 }
