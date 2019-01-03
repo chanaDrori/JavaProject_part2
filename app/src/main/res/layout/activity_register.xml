@@ -30,14 +30,14 @@
             android:layout_height="wrap_content"
             android:hint="@string/first_name"
             android:inputType="textPersonName"
-            android:drawableStart="@drawable/face_black_icon" />
+            android:drawableEnd="@drawable/face_black_icon" />
         <EditText
             android:id="@+id/EditTextLastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:hint="@string/last_name"
-            android:drawableStart="@drawable/face_black_icon"/>
+            android:drawableEnd="@drawable/face_black_icon" />
         <EditText
             android:id="@+id/EditTextId"
             android:layout_width="match_parent"
@@ -45,7 +45,7 @@
             android:inputType="number"
             android:hint="@string/id"
             android:maxLength="9"
-            android:drawableStart="@drawable/open_book_black_icon"/>
+            android:drawableEnd="@drawable/id_black_icon" />
         <EditText
             android:id="@+id/EditTextPhoneNum"
             android:layout_width="match_parent"
@@ -54,7 +54,7 @@
             android:hint="@string/phone"
             android:digits="0123456789"
             android:maxLength="10"
-            android:drawableStart="@drawable/phone_black_icon"
+            android:drawableEnd="@drawable/phone_black_icon"
             android:textDirection="locale"
             android:textAlignment="viewStart"/>
         <EditText
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:hint="@string/Email"
-            android:drawableStart="@drawable/email_black_icon"/>
+            android:drawableEnd="@drawable/email_black_icon" />
         <EditText
             android:id="@+id/EditTextCredit"
             android:layout_width="match_parent"
@@ -71,7 +71,7 @@
             android:inputType="number"
             android:hint="@string/credit_card_number"
             android:maxLength="18"
-            android:drawableStart="@drawable/credit_card_black_icon"/>
+            android:drawableEnd="@drawable/credit_card_black_icon" />
         <EditText
             android:id="@+id/EditTextPassword"
             android:layout_width="match_parent"
@@ -79,15 +79,17 @@
             android:inputType="textPassword"
             android:hint="@string/password"
             android:textDirection="locale"
-            android:textAlignment="viewStart"/>
-        <EditText
+            android:textAlignment="viewStart"
+            android:drawableEnd="@drawable/eye_black_icon"/>
+             <EditText
             android:id="@+id/EditTextConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/confirm_password"
             android:inputType="textPassword"
             android:textDirection="locale"
-            android:textAlignment="viewStart"/>
+            android:textAlignment="viewStart"
+            android:drawableEnd="@drawable/eye_black_icon"/>
 
     </LinearLayout>
 
