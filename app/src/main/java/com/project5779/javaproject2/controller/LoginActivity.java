@@ -78,7 +78,8 @@ public class LoginActivity extends Activity {
              */
             @Override
             public void onDataChange(List<Driver> obj) {
-                driverList = obj;
+             //   driverList = obj;
+                DataBaseFirebase.driverList = obj;
             }
 
             /**

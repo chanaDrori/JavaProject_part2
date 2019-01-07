@@ -55,12 +55,10 @@ public class Nav_drawer extends Activity
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, PlaceholderFragment.newInstance(position + 1))
-               // .replace(R.id.content_frame, new AvailableDriveFragment())
                 .commit();
         if (position == 0)
         {
             fragmentManager.beginTransaction()
-                  //  .replace(R.id.content_frame, PlaceholderFragment.newInstance(position + 1))
                      .replace(R.id.content_frame, new AvailableDriveFragment())
                     .commit();
         }
@@ -68,7 +66,6 @@ public class Nav_drawer extends Activity
         if (position == 1)
         {
             fragmentManager.beginTransaction()
-                    //  .replace(R.id.content_frame, PlaceholderFragment.newInstance(position + 1))
                     .replace(R.id.content_frame, new DriveByDriverFragment())
                     .commit();
         }

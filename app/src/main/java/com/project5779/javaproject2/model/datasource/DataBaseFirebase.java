@@ -48,8 +48,8 @@ public class DataBaseFirebase implements BackEnd {
     //define the fields.
     private static DatabaseReference DriverRef;
     private static DatabaseReference DriveRef;
-    static List<Drive> driveList;
-    static List<Driver> driverList;
+    private static List<Drive> driveList;
+    private static List<Driver> driverList;
     static {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DriverRef = database.getReference("Drivers");
@@ -62,10 +62,31 @@ public class DataBaseFirebase implements BackEnd {
     private static ChildEventListener driveRefChildEventListener;
     private static ChildEventListener driverRefChildEventListener;
 
+    @Override
+    public void setDriveList(List<Drive> driveList) {
+        DataBaseFirebase.driveList = driveList;
+    }
+
+    @Override
+    public List<Drive> getDriveList() {
+        return driveList;
+    }
+
+    @Override
+    public void setDriverList(List<Driver> driverList) {
+        DataBaseFirebase.driverList = driverList;
+    }
+
+    @Override
+    public List<Driver> getDriverList() {
+        return driverList;
+    }
+
     /**
      * notifyToDriveList function. Notify when the data change.
      * @param notifyDataChange NotifyDataChange<List<Drive>>.
      */
+    @Override
     public void notifyToDriveList(final NotifyDataChange<List<Drive>> notifyDataChange){
         if(notifyDataChange != null){
             if(driveRefChildEventListener != null){
@@ -137,6 +158,7 @@ public class DataBaseFirebase implements BackEnd {
     /**
      * stopNotifyToDriveList remove Event Listener
      */
+    @Override
     public void stopNotifyToDriveList(){
         if(driveRefChildEventListener != null){
             DriveRef.removeEventListener(driveRefChildEventListener);
@@ -148,6 +170,7 @@ public class DataBaseFirebase implements BackEnd {
      * notifyToDriverList function. Notify when the data change.
      * @param notifyDataChange NotifyDataChange<List<Driver>>.
      */
+    @Override
     public void notifyToDriverList(final NotifyDataChange<List<Driver>> notifyDataChange){
         if(notifyDataChange != null){
             if(driverRefChildEventListener != null){
@@ -217,6 +240,7 @@ public class DataBaseFirebase implements BackEnd {
     /**
      * stopNotifyToDriverList remove Event Listener
      */
+    @Override
     public void stopNotifyToDriverList(){
         if(driverRefChildEventListener != null){
             DriverRef.removeEventListener(driverRefChildEventListener);

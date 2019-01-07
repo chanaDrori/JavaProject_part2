@@ -26,6 +26,10 @@ public interface BackEnd {
         void onProgress(String status, double precent);
     }
 
+    public void setDriveList(List<Drive> driveList);
+    public List<Drive> getDriveList();
+    public void setDriverList(List<Driver> driverList);
+    public List<Driver> getDriverList();
     public List<String> getListNamesDrivers();
     public void addDriver(Driver driver, final Action<String> action);
     public void register(String email, String password);
