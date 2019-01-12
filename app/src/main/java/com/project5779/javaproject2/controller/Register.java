@@ -57,7 +57,7 @@ public class Register extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         findViews();
-        driverList  = DataBaseFirebase.driverList;
+        driverList  = BackEndFactory.getInstance(this).getDriverList();
       //  BackEndFactory.getInstance(this).notifyToDriverList(new DataBaseFirebase.NotifyDataChange<List<Driver>>() {
 
             /**

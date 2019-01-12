@@ -10,8 +10,8 @@ import android.location.Location;
 
 public class Drive {
     private StateOfDrive state;
-    private Location startPoint;
-    private Location endPoint;
+    //private Location startPoint;
+    //private Location endPoint;
     private String startTime;
     private String endTime;
     private String nameClient;
@@ -36,8 +36,19 @@ public class Drive {
                  String _nameClient, String _phoneClient, String _emailClient)
     {
         this.state = _state;
-        this.startPoint = _startPoint;
-        this.endPoint = _endPoint;
+        //this.startPoint = _startPoint;
+        //this.endPoint = _endPoint;
+        this.startTime = _startTime;
+        this.endTime = _endTime;
+        this.nameClient = _nameClient;
+        this.phoneClient = _phoneClient;
+        this.emailClient = _emailClient;
+    }
+
+    public Drive(String _state, String _startTime, String _endTime,
+                 String _nameClient, String _phoneClient, String _emailClient)
+    {
+        this.state = StateOfDrive.valueOf(_state);
         this.startTime = _startTime;
         this.endTime = _endTime;
         this.nameClient = _nameClient;
@@ -65,10 +76,9 @@ public class Drive {
      * getter
      * @return endPoint. Location - The ending point of the ride
      */
-    public Location getEndPoint() {
+   /* public Location getEndPoint() {
         return endPoint;
-    }
-
+    }*/
     /**
      * getter
      * @return emailClient. string - The client's mail address
@@ -105,9 +115,9 @@ public class Drive {
      * getter
      * @return startPoint. Location - The starting point of the ride
      */
-    public Location getStartPoint() {
+   /* public Location getStartPoint() {
         return startPoint;
-    }
+    }*/
 
     /**
      * getter
@@ -152,9 +162,9 @@ public class Drive {
      * setter
      * @param endPoint Location - The ending point of the ride
      */
-    public void setEndPoint(Location endPoint) {
+   /* public void setEndPoint(Location endPoint) {
         this.endPoint = endPoint;
-    }
+    }*/
 
     /**
      * setter
@@ -192,9 +202,9 @@ public class Drive {
      * setter
      * @param startPoint Location - The starting point of the ride
      */
-    public void setStartPoint(Location startPoint) {
+   /* public void setStartPoint(Location startPoint) {
         this.startPoint = startPoint;
-    }
+    }*/
 
     /**
      * setter
@@ -225,9 +235,9 @@ public class Drive {
             return false;
 
         Drive drive = (Drive) obj;
-        return (this.startPoint.equals(drive.getStartPoint()) &&
+        return (//this.startPoint.equals(drive.getStartPoint()) &&
                 this.state.equals( drive.getState()) &&
-                this.endPoint.equals(drive.getEndPoint()) &&
+                //this.endPoint.equals(drive.getEndPoint()) &&
                 this.emailClient.equals(drive.getEmailClient()) &&
                 this.endTime.equals(drive.getEndTime()) &&
                 this.nameClient.equals(drive.getNameClient()) &&
@@ -241,5 +251,10 @@ public class Drive {
 
     public void setDriverID(String driverID) {
         this.driverID = driverID;
+    }
+
+    @Override
+    public String toString() {
+        return this.getNameClient() + " " + this.getStartTime() + " " +this.getStartPointString();
     }
 }

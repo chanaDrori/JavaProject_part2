@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.project5779.javaproject2.R;
 import com.project5779.javaproject2.model.backend.BackEndFactory;
 import com.project5779.javaproject2.model.datasource.DataBaseFirebase;
+import com.project5779.javaproject2.model.entities.Drive;
 import com.project5779.javaproject2.model.entities.Driver;
 
 import java.util.ArrayList;
@@ -42,8 +43,6 @@ import static android.text.TextUtils.isEmpty;
  * If not exist account possible to register
  */
 public class LoginActivity extends Activity {
-
-    private List<Driver> driverList;
 
     private EditText Email;
     private EditText password;
@@ -71,15 +70,14 @@ public class LoginActivity extends Activity {
             CheckBoxRememberMe.setChecked(true);
         }
 
-        BackEndFactory.getInstance(this).notifyToDriverList(new DataBaseFirebase.NotifyDataChange<List<Driver>>() {
+        BackEndFactory.getInstance(getApplicationContext()).notifyToDriverList(new DataBaseFirebase.NotifyDataChange<List<Driver>>() {
             /**
              * onDataChange function. Work when the data change.
              * @param obj List<Driver>.
              */
             @Override
             public void onDataChange(List<Driver> obj) {
-             //   driverList = obj;
-                DataBaseFirebase.driverList = obj;
+                BackEndFactory.getInstance(getBaseContext()).setDriverList(obj);
             }
 
             /**
@@ -92,6 +90,27 @@ public class LoginActivity extends Activity {
                         + exp.toString() +"\n login", Toast.LENGTH_LONG).show();
             }
         });
+
+        BackEndFactory.getInstance(getApplicationContext()).notifyToDriveList(new DataBaseFirebase.NotifyDataChange<List<Drive>>() {
+            /**
+             * onDataChange function. Work when the data change.
+             * @param obj List<Drive>.
+             */
+            @Override
+            public void onDataChange(List<Drive> obj) {
+                BackEndFactory.getInstance(getBaseContext()).setDriveList(obj);
+            }
+
+            /**
+             * onFailure function. work when failure notify
+             * @param exp exception
+             */
+            @Override
+            public void onFailure(Exception exp) {
+                Toast.makeText(getBaseContext(), getString(R.string.Error_to_get_drives_list)
+                        + exp.toString() +"\n login", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     /**
@@ -99,7 +118,8 @@ public class LoginActivity extends Activity {
      */
     @Override
     protected void onDestroy() {
-        BackEndFactory.getInstance(this).stopNotifyToDriveList();
+        BackEndFactory.getInstance(getApplicationContext()).stopNotifyToDriveList();
+        BackEndFactory.getInstance(getApplicationContext()).stopNotifyToDriverList();
         super.onDestroy();
     }
 
@@ -126,6 +146,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Driver user = null;
+                List<Driver> driverList =  BackEndFactory.getInstance(getBaseContext()).getDriverList();
                 for (Driver driver : driverList) {
                     if (driver.getEmail().equals(Email.getText().toString())
                             && driver.getPassword().equals(password.getText().toString())) {
@@ -143,7 +164,7 @@ public class LoginActivity extends Activity {
                     editor.apply();
 
                     Intent intent = new Intent(LoginActivity.this, Nav_drawer.class);
-                  //  intent.putExtra(getString(R.string.id), user.getId());
+                    intent.putExtra(getString(R.string.id), user.getId());
                     startActivity(intent);
                 } else {
                     //there is problem with the input.

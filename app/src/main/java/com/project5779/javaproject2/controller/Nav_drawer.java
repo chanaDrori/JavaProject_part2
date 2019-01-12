@@ -17,9 +17,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.project5779.javaproject2.R;
+import com.project5779.javaproject2.model.backend.BackEndFactory;
+import com.project5779.javaproject2.model.entities.Drive;
+
+import java.util.List;
 
 public class Nav_drawer extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -49,6 +54,10 @@ public class Nav_drawer extends Activity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
     }
 
+    private List<String> listNamesDrivers;
+    private ListView listView;
+    ArrayAdapter<String> adapter;
+
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
@@ -71,7 +80,8 @@ public class Nav_drawer extends Activity
         }
         if (position == 3)
         {
-            this.finish();
+           // finish();
+            super.onBackPressed();
         }
     }
 
