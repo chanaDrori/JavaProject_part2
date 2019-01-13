@@ -13,10 +13,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.project5779.javaproject2.R;
@@ -47,6 +49,10 @@ public class Register extends Activity {
     private EditText EditTextPassword;
     private EditText EditTextConfirmPassword;
     private Button ButtonCreateAccount;
+
+    private ImageView password1;
+    private ImageView password2;
+
 
     /**
      * onCreate function
@@ -230,6 +236,36 @@ public class Register extends Activity {
         EditTextPassword.addTextChangedListener(textWatcher);
         EditTextFirstName.addTextChangedListener(textWatcher);
         EditTextLastName.addTextChangedListener(textWatcher);
+
+        password1 = (ImageView)findViewById(R.id.eyePassword1);
+        password2 = (ImageView)findViewById(R.id.eyePassword2);
+
+        password1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (EditTextPassword.getInputType() ==  (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+                    EditTextPassword.setInputType( InputType.TYPE_CLASS_TEXT );
+                    password1.setImageResource(R.drawable.eye_off_black_icon);
+                } else {
+                    EditTextPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    password1.setImageResource(R.drawable.eye_black_icon);
+                }
+            }
+        });
+
+        password2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (EditTextConfirmPassword.getInputType() ==  (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+                    EditTextConfirmPassword.setInputType( InputType.TYPE_CLASS_TEXT );
+                    password2.setImageResource(R.drawable.eye_off_black_icon);
+                } else {
+                    EditTextConfirmPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    password2.setImageResource(R.drawable.eye_black_icon);
+                }
+            }
+        });
+
     }
 
     /**
@@ -267,7 +303,9 @@ public class Register extends Activity {
      */
     @Override
     protected void onDestroy() {
-        BackEndFactory.getInstance(this).stopNotifyToDriverList();
+        //BackEndFactory.getInstance(this).stopNotifyToDriverList();
         super.onDestroy();
     }
+
+
 }

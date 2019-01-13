@@ -2,21 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="@color/yellow">
+    android:background="@color/yellow"
+    tools:context=".controller.Nav_drawer$PlaceholderFragment"
+    android:id="@+id/welcome_fragment">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@mipmap/taxi_background"
-        android:layout_weight="18"/>
+        android:layout_weight="12"/>
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_marginTop="45dp"
+        android:textSize="40sp"
+        android:layout_marginTop="10dp"
         android:text="@string/welcome"
         android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginBottom="50dp"
         android:layout_weight="1"/>
 </LinearLayout>

@@ -6,6 +6,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
@@ -44,14 +45,11 @@ public class Nav_drawer extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_drawer);
 
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getFragmentManager().findFragmentById(R.id.navigation_drawer);
+        mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
         // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
     }
 
     private List<String> listNamesDrivers;
@@ -62,9 +60,6 @@ public class Nav_drawer extends Activity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, PlaceholderFragment.newInstance(position + 1))
-                .commit();
         if (position == 0)
         {
             fragmentManager.beginTransaction()
@@ -78,10 +73,9 @@ public class Nav_drawer extends Activity
                     .replace(R.id.content_frame, new DriveByDriverFragment())
                     .commit();
         }
-        if (position == 3)
+        if (position == 2)
         {
-           // finish();
-            super.onBackPressed();
+            this.finish();
         }
     }
 
@@ -135,7 +129,7 @@ public class Nav_drawer extends Activity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_nav_drawer, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_welcome, container, false);
             return rootView;
         }
 
