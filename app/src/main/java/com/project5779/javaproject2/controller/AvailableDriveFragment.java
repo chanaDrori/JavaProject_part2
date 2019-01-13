@@ -33,7 +33,7 @@ public class AvailableDriveFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         try {
             myView = inflater.inflate(R.layout.fragment_drive_available, container, false);
-            //driveList = BackEndFactory.getInstance(getActivity()).getListDriveAvailable();
+          //  driveList = BackEndFactory.getInstance(getActivity()).getDriveList();
             listNamesDrivers = BackEndFactory.getInstance(getActivity()).getListNamesDrivers();
 
             listView = (ListView)myView.findViewById(R.id.list_view);
