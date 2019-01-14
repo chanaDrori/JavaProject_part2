@@ -240,7 +240,7 @@ public class Drive {
                 this.state.equals( drive.getState()) &&
                 //this.endPoint.equals(drive.getEndPoint()) &&
                 this.emailClient.equals(drive.getEmailClient()) &&
-                this.endTime.equals(drive.getEndTime()) &&
+                //this.endTime.equals(drive.getEndTime()) &&
                 this.nameClient.equals(drive.getNameClient()) &&
                 this.phoneClient.equals(drive.getPhoneClient()) &&
                 this.startTime.equals(drive.getStartTime()));

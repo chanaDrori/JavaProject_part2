@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_drive_available"
+    android:id="@+id/fragment_drive_available2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -11,26 +11,22 @@
         android:id="@+id/search_view"
         android:iconifiedByDefault="false"
         android:padding="2dp"
-        android:queryHint="Search...."
-        android:layout_weight="1">
+        android:queryHint="Search....">
+
     </SearchView>
-
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="6">
-        <ListView
-            android:id="@+id/list_view"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-    </ScrollView>
-
+<ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+</ScrollView>
     <LinearLayout
         android:id="@+id/vis_drive"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="2">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textViewDetail"

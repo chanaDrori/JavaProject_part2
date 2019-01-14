@@ -25,6 +25,7 @@
     <string name="log_in">התחבר</string>
     <string name="create_a_new_account_for_free">צור חשבון חדש כעת!</string>
     <string name="welcome">ברוך הבא</string>
+    <string name="add_to_contacts">add to contacts</string>
 
 
     <string-array name="nav_drawer_item">

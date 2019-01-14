@@ -104,7 +104,6 @@ public class DataBaseFirebase implements BackEnd {
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     Drive drive = dataSnapshot.getValue(Drive.class);
                     driveList.add(drive);
-
                     notifyDataChange.onDataChange(driveList);
                 }
 
@@ -116,7 +115,7 @@ public class DataBaseFirebase implements BackEnd {
                 @Override
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                     Drive drive = dataSnapshot.getValue(Drive.class);
-                    for (int i=0; i<driveList.size(); i++){
+                    for (int i=0; i < driveList.size(); i++){
                         if(driveList.get(i).equals(drive)) {
                             driveList.set(i, drive);
                             break;
@@ -379,5 +378,43 @@ public class DataBaseFirebase implements BackEnd {
     @Override
     public List<Drive> getListDriveByPayment(int payment) {
         return null;
+    }
+
+    public static void list_toDelete_after(){
+        if (driveList.isEmpty()) {
+            Drive drive1 = new Drive();
+            drive1.setNameClient("Dana");
+            drive1.setEmailClient("dana@gmail.com");
+            drive1.setPhoneClient("0546637284");
+            drive1.setStartPointString("jerusalem");
+            drive1.setStartTime("11:00");
+            driveList.add(drive1);
+
+            Drive drive2 = new Drive();
+            drive2.setNameClient("rina");
+            drive2.setEmailClient("rina@gmail.com");
+            drive2.setPhoneClient("0546333284");
+            drive2.setStartPointString("jerusalem");
+            drive2.setStartTime("12:00");
+            drive2.setDriverID("112233445");
+            driveList.add(drive2);
+
+            Drive drive3 = new Drive();
+            drive3.setNameClient("Shalom");
+            drive3.setEmailClient("shalom@gmail.com");
+            drive3.setPhoneClient("0546666666");
+            drive3.setStartPointString("jerusalem");
+            drive3.setStartTime("11:48");
+            drive3.setDriverID("112233445");
+            driveList.add(drive3);
+
+            Drive drive4 = new Drive();
+            drive4.setNameClient("Ovadia");
+            drive4.setEmailClient("ovadia@gmail.com");
+            drive4.setPhoneClient("0543827284");
+            drive4.setStartPointString("jerusalem");
+            drive4.setStartTime("07:30");
+            driveList.add(drive4);
+        }
     }
 }

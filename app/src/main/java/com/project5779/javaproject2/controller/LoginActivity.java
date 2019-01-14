@@ -147,7 +147,10 @@ public class LoginActivity extends Activity {
             public void onClick(View v) {
                 Driver user = null;
                 List<Driver> driverList =  BackEndFactory.getInstance(getBaseContext()).getDriverList();
+              /////////////////////////////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                DataBaseFirebase.list_toDelete_after();
                 List<Drive> delete = BackEndFactory.getInstance(getBaseContext()).getDriveList();
+                ////////////////////////////////////////////!!!!!!!!!!!!!!!!!!!!!!!
                 for (Driver driver : driverList) {
                     if (driver.getEmail().equals(Email.getText().toString())
                             && driver.getPassword().equals(password.getText().toString())) {
