@@ -36,6 +36,47 @@ import java.util.List;
 //Manager the data in the firebase
 public class DataBaseFirebase implements BackEnd {
 
+    //define the fields.
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference DriverRef = database.getReference("Drivers");;
+    private DatabaseReference DriveRef = database.getReference("Drive");;
+
+    private static ChildEventListener driveRefChildEventListener;
+    private static ChildEventListener driverRefChildEventListener;
+
+    private List<Drive> driveList;
+    private List<Driver> driverList;
+
+    public DataBaseFirebase() {
+
+        driveList = new ArrayList<>();
+        driverList = new ArrayList<>();
+
+        this.notifyToDriveList(new NotifyDataChange<List<Drive>>() {
+            @Override
+            public void onDataChange(List<Drive> obj) {
+                driveList = obj;
+            }
+
+            @Override
+            public void onFailure(Exception exp) {
+
+            }
+        });
+
+        this.notifyToDriverList(new NotifyDataChange<List<Driver>>() {
+            @Override
+            public void onDataChange(List<Driver> obj) {
+                driverList = obj;
+            }
+
+            @Override
+            public void onFailure(Exception exp) {
+
+            }
+        });
+    }
+
     /**
      * interface NotifyDataChange. For update the list from the firebase.
      * @param <T>
@@ -45,26 +86,31 @@ public class DataBaseFirebase implements BackEnd {
         void onFailure(Exception exp);
     }
 
-    //define the fields.
-    private static DatabaseReference DriverRef;
-    private static DatabaseReference DriveRef;
-    private static List<Drive> driveList;
-    private static List<Driver> driverList;
-    static {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DriverRef = database.getReference("Drivers");
-        DriveRef = database.getReference("Drive");
 
-        driveList = new ArrayList<>();
-        driverList = new ArrayList<>();
+    /**
+     * format the data from firebase to Drive
+     *
+     * @param dataSnapshot the firebase ref
+     * @return new Drive
+     */
+    private Drive dataToDrive(DataSnapshot dataSnapshot) {
+        Drive drive = new Drive(
+                dataSnapshot.child("state").getValue().toString(),
+                dataSnapshot.child("startTime").getValue().toString(),
+                dataSnapshot.child("endTime").getValue().toString(),
+                dataSnapshot.child("nameClient").getValue().toString(),
+                dataSnapshot.child("phoneClient").getValue().toString(),
+                dataSnapshot.child("emailClient").getValue().toString()
+        );
+        drive.setDriverID(dataSnapshot.child("driverID").getValue().toString());
+        drive.setEndPointString(dataSnapshot.child("startPointString").getValue().toString());
+        drive.setEndPointString(dataSnapshot.child("endPointString").getValue().toString());
+        return drive;
     }
-
-    private static ChildEventListener driveRefChildEventListener;
-    private static ChildEventListener driverRefChildEventListener;
 
     @Override
     public void setDriveList(List<Drive> driveList) {
-        DataBaseFirebase.driveList = driveList;
+        this.driveList = driveList;
     }
 
     @Override
@@ -74,7 +120,7 @@ public class DataBaseFirebase implements BackEnd {
 
     @Override
     public void setDriverList(List<Driver> driverList) {
-        DataBaseFirebase.driverList = driverList;
+        this.driverList = driverList;
     }
 
     @Override
@@ -283,28 +329,6 @@ public class DataBaseFirebase implements BackEnd {
     }
 
     /**
-     * register function. login with email and password
-     * @param email String Email
-     * @param password String password
-     */
-    @Override
-    public void register(String email, String password) {
-       // FirebaseAuth auth;
-       // auth = FirebaseAuth.getInstance();
-       /* auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    //FirebaseUser user = auth.getCurrentUser();
-                } else {
-                    // If sign in fails, display a message to the user.
-                   // Toast.makeText(, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });*/
-    }
-
-    /**
      * @return List<Drive> available
      */
     @Override
@@ -380,7 +404,7 @@ public class DataBaseFirebase implements BackEnd {
         return null;
     }
 
-    public static void list_toDelete_after(){
+    public void list_toDelete_after(){
         if (driveList.isEmpty()) {
             Drive drive1 = new Drive();
             drive1.setNameClient("Dana");
@@ -416,5 +440,12 @@ public class DataBaseFirebase implements BackEnd {
             drive4.setStartTime("07:30");
             driveList.add(drive4);
         }
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        this.stopNotifyToDriverList();
+        this.stopNotifyToDriveList();
+        super.finalize();
     }
 }

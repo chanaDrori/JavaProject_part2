@@ -11,17 +11,17 @@
         android:id="@+id/search_view"
         android:iconifiedByDefault="false"
         android:padding="2dp"
-        android:queryHint="Search...."
-        android:layout_weight="1">
+        android:queryHint="Search....">
     </SearchView>
 
     <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="6">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
         <ListView
             android:id="@+id/list_view"
-            android:layout_width="fill_parent"
+            android:isScrollContainer="true"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </ScrollView>
 
@@ -29,8 +29,7 @@
         android:id="@+id/vis_drive"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="2">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textViewDetail"
@@ -42,6 +41,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_to_contacts"/>
+
+        <Button
+            android:id="@+id/buttonAddDrive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ssssssssssssssss"/>
 
     </LinearLayout>
 

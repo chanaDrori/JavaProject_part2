@@ -9,6 +9,8 @@ import android.content.OperationApplicationException;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.RemoteException;
@@ -109,6 +111,7 @@ public class AvailableDriveFragment extends Fragment {
                     SaveContact((Drive) listView.getSelectedItem());
                 }
             });
+
 
             /*
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

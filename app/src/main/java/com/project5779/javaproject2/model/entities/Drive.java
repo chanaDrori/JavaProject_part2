@@ -6,7 +6,13 @@
  */
 package com.project5779.javaproject2.model.entities;
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
+
+import java.io.IOException;
+import java.util.List;
 
 public class Drive {
     private StateOfDrive state;
@@ -257,5 +263,32 @@ public class Drive {
     @Override
     public String toString() {
         return this.getNameClient() + " " + this.getStartTime() + " " +this.getStartPointString();
+    }
+
+    public Location getLocation(Context context) throws Exception {
+        Geocoder gc = new Geocoder(context);
+        Location locationA = null;
+        if(gc.isPresent()){
+            List<Address> list = gc.getFromLocationName("155 Park Theater, Palo Alto, CA", 1);
+            Address address = list.get(0);
+            double lat = address.getLatitude();
+            double lng = address.getLongitude();
+
+            locationA = new Location("A");
+
+            locationA.setLatitude(lat);
+            locationA.setLongitude(lng);
+        }
+        return locationA;
+    }
+
+    public double getLat(Context context) throws Exception {
+
+        return getLocation(context).getLatitude();
+    }
+
+    public double getLon(Context context) throws Exception {
+
+        return getLocation(context).getLongitude();
     }
 }

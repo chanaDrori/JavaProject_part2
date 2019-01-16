@@ -32,7 +32,6 @@ public interface BackEnd {
     public List<Driver> getDriverList();
     public List<String> getListNamesDrivers();
     public void addDriver(Driver driver, final Action<String> action);
-    public void register(String email, String password);
     public List<Drive> getListDriveAvailable();
     public List<Drive> getListDriveByDriver(String id);
     public List<Drive> getListDriveByTarget(String city);
