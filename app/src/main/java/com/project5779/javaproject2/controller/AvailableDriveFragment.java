@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -101,6 +102,16 @@ public class AvailableDriveFragment extends Fragment {
                     Drive clickDrive = (Drive) listView.getItemAtPosition(position);
                     detailDrive.setText(clickDrive.getNameClient());
                     ButtonAddToContact.setEnabled(true);
+
+                    /////////////////////
+                    try {
+                        clickDrive.getLocation(getActivity().getApplicationContext());
+                    }
+                    catch (Exception exp)
+                    {
+                        Toast.makeText( getActivity().getApplicationContext(), " למיקום"+ exp.toString(), Toast.LENGTH_LONG).show();
+                    }
+                    ////////////////////////////////
                 }
             });
 

@@ -25,7 +25,13 @@
     <string name="log_in">התחבר</string>
     <string name="create_a_new_account_for_free">צור חשבון חדש כעת!</string>
     <string name="welcome">ברוך הבא</string>
-    <string name="add_to_contacts">add to contacts</string>
+    <string name="add_to_contacts">הוסף לאנשי הקשר</string>
+    <string name="your_drives">הנסיעות שלך:</string>
+    <string name="there_are_no_drives">לא קיימות נסיעות</string>
+
+    <string name="title_section1">הצג נסיעות פנויות</string>
+    <string name="title_section2">הצג את הנסיעות שלי</string>
+    <string name="title_section3">התנתק</string>
 
 
     <string-array name="nav_drawer_item">
@@ -33,5 +39,7 @@
         <item>הנסיעות שלי</item>
         <item>התנתק</item>
     </string-array>
+
+
 
 </resources>

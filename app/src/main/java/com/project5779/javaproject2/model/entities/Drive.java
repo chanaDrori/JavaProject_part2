@@ -269,7 +269,7 @@ public class Drive {
         Geocoder gc = new Geocoder(context);
         Location locationA = null;
         if(gc.isPresent()){
-            List<Address> list = gc.getFromLocationName("155 Park Theater, Palo Alto, CA", 1);
+            List<Address> list = gc.getFromLocationName("1600 Amphitheatre Parkway, Mountain View, CA", 1);
             Address address = list.get(0);
             double lat = address.getLatitude();
             double lng = address.getLongitude();

@@ -38,26 +38,26 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         findViews();
 
-        BackEndFactory.getInstance(this).notifyToDriverList(new DataBaseFirebase.NotifyDataChange<List<Driver>>() {
-            /**
-             * onDataChange function. Work when the data change.
-             * @param obj List<Driver>.
-             */
-            @Override
-            public void onDataChange(List<Driver> obj) {
-                driverList = obj;
-            }
-
-            /**
-             * onFailure function. work when failure notify
-             * @param exp exception
-             */
-            @Override
-            public void onFailure(Exception exp) {
-                Toast.makeText(getBaseContext(), getString(R.string.Error_to_get_drivers_list)
-                        + exp.toString() + "\n main", Toast.LENGTH_LONG).show();
-            }
-        });
+//        BackEndFactory.getInstance(this).notifyToDriverList(new DataBaseFirebase.NotifyDataChange<List<Driver>>() {
+//            /**
+//             * onDataChange function. Work when the data change.
+//             * @param obj List<Driver>.
+//             */
+//            @Override
+//            public void onDataChange(List<Driver> obj) {
+//                driverList = obj;
+//            }
+//
+//            /**
+//             * onFailure function. work when failure notify
+//             * @param exp exception
+//             */
+//            @Override
+//            public void onFailure(Exception exp) {
+//                Toast.makeText(getBaseContext(), getString(R.string.Error_to_get_drivers_list)
+//                        + exp.toString() + "\n main", Toast.LENGTH_LONG).show();
+//            }
+//        });
 
         Intent myIntent = getIntent();
         String id = myIntent.getStringExtra(getString(R.string.id));
@@ -82,7 +82,7 @@ public class MainActivity extends Activity {
      */
     @Override
     protected void onDestroy() {
-        BackEndFactory.getInstance(this).stopNotifyToDriverList();
+       // BackEndFactory.getInstance(this).stopNotifyToDriverList();
         //BackEndFactory.getInstance(this).stopNotifyToDriveList();
         super.onDestroy();
     }

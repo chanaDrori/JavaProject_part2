@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.project5779.javaproject2.R;
 import com.project5779.javaproject2.model.backend.BackEndFactory;
@@ -22,6 +23,7 @@ public class DriveByDriverFragment extends Fragment {
     private List<Drive> driveList;
     private ListView listView;
     ArrayAdapter<Drive> adapter;
+    private TextView TextViewWithoutDrives;
 
     @Nullable
     @Override
@@ -34,6 +36,11 @@ public class DriveByDriverFragment extends Fragment {
         adapter = new ArrayAdapter<Drive>(this.getActivity(), android.R.layout.simple_list_item_1, driveList);
         listView.setAdapter(adapter);
 
+        if (driveList.size() == 0)
+        {
+            TextViewWithoutDrives = (TextView)myView.findViewById(R.id.TextViewWithoutDrives);
+            TextViewWithoutDrives.setVisibility(View.VISIBLE);
+        }
         return myView;
     }
 }

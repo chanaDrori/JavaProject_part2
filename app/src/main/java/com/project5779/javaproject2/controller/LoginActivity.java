@@ -70,47 +70,47 @@ public class LoginActivity extends Activity {
             CheckBoxRememberMe.setChecked(true);
         }
 
-//        BackEndFactory.getInstance(getApplicationContext()).notifyToDriverList(new DataBaseFirebase.NotifyDataChange<List<Driver>>() {
-//            /**
-//             * onDataChange function. Work when the data change.
-//             * @param obj List<Driver>.
-//             */
-//            @Override
-//            public void onDataChange(List<Driver> obj) {
-//                BackEndFactory.getInstance(getBaseContext()).setDriverList(obj);
-//            }
-//
-//            /**
-//             * onFailure function. work when failure notify
-//             * @param exp exception
-//             */
-//            @Override
-//            public void onFailure(Exception exp) {
-//                Toast.makeText(getBaseContext(), getString(R.string.Error_to_get_drivers_list)
-//                        + exp.toString() +"\n login", Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//        BackEndFactory.getInstance(getApplicationContext()).notifyToDriveList(new DataBaseFirebase.NotifyDataChange<List<Drive>>() {
-//            /**
-//             * onDataChange function. Work when the data change.
-//             * @param obj List<Drive>.
-//             */
-//            @Override
-//            public void onDataChange(List<Drive> obj) {
-//                BackEndFactory.getInstance(getBaseContext()).setDriveList(obj);
-//            }
-//
-//            /**
-//             * onFailure function. work when failure notify
-//             * @param exp exception
-//             */
-//            @Override
-//            public void onFailure(Exception exp) {
-//                Toast.makeText(getBaseContext(), getString(R.string.Error_to_get_drives_list)
-//                        + exp.toString() +"\n login", Toast.LENGTH_LONG).show();
-//            }
-//        });
+        BackEndFactory.getInstance(getApplicationContext()).notifyToDriverList(new DataBaseFirebase.NotifyDataChange<List<Driver>>() {
+            /**
+             * onDataChange function. Work when the data change.
+             * @param obj List<Driver>.
+             */
+            @Override
+            public void onDataChange(List<Driver> obj) {
+                BackEndFactory.getInstance(getBaseContext()).setDriverList(obj);
+            }
+
+            /**
+             * onFailure function. work when failure notify
+             * @param exp exception
+             */
+            @Override
+            public void onFailure(Exception exp) {
+                Toast.makeText(getBaseContext(), getString(R.string.Error_to_get_drivers_list)
+                        + exp.toString() +"\n login", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        BackEndFactory.getInstance(getApplicationContext()).notifyToDriveList(new DataBaseFirebase.NotifyDataChange<List<Drive>>() {
+            /**
+             * onDataChange function. Work when the data change.
+             * @param obj List<Drive>.
+             */
+            @Override
+            public void onDataChange(List<Drive> obj) {
+                BackEndFactory.getInstance(getBaseContext()).setDriveList(obj);
+            }
+
+            /**
+             * onFailure function. work when failure notify
+             * @param exp exception
+             */
+            @Override
+            public void onFailure(Exception exp) {
+                Toast.makeText(getBaseContext(), getString(R.string.Error_to_get_drives_list)
+                        + exp.toString() +"\n login", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     /**
@@ -147,10 +147,10 @@ public class LoginActivity extends Activity {
             public void onClick(View v) {
                 Driver user = null;
                 List<Driver> driverList =  BackEndFactory.getInstance(getBaseContext()).getDriverList();
-              /////////////////////////////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                new DataBaseFirebase().list_toDelete_after();
-                List<Drive> delete = BackEndFactory.getInstance(getBaseContext()).getDriveList();
-                ////////////////////////////////////////////!!!!!!!!!!!!!!!!!!!!!!!
+                /////////////////////////////////////////////////////
+                (new DataBaseFirebase()).list_toDelete_after();
+                List<Drive> driveDelete = BackEndFactory.getInstance(getBaseContext()).getDriveList();
+                ////////////////////////////////////////////////////////////
                 for (Driver driver : driverList) {
                     if (driver.getEmail().equals(Email.getText().toString())
                             && driver.getPassword().equals(password.getText().toString())) {
