@@ -11,8 +11,10 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 
+
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class Drive {
     private StateOfDrive state;
@@ -26,6 +28,8 @@ public class Drive {
     private String startPointString;
     private String endPointString;
     private String driverID;
+
+    private String key;
 
     /**
      * constructor of drive.
@@ -69,6 +73,7 @@ public class Drive {
         state = StateOfDrive.AVAILABLE;
         driverID = "";
         endTime ="";
+        key ="";
     }
 
     /**
@@ -262,11 +267,11 @@ public class Drive {
 
     @Override
     public String toString() {
-        return this.getNameClient() + " " + this.getStartTime() + " " +this.getStartPointString();
+        return this.getStartTime() + " " +this.getStartPointString();
     }
 
     public Location getLocation(Context context) throws Exception {
-        Geocoder gc = new Geocoder(context);
+        Geocoder gc = new Geocoder(context, Locale.getDefault());
         Location locationA = null;
         if(gc.isPresent()){
             List<Address> list = gc.getFromLocationName("1600 Amphitheatre Parkway, Mountain View, CA", 1);
@@ -290,5 +295,13 @@ public class Drive {
     public double getLon(Context context) throws Exception {
 
         return getLocation(context).getLongitude();
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

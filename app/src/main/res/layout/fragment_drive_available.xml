@@ -3,6 +3,7 @@
     android:id="@+id/fragment_drive_available"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/yellow"
     android:orientation="vertical">
 <LinearLayout
     android:layout_width="match_parent"
@@ -21,16 +22,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="4">
-    <!--ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"-->
+        android:layout_weight="6">
         <ListView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    <!--/ScrollView-->
-
     </LinearLayout>
 
     <LinearLayout
@@ -50,12 +46,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_to_contacts"/>
-
-        <Button
-            android:id="@+id/buttonAddDrive"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ssssssssssssssss"/>
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/buttonStartDrive"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="@string/start_driving"/>
+            <Button
+                android:id="@+id/buttonEndDrive"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="@string/finish_driving"/>
+        </LinearLayout>
 
     </LinearLayout>
 

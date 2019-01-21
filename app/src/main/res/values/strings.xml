@@ -26,7 +26,7 @@
     <string name="Register">Register</string>
     <string name="log_in">log in</string>
     <string name="create_a_new_account_for_free">Create a new account now!</string>
-
+    <string name="name">name</string>
 
 
     <array name="nav_drawer_icons">
@@ -49,4 +49,13 @@
     <string name="add_to_contacts">add to contacts</string>
     <string name="your_drives">Your drives:</string>
     <string name="there_are_no_drives">There are no drives</string>
+    <string name="start_driving">Start driving</string>
+    <string name="finish_driving">Finish driving</string>
+    <string name="start_point">start point</string>
+    <string name="Have_a_nice_drive">Have a nice drive!</string>
+    <string name="failure_update_drive">We could not start the drive.</string>
+    <string name="please_finish_driving">Work status drive detected, please finish driving and then start another drive.</string>
+    <string name="failureEndDrive">No drive found with \"work\" status</string>
+    <string name="success_finish_drive">The drive is over, thank you</string>
+    <string name="no_drive_selected">No drive selected</string>
 </resources>

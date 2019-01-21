@@ -10,6 +10,7 @@ package com.project5779.javaproject2.model.datasource;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.BoringLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +24,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
+import com.project5779.javaproject2.R;
 import com.project5779.javaproject2.model.backend.BackEnd;
 import com.project5779.javaproject2.model.entities.Drive;
 import com.project5779.javaproject2.model.entities.Driver;
@@ -39,7 +41,7 @@ public class DataBaseFirebase implements BackEnd {
 
     //define the fields.
     private static DatabaseReference DriverRef;
-    private  static DatabaseReference DriveRef;
+    private static DatabaseReference DriveRef;
 
     private static ChildEventListener driveRefChildEventListener;
     private static ChildEventListener driverRefChildEventListener;
@@ -155,6 +157,7 @@ public class DataBaseFirebase implements BackEnd {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     Drive drive = dataSnapshot.getValue(Drive.class);
+                    drive.setKey(dataSnapshot.getKey());
                     driveList.add(drive);
                     notifyDataChange.onDataChange(driveList);
                 }
@@ -408,6 +411,61 @@ public class DataBaseFirebase implements BackEnd {
     @Override
     public List<Drive> getListDriveByPayment(int payment) {
         return null;
+    }
+
+    @Override
+    public void startDrive(Drive drive, final String driverID, final Action<String> action) {
+        List<Drive> listDrive = getListDriveByDriver(driverID);
+        for(Drive d : listDrive){
+            if(d.getState().equals(StateOfDrive.WORK)){
+                action.onFailure(new Exception(String.valueOf(R.string.please_finish_driving)));
+                break;
+            }
+        }
+        DriveRef.child(drive.getKey()).child("state").setValue(StateOfDrive.WORK);
+        DriveRef.child(drive.getKey()).child("driverID").setValue(driverID)
+        .addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+               action.onSuccess(driverID);
+            }
+
+        })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                action.onFailure(e);
+            }
+        });
+    }
+
+    public void endDrive(String driverID, final Action<String> action)
+    {
+        List<Drive> driveList = getListDriveByDriver(driverID);
+        Boolean inWorkExist = false;
+        for (Drive d : driveList){
+            if (d.getState().equals(StateOfDrive.WORK))
+            {
+                inWorkExist = true;
+                DriveRef.child(d.getKey()).child("state").setValue(StateOfDrive.FINISH)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                action.onSuccess(String.valueOf(R.string.success_finish_drive));
+                            }
+
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                action.onFailure(e);
+                            }
+                        });
+            }
+        }
+        if(!inWorkExist) {
+            action.onFailure(new Exception());
+        }
     }
 
     public void list_toDelete_after(){

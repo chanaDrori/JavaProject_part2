@@ -32,6 +32,16 @@
     <string name="title_section1">הצג נסיעות פנויות</string>
     <string name="title_section2">הצג את הנסיעות שלי</string>
     <string name="title_section3">התנתק</string>
+    <string name="start_driving">קבל נסיעה</string>
+    <string name="finish_driving">אשר סיום נסיעה</string>
+    <string name="name">שם</string>
+    <string name="start_point">נקודת התחלה</string>
+    <string name="Have_a_nice_drive">נסיעה טובה!</string>
+    <string name="failure_update_drive">לא ניתן לקבל את הנסיעה</string>
+    <string name="please_finish_driving">קיימת נסיעה שלא הסתיימה. אנא סיים אותה תחילה.</string>
+    <string name="failureEndDrive">לא נמצאה נסיעה בטיפול</string>
+    <string name="success_finish_drive">הנסיעה הסתיימה, תודה לך.</string>
+    <string name="no_drive_selected">No drive selected</string>
 
 
     <string-array name="nav_drawer_item">

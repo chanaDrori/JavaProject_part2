@@ -37,7 +37,7 @@ import static android.text.TextUtils.isEmpty;
  */
 public class Register extends Activity {
 
-    List<Driver> driverList = new ArrayList<>();
+    List<Driver> driverList;
 
     // the elements views
     private EditText EditTextFirstName;
@@ -64,27 +64,6 @@ public class Register extends Activity {
         setContentView(R.layout.activity_register);
         findViews();
         driverList  = BackEndFactory.getInstance(this).getDriverList();
-      //  BackEndFactory.getInstance(this).notifyToDriverList(new DataBaseFirebase.NotifyDataChange<List<Driver>>() {
-
-            /**
-             * onDataChange function. Work when the data change.
-             * @param obj List<Driver>.
-             */
-        //    @Override
-          //  public void onDataChange(List<Driver> obj) {
-            //    driverList = obj;
-//            }
-
-            /**
-             * onFailure function. work when failure notify
-             * @param exp exception
-             */
-//            @Override
-//            public void onFailure(Exception exp) {
-//                Toast.makeText(getBaseContext(), getString(R.string.Error_to_get_drivers_list)
-//                        + exp.toString(), Toast.LENGTH_LONG).show();
-//            }
-//        });
     }
 
     /**

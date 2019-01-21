@@ -11,6 +11,7 @@ import android.drm.DrmStore;
 import com.project5779.javaproject2.model.datasource.DataBaseFirebase;
 import com.project5779.javaproject2.model.entities.Drive;
 import com.project5779.javaproject2.model.entities.Driver;
+import com.project5779.javaproject2.model.entities.StateOfDrive;
 
 import java.util.Date;
 import java.util.List;
@@ -38,7 +39,8 @@ public interface BackEnd {
     public List<Drive> getListDriveByKM(int KM);
     public List<Drive> getListDriveByTime(String time);
     public List<Drive> getListDriveByPayment(int payment);
-
+    public void startDrive(Drive drive, String driverID, final Action<String> action);
+    public void endDrive(String driverID, final Action<String> action);
 
     public void stopNotifyToDriveList();
     public void stopNotifyToDriverList();

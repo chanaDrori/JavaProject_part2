@@ -148,7 +148,7 @@ public class LoginActivity extends Activity {
                 Driver user = null;
                 List<Driver> driverList =  BackEndFactory.getInstance(getBaseContext()).getDriverList();
                 /////////////////////////////////////////////////////
-                (new DataBaseFirebase()).list_toDelete_after();
+               // (new DataBaseFirebase()).list_toDelete_after();
                 List<Drive> driveDelete = BackEndFactory.getInstance(getBaseContext()).getDriveList();
                 ////////////////////////////////////////////////////////////
                 for (Driver driver : driverList) {

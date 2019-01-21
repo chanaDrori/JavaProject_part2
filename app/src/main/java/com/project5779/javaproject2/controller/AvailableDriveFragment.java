@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.OperationApplicationException;
@@ -20,6 +21,7 @@ import android.support.annotation.RequiresApi;
 //import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
@@ -62,7 +64,9 @@ import android.support.annotation.RequiresApi;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import com.project5779.javaproject2.R;
+import com.project5779.javaproject2.model.backend.BackEnd;
 import com.project5779.javaproject2.model.backend.BackEndFactory;
 import com.project5779.javaproject2.model.entities.Drive;
 import com.project5779.javaproject2.model.entities.Driver;
@@ -75,9 +79,12 @@ public class AvailableDriveFragment extends Fragment {
 
     private View myView;
     private List<Drive> driveList;
+    private Button startDriveButton;
+    private Button endDriveButton;
     private ListView listView;
     ArrayAdapter<Drive> adapter;
     List<String> listNamesDrivers;
+    private Drive checkedDrive;
 
     private SearchView searchView;
     private TextView detailDrive;
@@ -87,6 +94,7 @@ public class AvailableDriveFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         try {
+            checkedDrive = null;
             myView = inflater.inflate(R.layout.fragment_drive_available, container, false);
             driveList = BackEndFactory.getInstance(getActivity()).getListDriveAvailable();
             listView = (ListView) myView.findViewById(R.id.list_view);
@@ -94,22 +102,28 @@ public class AvailableDriveFragment extends Fragment {
             listView.setAdapter(adapter);
             ButtonAddToContact = myView.findViewById(R.id.ButtonAddToContact);
             detailDrive = myView.findViewById(R.id.textViewDetail);
+            startDriveButton = myView.findViewById(R.id.buttonStartDrive);
+            endDriveButton = myView.findViewById(R.id.buttonEndDrive);
             ButtonAddToContact.setEnabled(false);
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Drive clickDrive = (Drive) listView.getItemAtPosition(position);
-                    detailDrive.setText(clickDrive.getNameClient());
+                    checkedDrive = (Drive) listView.getItemAtPosition(position);
+                    String detail ="";
+                    detail += getString(R.string.name)+ ": "+ checkedDrive.getNameClient() + "\n"
+                            + getString(R.string.phone)+ ": " + checkedDrive.getPhoneClient() + "\n"
+                            + getString(R.string.start_point)+ ": " + checkedDrive.getStartPointString() +"\n";
+                    detailDrive.setText(detail);
                     ButtonAddToContact.setEnabled(true);
 
                     /////////////////////
                     try {
-                        clickDrive.getLocation(getActivity().getApplicationContext());
+                        checkedDrive.getLocation(myView.getContext());
                     }
                     catch (Exception exp)
                     {
-                        Toast.makeText( getActivity().getApplicationContext(), " למיקום"+ exp.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText( myView.getContext(), " למיקום"+ exp.toString(), Toast.LENGTH_LONG).show();
                     }
                     ////////////////////////////////
                 }
@@ -120,6 +134,58 @@ public class AvailableDriveFragment extends Fragment {
                 public void onClick(View v) {
                     AccessContact();
                     SaveContact((Drive) listView.getSelectedItem());
+                }
+            });
+
+            startDriveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (checkedDrive != null) {
+                        String driverID = getActivity().getIntent().getStringExtra(getString(R.string.id));
+                        BackEndFactory.getInstance(myView.getContext()).startDrive(checkedDrive, driverID, new BackEnd.Action<String>() {
+                            @Override
+                            public void onSuccess(String obj) {
+                                Toast.makeText(myView.getContext(), getString(R.string.Have_a_nice_drive), Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onFailure(Exception exp) {
+                                Toast.makeText(myView.getContext(), getString(R.string.failure_update_drive), Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onProgress(String status, double precent) {
+
+                            }
+                        });
+                        driveList = BackEndFactory.getInstance(getActivity()).getListDriveAvailable();
+                    }
+                    else {
+                        Toast.makeText(myView.getContext(), getString(R.string.no_drive_selected), Toast.LENGTH_LONG).show();;
+                    }
+                }
+            });
+
+            endDriveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String driverID = getActivity().getIntent().getStringExtra(getString(R.string.id));
+                    BackEndFactory.getInstance(myView.getContext()).endDrive(driverID, new BackEnd.Action<String>() {
+                        @Override
+                        public void onSuccess(String obj) {
+                            Toast.makeText(myView.getContext(), obj, Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onFailure(Exception exp) {
+                            Toast.makeText(myView.getContext(), getString(R.string.failureEndDrive), Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onProgress(String status, double precent) {
+
+                        }
+                    });
                 }
             });
 
@@ -146,10 +212,27 @@ public class AvailableDriveFragment extends Fragment {
         return myView;
     }
 
+//    @Override
+//    public void onResume() {
+//        driveList = BackEndFactory.getInstance(getActivity()).getListDriveAvailable();
+//        super.onResume();
+//    }
+
+    @Override
+    public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
+        driveList = BackEndFactory.getInstance(getActivity()).getListDriveAvailable();
+        super.onInflate(context, attrs, savedInstanceState);
+    }
+    //    @Override
+//    public void onStart() {
+//        driveList = BackEndFactory.getInstance(getActivity()).getListDriveAvailable();
+//        super.onStart();
+//    }
+
     /* From Android 6.0 Marshmallow,
-    the application will not be granted any permissions at installation time.
-    Instead, the application has to ask the user for permissions one-by-one at runtime
-    with an alert message. The developer has to call for it manually.*/
+        the application will not be granted any permissions at installation time.
+        Instead, the application has to ask the user for permissions one-by-one at runtime
+        with an alert message. The developer has to call for it manually.*/
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void AccessContact() {
         List<String> permissionsNeeded = new ArrayList<String>();
