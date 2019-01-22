@@ -17,6 +17,7 @@ import com.project5779.javaproject2.R;
 import com.project5779.javaproject2.model.backend.BackEndFactory;
 import com.project5779.javaproject2.model.entities.Drive;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DriveByDriverFragment extends Fragment {
@@ -56,12 +57,14 @@ public class DriveByDriverFragment extends Fragment {
 
     @Override
     public void onStart() {
+        driveList = new ArrayList<>();
         driveList = BackEndFactory.getInstance(getActivity()).getListDriveByDriver(driverID);
         super.onStart();
     }
 
     @Override
     public void onResume() {
+        driveList = new ArrayList<>();
         driveList = BackEndFactory.getInstance(getActivity()).getListDriveByDriver(driverID);
         super.onResume();
     }

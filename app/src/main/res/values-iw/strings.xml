@@ -42,6 +42,11 @@
     <string name="failureEndDrive">לא נמצאה נסיעה בטיפול</string>
     <string name="success_finish_drive">הנסיעה הסתיימה, תודה לך.</string>
     <string name="no_drive_selected">No drive selected</string>
+    <string name="cant_find_your_location">can\'t find your location</string>
+    <string name="select">Select</string>
+    <string name="sort_by_km">Sort by KM</string>
+    <string name="sort_by_city">Sort by city</string>
+    <string name="no_drive_selected_show">There are no drive selected to show</string>
 
 
     <string-array name="nav_drawer_item">

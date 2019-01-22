@@ -7,22 +7,41 @@
     android:orientation="vertical">
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_weight="1">
-    <SearchView
+    android:layout_height="0dp"
+    android:layout_weight="2"
+    android:orientation="vertical">
+    <Spinner
+        android:id="@+id/spinnerFilter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/search_view"
-        android:iconifiedByDefault="false"
-        android:padding="2dp"
-        android:queryHint="Search....">
-    </SearchView>
+        android:layout_margin="3dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:spinnerMode="dropdown">
+    </Spinner>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Spinner
+            android:id="@+id/spinnerCity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"/>
+        <NumberPicker
+            android:id="@+id/numberPickerKM"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
 </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="6">
+
         <ListView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
@@ -32,9 +51,9 @@
     <LinearLayout
         android:id="@+id/vis_drive"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:orientation="vertical"
-        android:layout_weight="2">
+        android:layout_weight="3">
 
         <TextView
             android:id="@+id/textViewDetail"

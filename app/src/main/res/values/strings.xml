@@ -6,7 +6,7 @@
     <string name="password">Password</string>
     <string name="enter">Login</string>
     <string name="remember_me_later">Remember me</string>
-    <string name="no_account_yet_create_one">No account yet? Create one <u>underline</u>.</string>
+    <string name="no_account_yet_create_one">No account yet? <u> Create one</u>.</string>
     <string name="first_name">first name</string>
     <string name="last_name">last name</string>
     <string name="id">ID</string>
@@ -55,7 +55,12 @@
     <string name="Have_a_nice_drive">Have a nice drive!</string>
     <string name="failure_update_drive">We could not start the drive.</string>
     <string name="please_finish_driving">Work status drive detected, please finish driving and then start another drive.</string>
-    <string name="failureEndDrive">No drive found with \"work\" status</string>
+    <string name="failureEndDrive">No drive found with work status</string>
     <string name="success_finish_drive">The drive is over, thank you</string>
     <string name="no_drive_selected">No drive selected</string>
+    <string name="cant_find_your_location">can\'t find your location</string>
+    <string name="select">Select</string>
+    <string name="sort_by_km">Sort by KM</string>
+    <string name="sort_by_city">Sort by city</string>
+    <string name="no_drive_selected_show">There are no drive selected to show</string>
 </resources>

@@ -1,94 +1,70 @@
 package com.project5779.javaproject2.controller;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.ContentProviderOperation;
-import android.content.ContentProviderResult;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.OperationApplicationException;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.location.Address;
 import android.location.Location;
-import android.location.LocationManager;
-import android.net.Uri;
-import android.os.Build;
-import android.os.RemoteException;
+import android.opengl.Visibility;
 import android.provider.ContactsContract;
-import android.support.annotation.RequiresApi;
 //import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.ActivityCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
-import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import android.Manifest;
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.ContextWrapper;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.ContentProviderOperation;
-import android.content.ContentProviderResult;
-import android.content.DialogInterface;
-import android.content.OperationApplicationException;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
-import android.os.RemoteException;
-import android.provider.ContactsContract;
-import android.support.annotation.RequiresApi;
-import java.util.ArrayList;
-import java.util.List;
 
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.project5779.javaproject2.R;
 import com.project5779.javaproject2.model.backend.BackEnd;
 import com.project5779.javaproject2.model.backend.BackEndFactory;
 import com.project5779.javaproject2.model.entities.Drive;
-import com.project5779.javaproject2.model.entities.Driver;
 
 
 public class AvailableDriveFragment extends Fragment {
 
-    final private int REQUEST_MULTIPLE_PERMISSIONS = 124;
-    final static String LOG_TAG = "MyTag";
+    private FusedLocationProviderClient mFusedLocationClient;
 
     private View myView;
-    private List<Drive> driveList;
     private Button startDriveButton;
     private Button endDriveButton;
     private ListView listView;
-    ArrayAdapter<Drive> adapter;
-    List<String> listNamesDrivers;
-    private Drive checkedDrive;
-
-    private SearchView searchView;
+    private Spinner spinnerFilter;
     private TextView detailDrive;
     private Button ButtonAddToContact;
+    private NumberPicker numberPickerKM;
+    private Spinner spinnerCity;
+
+    private List<Drive> driveList;
+    private ArrayAdapter<Drive> adapter;
+    private List<String> listNamesDrivers;
+    private Location driverLocation;
+    private String[] listSortBy;
+    private Drive checkedDrive;
 
     @Nullable
     @Override
@@ -96,89 +72,144 @@ public class AvailableDriveFragment extends Fragment {
         try {
             checkedDrive = null;
             myView = inflater.inflate(R.layout.fragment_drive_available, container, false);
-            driveList = BackEndFactory.getInstance(getActivity()).getListDriveAvailable();
-            listView = (ListView) myView.findViewById(R.id.list_view);
-            adapter = new ArrayAdapter<Drive>(this.getActivity(), android.R.layout.simple_expandable_list_item_1, driveList);
-            listView.setAdapter(adapter);
-            ButtonAddToContact = myView.findViewById(R.id.ButtonAddToContact);
-            detailDrive = myView.findViewById(R.id.textViewDetail);
-            startDriveButton = myView.findViewById(R.id.buttonStartDrive);
-            endDriveButton = myView.findViewById(R.id.buttonEndDrive);
-            ButtonAddToContact.setEnabled(false);
+            findViews();
 
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    checkedDrive = (Drive) listView.getItemAtPosition(position);
-                    String detail ="";
-                    detail += getString(R.string.name)+ ": "+ checkedDrive.getNameClient() + "\n"
-                            + getString(R.string.phone)+ ": " + checkedDrive.getPhoneClient() + "\n"
-                            + getString(R.string.start_point)+ ": " + checkedDrive.getStartPointString() +"\n";
-                    detailDrive.setText(detail);
-                    ButtonAddToContact.setEnabled(true);
+            //initialize driver location
+            setCurrentLocation();
 
-                    /////////////////////
-                    try {
-                        checkedDrive.getLocation(myView.getContext());
+        } catch (Exception exp) {
+            Toast.makeText(getActivity(), "ERROR", Toast.LENGTH_LONG).show();
+        }
+        return myView;
+    }
+
+    private void findViews(){
+        driveList = BackEndFactory.getInstance(getActivity()).getListDriveAvailable();
+        listView = (ListView) myView.findViewById(R.id.list_view);
+        ButtonAddToContact = (Button)myView.findViewById(R.id.ButtonAddToContact);
+        detailDrive = (TextView)myView.findViewById(R.id.textViewDetail);
+        startDriveButton = (Button)myView.findViewById(R.id.buttonStartDrive);
+        endDriveButton = (Button)myView.findViewById(R.id.buttonEndDrive);
+        spinnerFilter = (Spinner)myView.findViewById(R.id.spinnerFilter);
+        spinnerCity = (Spinner)myView.findViewById(R.id.spinnerCity);
+        numberPickerKM = (NumberPicker)myView.findViewById(R.id.numberPickerKM);
+
+        ButtonAddToContact.setEnabled(false);
+
+        adapter = new ArrayAdapter<Drive>(myView.getContext(), android.R.layout.simple_list_item_1, driveList);
+        listView.setAdapter(adapter);
+
+        numberPickerKM.setMinValue(1);
+        numberPickerKM.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+               // driveList = BackEndFactory.getInstance(myView.getContext()).getListDriveByKM(myView.getContext(), newVal, driverLocation);
+            }
+        });
+
+        //listSortBy = Arrays.asList(getString(R.string.select), getString(R.string.sort_by_km), getString(R.string.sort_by_city));
+        listSortBy = new String[]{getString(R.string.select), getString(R.string.sort_by_km), getString(R.string.sort_by_city)};
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>
+                (myView.getContext(), android.R.layout.simple_spinner_dropdown_item, listSortBy);
+        spinnerFilter.setAdapter(spinnerArrayAdapter);
+
+        spinnerFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0: {
+                        //driveList = BackEndFactory.getInstance(getContext()).getListDriveAvailable();
+                        spinnerCity.setEnabled(false);
+                        numberPickerKM.setEnabled(false);
+                        break;
                     }
-                    catch (Exception exp)
-                    {
-                        Toast.makeText( myView.getContext(), " למיקום"+ exp.toString(), Toast.LENGTH_LONG).show();
+                    case 1: {
+                        spinnerCity.setEnabled(false);
+                        numberPickerKM.setEnabled(true);
+                        break;
                     }
-                    ////////////////////////////////
-                }
-            });
-
-            ButtonAddToContact.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AccessContact();
-                    SaveContact((Drive) listView.getSelectedItem());
-                }
-            });
-
-            startDriveButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (checkedDrive != null) {
-                        String driverID = getActivity().getIntent().getStringExtra(getString(R.string.id));
-                        BackEndFactory.getInstance(myView.getContext()).startDrive(checkedDrive, driverID, new BackEnd.Action<String>() {
-                            @Override
-                            public void onSuccess(String obj) {
-                                Toast.makeText(myView.getContext(), getString(R.string.Have_a_nice_drive), Toast.LENGTH_LONG).show();
-                            }
-
-                            @Override
-                            public void onFailure(Exception exp) {
-                                Toast.makeText(myView.getContext(), getString(R.string.failure_update_drive), Toast.LENGTH_LONG).show();
-                            }
-
-                            @Override
-                            public void onProgress(String status, double precent) {
-
-                            }
-                        });
-                        driveList = BackEndFactory.getInstance(getActivity()).getListDriveAvailable();
-                    }
-                    else {
-                        Toast.makeText(myView.getContext(), getString(R.string.no_drive_selected), Toast.LENGTH_LONG).show();;
+                    case 2: {
+                        spinnerCity.setEnabled(true);
+                        numberPickerKM.setEnabled(false);
+                        break;
                     }
                 }
-            });
+            }
 
-            endDriveButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+//        listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                try {
+//                    checkedDrive = (Drive) listView.getItemAtPosition(position);
+//                    String detail = "";
+//                    detail += getString(R.string.name) + ": " + checkedDrive.getNameClient() + "\n"
+//                            + getString(R.string.phone) + ": " + checkedDrive.getPhoneClient() + "\n"
+//                            + getString(R.string.start_point) + ": " + checkedDrive.getStartPointString() + "\n";
+//                    detailDrive.setText(detail);
+//                    ButtonAddToContact.setEnabled(true);
+//                }
+//                catch (Exception e){
+//                    Toast.makeText(myView.getContext(), e.toString(), Toast.LENGTH_LONG).show();
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//               // detailDrive.setText(R.string.no_drive_selected_show);
+//            }
+ //       });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                checkedDrive = (Drive) listView.getItemAtPosition(position);
+                String detail ="";
+                detail += getString(R.string.name)+ ": "+ checkedDrive.getNameClient() + "\n"
+                        + getString(R.string.phone)+ ": " + checkedDrive.getPhoneClient() + "\n"
+                        + getString(R.string.start_point)+ ": " + checkedDrive.getStartPointString() +"\n";
+                detailDrive.setText(detail);
+                ButtonAddToContact.setEnabled(true);
+            }
+        });
+
+        ButtonAddToContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(checkedDrive != null) {
+                    Intent intentContact = new Intent(Intent.ACTION_INSERT);
+                    intentContact.setType(ContactsContract.Contacts.CONTENT_TYPE);
+
+                    intentContact.putExtra(ContactsContract.Intents.Insert.NAME, checkedDrive.getNameClient());
+                    intentContact.putExtra(ContactsContract.Intents.Insert.PHONE, checkedDrive.getPhoneClient());
+                    startActivity(intentContact);
+
+                }
+                else{
+                    Toast.makeText(myView.getContext(), getString(R.string.no_drive_selected), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        startDriveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkedDrive != null) {
                     String driverID = getActivity().getIntent().getStringExtra(getString(R.string.id));
-                    BackEndFactory.getInstance(myView.getContext()).endDrive(driverID, new BackEnd.Action<String>() {
+                    BackEndFactory.getInstance(myView.getContext()).startDrive(checkedDrive, driverID, new BackEnd.Action<String>() {
                         @Override
                         public void onSuccess(String obj) {
-                            Toast.makeText(myView.getContext(), obj, Toast.LENGTH_LONG).show();
+                            Toast.makeText(myView.getContext(), getString(R.string.Have_a_nice_drive), Toast.LENGTH_LONG).show();
                         }
 
                         @Override
                         public void onFailure(Exception exp) {
-                            Toast.makeText(myView.getContext(), getString(R.string.failureEndDrive), Toast.LENGTH_LONG).show();
+                            Toast.makeText(myView.getContext(), getString(R.string.failure_update_drive), Toast.LENGTH_LONG).show();
                         }
 
                         @Override
@@ -186,30 +217,60 @@ public class AvailableDriveFragment extends Fragment {
 
                         }
                     });
+                    driveList = BackEndFactory.getInstance(getActivity()).getListDriveAvailable();
+                } else {
+                    Toast.makeText(myView.getContext(), getString(R.string.no_drive_selected), Toast.LENGTH_LONG).show();
                 }
-            });
+            }
+        });
 
+        endDriveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String driverID = getActivity().getIntent().getStringExtra(getString(R.string.id));
+                BackEndFactory.getInstance(myView.getContext()).endDrive(driverID, new BackEnd.Action<String>() {
+                    @Override
+                    public void onSuccess(String obj) {
+                        Toast.makeText(myView.getContext(), obj, Toast.LENGTH_LONG).show();
+                    }
 
-            /*
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    return false;
-                }
+                    @Override
+                    public void onFailure(Exception exp) {
+                        Toast.makeText(myView.getContext(), getString(R.string.failureEndDrive), Toast.LENGTH_LONG).show();
+                    }
 
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    adapter.getFilter().filter(newText);
-                    adapter.notifyDataSetChanged();
-                    return false;
-                }
-            });
-            */
+                    @Override
+                    public void onProgress(String status, double precent) {
 
-        } catch (Exception exp) {
-            Toast.makeText(getActivity(), "ERROR", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
+    }
+
+    private void setCurrentLocation(){
+
+        if (ActivityCompat.checkSelfPermission(myView.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(myView.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]
+                    {android.Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
-        return myView;
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        mFusedLocationClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+            @SuppressLint("setTextI18n")
+            @Override
+            public void onSuccess(Location _location) {
+                // Got last known location. In some rare situations this can be null.
+                if (_location != null) {
+                    List<Address> addresses;
+                    //save the location
+                    driverLocation = _location;
+                } else {
+                    Toast.makeText(myView.getContext(), R.string.cant_find_your_location,Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
 //    @Override
@@ -218,165 +279,10 @@ public class AvailableDriveFragment extends Fragment {
 //        super.onResume();
 //    }
 
-    @Override
-    public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
-        driveList = BackEndFactory.getInstance(getActivity()).getListDriveAvailable();
-        super.onInflate(context, attrs, savedInstanceState);
-    }
-    //    @Override
-//    public void onStart() {
+//    @Override
+//    public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
 //        driveList = BackEndFactory.getInstance(getActivity()).getListDriveAvailable();
-//        super.onStart();
+//        super.onInflate(context, attrs, savedInstanceState);
 //    }
-
-    /* From Android 6.0 Marshmallow,
-        the application will not be granted any permissions at installation time.
-        Instead, the application has to ask the user for permissions one-by-one at runtime
-        with an alert message. The developer has to call for it manually.*/
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void AccessContact() {
-        List<String> permissionsNeeded = new ArrayList<String>();
-        final List<String> permissionsList = new ArrayList<String>();
-        if (!addPermission(permissionsList, Manifest.permission.READ_CONTACTS))
-            permissionsNeeded.add("Read Contacts");
-        if (!addPermission(permissionsList, Manifest.permission.WRITE_CONTACTS))
-            permissionsNeeded.add("Write Contacts");
-        if (permissionsList.size() > 0) {
-            if (permissionsNeeded.size() > 0) {
-                String message = "You need to grant access to " + permissionsNeeded.get(0);
-                for (int i = 1; i < permissionsNeeded.size(); i++)
-                    message = message + ", " + permissionsNeeded.get(i);
-                showMessageOKCancel(message,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
-                                        REQUEST_MULTIPLE_PERMISSIONS);
-                            }
-                        });
-                return;
-            }
-            requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
-                    REQUEST_MULTIPLE_PERMISSIONS);
-            return;
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private boolean addPermission(List<String> permissionsList, String permission) {
-        if (ContextCompat.checkSelfPermission(getActivity(), permission) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-        permissionsList.add(permission);
-
-        if (!shouldShowRequestPermissionRationale(permission))
-            return false;
-        return true;
-    }
-
-    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(getActivity())
-                .setMessage(message)
-                .setPositiveButton("OK", okListener)
-                .setNegativeButton("Cancel", null)
-                .create()
-                .show();
-    }
-
-    public void SaveContact(Drive drive) {
-
-        //Read contact image (in resources) to byte array
-        //Drawable dimg = getResources().getDrawable(R.drawable.face);
-        /*Bitmap bitmapOrg = BitmapFactory.decodeResource(getResources(), R.drawable.face);
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmapOrg.compress(Bitmap.CompressFormat.JPEG , 100, stream);*/
-
-        //Create a new contact entry!
-        String szFullname = drive.getNameClient();
-        //https://developer.android.com/reference/android/provider/ContactsContract.RawContacts
-        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
-        int rawContactInsertIndex = ops.size();
-
-        ops.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
-                .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
-                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
-                .build());
-        //INSERT NAME
-        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID,rawContactInsertIndex)
-                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
-                .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, szFullname) // Name of the person
-                //.withValue(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME, "Abu") // Name of the person
-                .withValue(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, drive.getNameClient()) // Name of the person
-                .build());
-        //INSERT PHONE
-        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID,   rawContactInsertIndex)
-                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
-                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, drive.getPhoneClient() ) // Number of the person
-                .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_WORK)
-                .build()); //
-        //INSERT EMAIL
-        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID,   rawContactInsertIndex)
-                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)
-                .withValue(ContactsContract.CommonDataKinds.Email.DATA, drive.getEmailClient())
-                .withValue(ContactsContract.CommonDataKinds.Email.TYPE, ContactsContract.CommonDataKinds.Email.TYPE_WORK)
-                .build()); //
-
-      /*//INSERT ADDRESS: FULL, STREET, CITY, REGION, POSTCODE, COUNTRY
-        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactInsertIndex)
-                .withValue(ContactsContract.Data.MIMETYPE,ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE)
-                .withValue(ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS, m_szAddress)
-                .withValue(ContactsContract.CommonDataKinds.StructuredPostal.TYPE, ContactsContract.CommonDataKinds.StructuredPostal.TYPE_WORK)
-                .withValue(ContactsContract.CommonDataKinds.StructuredPostal.STREET, m_szStreet)
-                .withValue(ContactsContract.CommonDataKinds.StructuredPostal.CITY, m_szCity)
-                .withValue(ContactsContract.CommonDataKinds.StructuredPostal.REGION, m_szState)
-                .withValue(ContactsContract.CommonDataKinds.StructuredPostal.POSTCODE, m_szZip)
-                .withValue(ContactsContract.CommonDataKinds.StructuredPostal.COUNTRY, m_szCountry)
-                //.withValue(StructuredPostal.TYPE, StructuredPostal.TYPE_WORK)
-                .build());*/
-        /*//INSERT NOTE
-        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID,   rawContactInsertIndex)
-                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Note.CONTENT_ITEM_TYPE)
-                .withValue(ContactsContract.CommonDataKinds.Note.NOTE, m_szText)
-                .build()); //*/
-        //Add a custom colomn to identify this contact
-
-        // SAVE CONTACT IN BCR Structure
-        Uri newContactUri = null;
-        //PUSH EVERYTHING TO CONTACTS
-        try
-        {
-            ContentProviderResult[] res = getActivity().getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
-            if (res!=null && res[0]!=null) {
-                newContactUri = res[0].uri;
-                //02-20 22:21:09 URI added contact:content://com.android.contacts/raw_contacts/612
-                Log.d(LOG_TAG, "URI added contact:"+ newContactUri);
-            }
-            else Log.e(LOG_TAG, "Contact not added.");
-        }
-        catch (RemoteException e)
-        {
-            // error
-            Log.e(LOG_TAG, "Error (1) adding contact.");
-            newContactUri = null;
-        }
-        catch (OperationApplicationException e)
-        {
-            // error
-            Log.e(LOG_TAG, "Error (2) adding contact.");
-            newContactUri = null;
-        }
-        Log.d(LOG_TAG, "Contact added to system contacts.");
-
-        if (newContactUri == null) {
-            Log.e(LOG_TAG, "Error creating contact");
-
-        }
-
-    }
 
 }

@@ -6,7 +6,9 @@
  */
 package com.project5779.javaproject2.model.backend;
 
+import android.content.Context;
 import android.drm.DrmStore;
+import android.location.Location;
 
 import com.project5779.javaproject2.model.datasource.DataBaseFirebase;
 import com.project5779.javaproject2.model.entities.Drive;
@@ -36,7 +38,7 @@ public interface BackEnd {
     public List<Drive> getListDriveAvailable();
     public List<Drive> getListDriveByDriver(String id);
     public List<Drive> getListDriveByTarget(String city);
-    public List<Drive> getListDriveByKM(int KM);
+    public List<Drive> getListDriveByKM(Context context, int KM, Location driverLocation);
     public List<Drive> getListDriveByTime(String time);
     public List<Drive> getListDriveByPayment(int payment);
     public void startDrive(Drive drive, String driverID, final Action<String> action);
