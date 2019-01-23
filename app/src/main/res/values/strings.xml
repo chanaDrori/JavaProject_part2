@@ -63,4 +63,7 @@
     <string name="sort_by_km">Sort by KM</string>
     <string name="sort_by_city">Sort by city</string>
     <string name="no_drive_selected_show">There are no drive selected to show</string>
+    <string name="select_distance">Select distance from you ( in KM)</string>
+    <string name="Can_not_get">Can not get</string>
+    <string name="cities">cities</string>
 </resources>

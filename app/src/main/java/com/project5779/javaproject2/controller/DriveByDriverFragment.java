@@ -57,15 +57,15 @@ public class DriveByDriverFragment extends Fragment {
 
     @Override
     public void onStart() {
-        driveList = new ArrayList<>();
-        driveList = BackEndFactory.getInstance(getActivity()).getListDriveByDriver(driverID);
+//        driveList = new ArrayList<>();
+//        driveList = BackEndFactory.getInstance(getActivity()).getListDriveByDriver(driverID);
         super.onStart();
     }
 
     @Override
     public void onResume() {
-        driveList = new ArrayList<>();
-        driveList = BackEndFactory.getInstance(getActivity()).getListDriveByDriver(driverID);
+//        driveList = new ArrayList<>();
+//        driveList = BackEndFactory.getInstance(getActivity()).getListDriveByDriver(driverID);
         super.onResume();
     }
 }

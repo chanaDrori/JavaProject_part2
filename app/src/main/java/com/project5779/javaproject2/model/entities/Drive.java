@@ -248,7 +248,7 @@ public class Drive {
 
         Drive drive = (Drive) obj;
         return (//this.startPoint.equals(drive.getStartPoint()) &&
-                this.state.equals( drive.getState()) &&
+                //this.state.equals( drive.getState()) &&
                 //this.endPoint.equals(drive.getEndPoint()) &&
                 this.emailClient.equals(drive.getEmailClient()) &&
                 //this.endTime.equals(drive.getEndTime()) &&
@@ -274,7 +274,7 @@ public class Drive {
         Geocoder gc = new Geocoder(context, Locale.getDefault());
         Location locationA = null;
         if(gc.isPresent()){
-            List<Address> list = gc.getFromLocationName("1600 Amphitheatre Parkway, Mountain View, CA", 1);
+            List<Address> list = gc.getFromLocationName(getStartPointString(), 1);
             Address address = list.get(0);
             double lat = address.getLatitude();
             double lng = address.getLongitude();

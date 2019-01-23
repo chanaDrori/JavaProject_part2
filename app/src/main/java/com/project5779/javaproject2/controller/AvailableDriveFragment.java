@@ -2,12 +2,15 @@ package com.project5779.javaproject2.controller;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Location;
 import android.opengl.Visibility;
+import android.os.AsyncTask;
 import android.provider.ContactsContract;
 //import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +31,7 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.SearchView;
@@ -58,6 +62,7 @@ public class AvailableDriveFragment extends Fragment {
     private Button ButtonAddToContact;
     private NumberPicker numberPickerKM;
     private Spinner spinnerCity;
+    private Button buttonSearch;
 
     private List<Drive> driveList;
     private ArrayAdapter<Drive> adapter;
@@ -65,6 +70,8 @@ public class AvailableDriveFragment extends Fragment {
     private Location driverLocation;
     private String[] listSortBy;
     private Drive checkedDrive;
+    private ArrayAdapter<String> cityAdapter;
+    private List<String> cities;
 
     @Nullable
     @Override
@@ -93,6 +100,7 @@ public class AvailableDriveFragment extends Fragment {
         spinnerFilter = (Spinner)myView.findViewById(R.id.spinnerFilter);
         spinnerCity = (Spinner)myView.findViewById(R.id.spinnerCity);
         numberPickerKM = (NumberPicker)myView.findViewById(R.id.numberPickerKM);
+        buttonSearch = (Button)myView.findViewById(R.id.buttonSearch);
 
         ButtonAddToContact.setEnabled(false);
 
@@ -100,14 +108,16 @@ public class AvailableDriveFragment extends Fragment {
         listView.setAdapter(adapter);
 
         numberPickerKM.setMinValue(1);
-        numberPickerKM.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+        numberPickerKM.setMaxValue(300);
+
+        buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-               // driveList = BackEndFactory.getInstance(myView.getContext()).getListDriveByKM(myView.getContext(), newVal, driverLocation);
-            }
+            public void onClick(View v) {
+                Toast.makeText(myView.getContext(),"selected number " + numberPickerKM.getValue(), Toast.LENGTH_SHORT).show();
+                new getDriveFilter().execute();
+                }
         });
 
-        //listSortBy = Arrays.asList(getString(R.string.select), getString(R.string.sort_by_km), getString(R.string.sort_by_city));
         listSortBy = new String[]{getString(R.string.select), getString(R.string.sort_by_km), getString(R.string.sort_by_city)};
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>
                 (myView.getContext(), android.R.layout.simple_spinner_dropdown_item, listSortBy);
@@ -142,29 +152,10 @@ public class AvailableDriveFragment extends Fragment {
             }
         });
 
-//        listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                try {
-//                    checkedDrive = (Drive) listView.getItemAtPosition(position);
-//                    String detail = "";
-//                    detail += getString(R.string.name) + ": " + checkedDrive.getNameClient() + "\n"
-//                            + getString(R.string.phone) + ": " + checkedDrive.getPhoneClient() + "\n"
-//                            + getString(R.string.start_point) + ": " + checkedDrive.getStartPointString() + "\n";
-//                    detailDrive.setText(detail);
-//                    ButtonAddToContact.setEnabled(true);
-//                }
-//                catch (Exception e){
-//                    Toast.makeText(myView.getContext(), e.toString(), Toast.LENGTH_LONG).show();
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//               // detailDrive.setText(R.string.no_drive_selected_show);
-//            }
- //       });
+        cities = BackEndFactory.getInstance(myView.getContext()).cityOfDrive(myView.getContext());
+        cityAdapter = new ArrayAdapter<>(myView.getContext(), android.R.layout.simple_spinner_dropdown_item, cities);
+        spinnerCity.setAdapter(cityAdapter);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -284,5 +275,29 @@ public class AvailableDriveFragment extends Fragment {
 //        driveList = BackEndFactory.getInstance(getActivity()).getListDriveAvailable();
 //        super.onInflate(context, attrs, savedInstanceState);
 //    }
+
+    @SuppressLint("StaticFieldLeak")
+    public class getDriveFilter extends AsyncTask<Void, Void, List<Drive>>{
+
+
+        @Override
+        protected List<Drive> doInBackground(Void... aVoid) {
+            if (spinnerFilter.getSelectedItem().toString().equals(getString(R.string.sort_by_city))) {
+                return  BackEndFactory.getInstance(myView.getContext()).
+                        getListDriveByTarget(spinnerCity.getSelectedItem().toString());
+            }
+            else if (spinnerFilter.getSelectedItem().toString().equals(getString(R.string.sort_by_km)) ) {
+                return BackEndFactory.getInstance(myView.getContext()).
+                        getListDriveByKM(myView.getContext(), numberPickerKM.getValue(), driverLocation);
+            } else
+                return driveList;
+        }
+
+        @Override
+        protected void onPostExecute(List<Drive> updateDriveList) {
+            adapter = new ArrayAdapter<Drive>(myView.getContext(), android.R.layout.simple_list_item_1, updateDriveList);
+            listView.setAdapter(adapter);
+        }
+    }
 
 }

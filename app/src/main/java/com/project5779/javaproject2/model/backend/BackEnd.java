@@ -41,6 +41,7 @@ public interface BackEnd {
     public List<Drive> getListDriveByKM(Context context, int KM, Location driverLocation);
     public List<Drive> getListDriveByTime(String time);
     public List<Drive> getListDriveByPayment(int payment);
+    public List<String> cityOfDrive(Context context);
     public void startDrive(Drive drive, String driverID, final Action<String> action);
     public void endDrive(String driverID, final Action<String> action);
 

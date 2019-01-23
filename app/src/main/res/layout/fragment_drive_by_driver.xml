@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/yellow"
     android:orientation="vertical">
 
     <TextView
@@ -8,8 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textSize="30sp"
-        android:text="@string/your_drives" />
+        style="@style/myTextStyle"
+        android:text="@string/your_drives"/>
 
     <ListView
         android:id="@+id/list_view"
@@ -18,11 +19,12 @@
 
     <TextView
         android:id="@+id/TextViewWithoutDrives"
-        android:layout_width="match_parent"
+        style="@style/myTextStyle"
         android:layout_height="wrap_content"
         android:visibility="invisible"
         android:text="@string/there_are_no_drives"
-        android:layout_gravity="center"
-        android:textSize="30sp"
-        android:layout_margin="15dp"/>
+        android:layout_width="wrap_content"
+        android:layout_gravity="start"
+        android:layout_margin="10dp"
+        android:layout_marginTop="25dp"/>
 </LinearLayout>
