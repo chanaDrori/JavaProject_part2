@@ -277,14 +277,6 @@ public class Register extends Activity {
 
     }
 
-    /**
-     * onDestroy function. Sent to  DataBaseFirebase.stopNotifyToDriverList();
-     */
-    @Override
-    protected void onDestroy() {
-        //BackEndFactory.getInstance(this).stopNotifyToDriverList();
-        super.onDestroy();
-    }
 
 
 }
