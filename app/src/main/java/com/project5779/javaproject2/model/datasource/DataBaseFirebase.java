@@ -364,15 +364,27 @@ public class DataBaseFirebase implements BackEnd {
         return  driveByDriver;
     }
 
-    public List<String> cityOfDrive(Context context){
+    private String getCity(Drive drive, Context context)throws Exception {
+        Geocoder gcd = new Geocoder(context, Locale.getDefault());
+        List<Address> addresses = gcd.getFromLocation(drive.getLat(context), drive.getLon(context), 1);
+        if (addresses.size() > 0)
+            return addresses.get(0).getLocality();
+        return null;
+    }
+
+    public List<String> ListCitiesOfDrive(Context context){
         List<String> cities = new ArrayList<>();
         int countError = 0;
         for(Drive d:driveList) {
             try {
-                Geocoder gcd = new Geocoder(context, Locale.getDefault());
-                List<Address> addresses = gcd.getFromLocation(d.getLat(context), d.getLon(context), 1);
-                if (addresses.size() > 0 && ! cities.contains(addresses.get(0).getLocality())) {
-                    cities.add(addresses.get(0).getLocality());
+//                Geocoder gcd = new Geocoder(context, Locale.getDefault());
+//                List<Address> addresses = gcd.getFromLocation(d.getLat(context), d.getLon(context), 1);
+//                if (addresses.size() > 0 && ! cities.contains(addresses.get(0).getLocality())) {
+//                    cities.add(addresses.get(0).getLocality());
+//                }
+                String city = getCity(d, context);
+                if(city != null && !cities.contains(city)){
+                    cities.add(city);
                 }
             } catch (Exception ex) {
                   countError++;
@@ -390,11 +402,18 @@ public class DataBaseFirebase implements BackEnd {
      * @return List<Drive>
      */
     @Override
-    public List<Drive> getListDriveByTarget(String city) {
+    public List<Drive> getListDriveByTarget(Context context, String city) {
        List<Drive> driveByCity = new ArrayList<>();
-       for(Drive d : driveList){
-           if(d.getStartPointString().contains(city)){
-               driveByCity.add(d);
+       for(Drive d : driveList) {
+           try {
+//               Geocoder gcd = new Geocoder(context, Locale.getDefault());
+//               List<Address> addresses = gcd.getFromLocation(d.getLat(context), d.getLon(context), 1);
+               if(getCity(d, context) != null && getCity(d, context).equals(city)) {
+                   driveByCity.add(d);
+               }
+           } catch (Exception ex) {
+               Toast.makeText(context,
+                       context.getString(R.string.Can_not_get) + context.getString(R.string.cities), Toast.LENGTH_SHORT).show();
            }
        }
         return driveByCity;

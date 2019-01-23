@@ -2,39 +2,28 @@ package com.project5779.javaproject2.controller;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Location;
-import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
 //import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.util.AttributeSet;
 import android.view.View;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import android.app.Fragment;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.NumberPicker;
-import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,7 +54,7 @@ public class AvailableDriveFragment extends Fragment {
     private Button buttonSearch;
 
     private List<Drive> driveList;
-    private ArrayAdapter<Drive> adapter;
+    private ArrayAdapter<Drive> driveAdapter;
     private List<String> listNamesDrivers;
     private Location driverLocation;
     private String[] listSortBy;
@@ -104,8 +93,8 @@ public class AvailableDriveFragment extends Fragment {
 
         ButtonAddToContact.setEnabled(false);
 
-        adapter = new ArrayAdapter<Drive>(myView.getContext(), android.R.layout.simple_list_item_1, driveList);
-        listView.setAdapter(adapter);
+        driveAdapter = new ArrayAdapter<Drive>(myView.getContext(), android.R.layout.simple_list_item_1, driveList);
+        listView.setAdapter(driveAdapter);
 
         numberPickerKM.setMinValue(1);
         numberPickerKM.setMaxValue(300);
@@ -113,9 +102,8 @@ public class AvailableDriveFragment extends Fragment {
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(myView.getContext(),"selected number " + numberPickerKM.getValue(), Toast.LENGTH_SHORT).show();
                 new getDriveFilter().execute();
-                }
+            }
         });
 
         listSortBy = new String[]{getString(R.string.select), getString(R.string.sort_by_km), getString(R.string.sort_by_city)};
@@ -128,7 +116,6 @@ public class AvailableDriveFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0: {
-                        //driveList = BackEndFactory.getInstance(getContext()).getListDriveAvailable();
                         spinnerCity.setEnabled(false);
                         numberPickerKM.setEnabled(false);
                         break;
@@ -152,7 +139,7 @@ public class AvailableDriveFragment extends Fragment {
             }
         });
 
-        cities = BackEndFactory.getInstance(myView.getContext()).cityOfDrive(myView.getContext());
+        cities = BackEndFactory.getInstance(myView.getContext()).ListCitiesOfDrive(myView.getContext());
         cityAdapter = new ArrayAdapter<>(myView.getContext(), android.R.layout.simple_spinner_dropdown_item, cities);
         spinnerCity.setAdapter(cityAdapter);
 
@@ -208,7 +195,7 @@ public class AvailableDriveFragment extends Fragment {
 
                         }
                     });
-                    driveList = BackEndFactory.getInstance(getActivity()).getListDriveAvailable();
+                    new getDriveFilter().execute();
                 } else {
                     Toast.makeText(myView.getContext(), getString(R.string.no_drive_selected), Toast.LENGTH_LONG).show();
                 }
@@ -222,7 +209,7 @@ public class AvailableDriveFragment extends Fragment {
                 BackEndFactory.getInstance(myView.getContext()).endDrive(driverID, new BackEnd.Action<String>() {
                     @Override
                     public void onSuccess(String obj) {
-                        Toast.makeText(myView.getContext(), obj, Toast.LENGTH_LONG).show();
+                        Toast.makeText(myView.getContext(), R.string.the_drive_finish, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -235,7 +222,9 @@ public class AvailableDriveFragment extends Fragment {
 
                     }
                 });
+
             }
+
         });
     }
 
@@ -279,12 +268,11 @@ public class AvailableDriveFragment extends Fragment {
     @SuppressLint("StaticFieldLeak")
     public class getDriveFilter extends AsyncTask<Void, Void, List<Drive>>{
 
-
         @Override
         protected List<Drive> doInBackground(Void... aVoid) {
             if (spinnerFilter.getSelectedItem().toString().equals(getString(R.string.sort_by_city))) {
                 return  BackEndFactory.getInstance(myView.getContext()).
-                        getListDriveByTarget(spinnerCity.getSelectedItem().toString());
+                        getListDriveByTarget(myView.getContext(), spinnerCity.getSelectedItem().toString());
             }
             else if (spinnerFilter.getSelectedItem().toString().equals(getString(R.string.sort_by_km)) ) {
                 return BackEndFactory.getInstance(myView.getContext()).
@@ -295,8 +283,8 @@ public class AvailableDriveFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<Drive> updateDriveList) {
-            adapter = new ArrayAdapter<Drive>(myView.getContext(), android.R.layout.simple_list_item_1, updateDriveList);
-            listView.setAdapter(adapter);
+            driveAdapter = new ArrayAdapter<Drive>(myView.getContext(), android.R.layout.simple_list_item_1, updateDriveList);
+            listView.setAdapter(driveAdapter);
         }
     }
 

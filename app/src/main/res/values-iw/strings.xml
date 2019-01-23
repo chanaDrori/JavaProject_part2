@@ -50,6 +50,7 @@
     <string name="select_distance">Select distance from you ( in KM)</string>
     <string name="Can_not_get">Can not get</string>
     <string name="cities">cities</string>
+    <string name="the_drive_finish">The drive finish</string>
 
 
     <string-array name="nav_drawer_item">

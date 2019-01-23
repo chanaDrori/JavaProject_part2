@@ -50,7 +50,7 @@ public class DriveByDriverFragment extends Fragment {
 
     @Override
     public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
-        driveList = BackEndFactory.getInstance(getActivity()).getListDriveByDriver(driverID);
+       // driveList = BackEndFactory.getInstance(getActivity()).getListDriveByDriver(driverID);
         super.onInflate(context, attrs, savedInstanceState);
     }
 

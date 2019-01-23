@@ -37,13 +37,14 @@ public interface BackEnd {
     public void addDriver(Driver driver, final Action<String> action);
     public List<Drive> getListDriveAvailable();
     public List<Drive> getListDriveByDriver(String id);
-    public List<Drive> getListDriveByTarget(String city);
+    public List<Drive> getListDriveByTarget(Context context, String city);
     public List<Drive> getListDriveByKM(Context context, int KM, Location driverLocation);
     public List<Drive> getListDriveByTime(String time);
     public List<Drive> getListDriveByPayment(int payment);
-    public List<String> cityOfDrive(Context context);
+    public List<String> ListCitiesOfDrive(Context context);
     public void startDrive(Drive drive, String driverID, final Action<String> action);
     public void endDrive(String driverID, final Action<String> action);
+
 
     public void stopNotifyToDriveList();
     public void stopNotifyToDriverList();
