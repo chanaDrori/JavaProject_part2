@@ -51,6 +51,10 @@
     <string name="Can_not_get">Can not get</string>
     <string name="cities">cities</string>
     <string name="the_drive_finish">The drive finish</string>
+    <string name="location_services_impossible">Access to your location is not possible. Please check your location services and try again.</string>
+    <string name="Start_time">Start time</string>
+    <string name="New_drive_received">New drive received</string>
+    <string name="notifiction_text_new_drive">Added a new ride. You can launch the application and start driving</string>
 
 
     <string-array name="nav_drawer_item">

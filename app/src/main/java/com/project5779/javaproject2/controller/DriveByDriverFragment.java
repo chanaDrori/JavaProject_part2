@@ -48,24 +48,24 @@ public class DriveByDriverFragment extends Fragment {
         return myView;
     }
 
-    @Override
-    public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
-       // driveList = BackEndFactory.getInstance(getActivity()).getListDriveByDriver(driverID);
-        super.onInflate(context, attrs, savedInstanceState);
-    }
-
-
-    @Override
-    public void onStart() {
-//        driveList = new ArrayList<>();
-//        driveList = BackEndFactory.getInstance(getActivity()).getListDriveByDriver(driverID);
-        super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-//        driveList = new ArrayList<>();
-//        driveList = BackEndFactory.getInstance(getActivity()).getListDriveByDriver(driverID);
-        super.onResume();
-    }
+//    @Override
+//    public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
+//       // driveList = BackEndFactory.getInstance(getActivity()).getListDriveByDriver(driverID);
+//        super.onInflate(context, attrs, savedInstanceState);
+//    }
+//
+//
+//    @Override
+//    public void onStart() {
+////        driveList = new ArrayList<>();
+////        driveList = BackEndFactory.getInstance(getActivity()).getListDriveByDriver(driverID);
+//        super.onStart();
+//    }
+//
+//    @Override
+//    public void onResume() {
+////        driveList = new ArrayList<>();
+////        driveList = BackEndFactory.getInstance(getActivity()).getListDriveByDriver(driverID);
+//        super.onResume();
+//    }
 }

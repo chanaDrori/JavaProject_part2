@@ -15,8 +15,7 @@
         android:layout_height="wrap_content"
         android:text="@string/create_a_new_account_for_free"
         android:textColor="@color/yellow"
-        android:textSize="30sp"
-        android:fontFamily="casual"
+        style="@style/myTextStyle"
         android:layout_gravity="center"/>
     <LinearLayout
         android:orientation="vertical"

@@ -267,7 +267,7 @@ public class Drive {
 
     @Override
     public String toString() {
-        return this.getStartTime() + " " +this.getStartPointString();
+        return this.getStartPointString() + ", " +this.getStartTime();
     }
 
     public Location getLocation(Context context) throws Exception {

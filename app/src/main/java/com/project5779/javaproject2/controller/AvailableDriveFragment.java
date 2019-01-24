@@ -62,14 +62,16 @@ public class AvailableDriveFragment extends Fragment {
     private ArrayAdapter<String> cityAdapter;
     private List<String> cities;
 
+    private BackEnd backEnd;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         try {
             checkedDrive = null;
             myView = inflater.inflate(R.layout.fragment_drive_available, container, false);
+            backEnd = BackEndFactory.getInstance(myView.getContext());
             findViews();
-
             //initialize driver location
             setCurrentLocation();
 
@@ -79,8 +81,9 @@ public class AvailableDriveFragment extends Fragment {
         return myView;
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void findViews(){
-        driveList = BackEndFactory.getInstance(getActivity()).getListDriveAvailable();
+        driveList = backEnd.getListDriveAvailable();
         listView = (ListView) myView.findViewById(R.id.list_view);
         ButtonAddToContact = (Button)myView.findViewById(R.id.ButtonAddToContact);
         detailDrive = (TextView)myView.findViewById(R.id.textViewDetail);
@@ -139,9 +142,21 @@ public class AvailableDriveFragment extends Fragment {
             }
         });
 
-        cities = BackEndFactory.getInstance(myView.getContext()).ListCitiesOfDrive(myView.getContext());
-        cityAdapter = new ArrayAdapter<>(myView.getContext(), android.R.layout.simple_spinner_dropdown_item, cities);
-        spinnerCity.setAdapter(cityAdapter);
+        new AsyncTask<Void, Void, List<String>>() {
+
+            @Override
+            protected List<String> doInBackground(Void... voids) {
+                cities = backEnd.ListCitiesOfDrive(myView.getContext());
+                return cities;
+            }
+
+            @Override
+            protected void onPostExecute(List<String> citesString) {
+                cityAdapter = new ArrayAdapter<>(myView.getContext(), android.R.layout.simple_spinner_dropdown_item, citesString);
+                spinnerCity.setAdapter(cityAdapter);
+            }
+        }.execute();
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -150,7 +165,8 @@ public class AvailableDriveFragment extends Fragment {
                 String detail ="";
                 detail += getString(R.string.name)+ ": "+ checkedDrive.getNameClient() + "\n"
                         + getString(R.string.phone)+ ": " + checkedDrive.getPhoneClient() + "\n"
-                        + getString(R.string.start_point)+ ": " + checkedDrive.getStartPointString() +"\n";
+                        + getString(R.string.start_point)+ ": " + checkedDrive.getStartPointString() +"\n"
+                        + getString(R.string.Start_time) + " : " + checkedDrive.getStartTime() + "\n";
                 detailDrive.setText(detail);
                 ButtonAddToContact.setEnabled(true);
             }
@@ -159,16 +175,14 @@ public class AvailableDriveFragment extends Fragment {
         ButtonAddToContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkedDrive != null) {
+                if (checkedDrive != null) {
                     Intent intentContact = new Intent(Intent.ACTION_INSERT);
                     intentContact.setType(ContactsContract.Contacts.CONTENT_TYPE);
 
                     intentContact.putExtra(ContactsContract.Intents.Insert.NAME, checkedDrive.getNameClient());
                     intentContact.putExtra(ContactsContract.Intents.Insert.PHONE, checkedDrive.getPhoneClient());
                     startActivity(intentContact);
-
-                }
-                else{
+                } else {
                     Toast.makeText(myView.getContext(), getString(R.string.no_drive_selected), Toast.LENGTH_LONG).show();
                 }
             }
@@ -179,7 +193,7 @@ public class AvailableDriveFragment extends Fragment {
             public void onClick(View v) {
                 if (checkedDrive != null) {
                     String driverID = getActivity().getIntent().getStringExtra(getString(R.string.id));
-                    BackEndFactory.getInstance(myView.getContext()).startDrive(checkedDrive, driverID, new BackEnd.Action<String>() {
+                    backEnd.startDrive(checkedDrive, driverID, new BackEnd.Action<String>() {
                         @Override
                         public void onSuccess(String obj) {
                             Toast.makeText(myView.getContext(), getString(R.string.Have_a_nice_drive), Toast.LENGTH_LONG).show();
@@ -206,7 +220,7 @@ public class AvailableDriveFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String driverID = getActivity().getIntent().getStringExtra(getString(R.string.id));
-                BackEndFactory.getInstance(myView.getContext()).endDrive(driverID, new BackEnd.Action<String>() {
+                backEnd.endDrive(driverID, new BackEnd.Action<String>() {
                     @Override
                     public void onSuccess(String obj) {
                         Toast.makeText(myView.getContext(), R.string.the_drive_finish, Toast.LENGTH_LONG).show();
@@ -229,28 +243,7 @@ public class AvailableDriveFragment extends Fragment {
     }
 
     private void setCurrentLocation(){
-
-        if (ActivityCompat.checkSelfPermission(myView.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(myView.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]
-                    {android.Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        }
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
-        mFusedLocationClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-            @SuppressLint("setTextI18n")
-            @Override
-            public void onSuccess(Location _location) {
-                // Got last known location. In some rare situations this can be null.
-                if (_location != null) {
-                    List<Address> addresses;
-                    //save the location
-                    driverLocation = _location;
-                } else {
-                    Toast.makeText(myView.getContext(), R.string.cant_find_your_location,Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+        new setDriverLoctionAsyncTask().execute();
     }
 
 //    @Override
@@ -271,14 +264,16 @@ public class AvailableDriveFragment extends Fragment {
         @Override
         protected List<Drive> doInBackground(Void... aVoid) {
             if (spinnerFilter.getSelectedItem().toString().equals(getString(R.string.sort_by_city))) {
-                return  BackEndFactory.getInstance(myView.getContext()).
-                        getListDriveByTarget(myView.getContext(), spinnerCity.getSelectedItem().toString());
+                return backEnd.getListDriveByTarget(myView.getContext(), spinnerCity.getSelectedItem().toString());
+            } else if (spinnerFilter.getSelectedItem().toString().equals(getString(R.string.sort_by_km))) {
+                setCurrentLocation();
+                if (driverLocation != null) {
+                    return backEnd.getListDriveByKM(myView.getContext(), numberPickerKM.getValue(), driverLocation);
+                } else {
+                    Toast.makeText(myView.getContext(), R.string.location_services_impossible, Toast.LENGTH_LONG).show();
+                }
             }
-            else if (spinnerFilter.getSelectedItem().toString().equals(getString(R.string.sort_by_km)) ) {
-                return BackEndFactory.getInstance(myView.getContext()).
-                        getListDriveByKM(myView.getContext(), numberPickerKM.getValue(), driverLocation);
-            } else
-                return driveList;
+            return driveList;
         }
 
         @Override
@@ -287,5 +282,36 @@ public class AvailableDriveFragment extends Fragment {
             listView.setAdapter(driveAdapter);
         }
     }
+
+    @SuppressLint("StaticFieldLeak")
+    public class setDriverLoctionAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            if (ActivityCompat.checkSelfPermission(myView.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(myView.getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(getActivity(), new String[]
+                        {android.Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            }
+
+            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+            mFusedLocationClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                @SuppressLint("setTextI18n")
+                @Override
+                public void onSuccess(Location _location) {
+                    // Got last known location. In some rare situations this can be null.
+                    if (_location != null) {
+                        List<Address> addresses;
+                        //save the location
+                        driverLocation = _location;
+                    } else {
+                        Toast.makeText(myView.getContext(), R.string.cant_find_your_location,Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+            return null;
+        }
+    }
+
 
 }
