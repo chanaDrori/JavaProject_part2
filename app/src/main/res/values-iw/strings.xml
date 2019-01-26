@@ -28,7 +28,6 @@
     <string name="add_to_contacts">הוסף לאנשי הקשר</string>
     <string name="your_drives">הנסיעות שלך:</string>
     <string name="there_are_no_drives">לא קיימות נסיעות</string>
-
     <string name="title_section1">הצג נסיעות פנויות</string>
     <string name="title_section2">הצג את הנסיעות שלי</string>
     <string name="title_section3">התנתק</string>
@@ -41,28 +40,26 @@
     <string name="please_finish_driving">קיימת נסיעה שלא הסתיימה. אנא סיים אותה תחילה.</string>
     <string name="failureEndDrive">לא נמצאה נסיעה בטיפול</string>
     <string name="success_finish_drive">הנסיעה הסתיימה, תודה לך.</string>
-    <string name="no_drive_selected">No drive selected</string>
+    <string name="no_drive_selected">לא נבחרה נסיעה</string>
     <string name="cant_find_your_location">can\'t find your location</string>
-    <string name="select">Select</string>
-    <string name="sort_by_km">Sort by KM</string>
-    <string name="sort_by_city">Sort by city</string>
-    <string name="no_drive_selected_show">There are no drive selected to show</string>
-    <string name="select_distance">Select distance from you ( in KM)</string>
+    <string name="select">בחר שיטה למיון הנסיעות</string>
+    <string name="sort_by_km">מיון לפי מרחק נקודת המוצא</string>
+    <string name="sort_by_city">מיון לפי עיר מוצא</string>
+    <string name="no_drive_selected_show">לא נבחרה נסיעה להצגה</string>
+    <string name="select_distance">בחר מרחק ממיקומך הנוכחי (בקילומטר)</string>
     <string name="Can_not_get">Can not get</string>
-    <string name="cities">cities</string>
-    <string name="the_drive_finish">The drive finish</string>
-    <string name="location_services_impossible">Access to your location is not possible. Please check your location services and try again.</string>
-    <string name="Start_time">Start time</string>
-    <string name="New_drive_received">New drive received</string>
-    <string name="notifiction_text_new_drive">Added a new ride. You can launch the application and start driving</string>
+    <string name="cities">ערים</string>
+    <string name="the_drive_finish">הנסיעה הסתיימה, תודה לך.</string>
+    <string name="location_services_impossible">לא ניתן לגשת כעת למיקומך. אנא הדלק שירותי מיקום ונסה שנית.</string>
+    <string name="Start_time">זמן התחלה</string>
+    <string name="New_drive_received">התקבלה נסיעה חדשה</string>
+    <string name="notifiction_text_new_drive">נוספה נסיעה חדשה למערכת, צפה בפרטים באפליקציה</string>
 
 
-    <string-array name="nav_drawer_item">
+    <!--string-array name="nav_drawer_item">
         <item>הצג נסיעות פנויות</item>
         <item>הנסיעות שלי</item>
         <item>התנתק</item>
-    </string-array>
-
-
+    </string-array-->
 
 </resources>
