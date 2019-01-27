@@ -58,6 +58,7 @@ public class LoginActivity extends Activity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         findViews();
@@ -77,7 +78,7 @@ public class LoginActivity extends Activity {
              */
             @Override
             public void onDataChange(List<Driver> obj) {
-                BackEndFactory.getInstance(getBaseContext()).setDriverList(obj);
+                BackEndFactory.getInstance(getApplicationContext()).setDriverList(obj);
             }
 
             /**
@@ -86,8 +87,7 @@ public class LoginActivity extends Activity {
              */
             @Override
             public void onFailure(Exception exp) {
-                Toast.makeText(getBaseContext(), getString(R.string.Error_to_get_drivers_list)
-                        + exp.toString() +"\n login", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), getString(R.string.Error_to_get_drivers_list), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -98,7 +98,7 @@ public class LoginActivity extends Activity {
              */
             @Override
             public void onDataChange(List<Drive> obj) {
-                BackEndFactory.getInstance(getBaseContext()).setDriveList(obj);
+                BackEndFactory.getInstance(getApplicationContext()).setDriveList(obj);
             }
 
             /**
@@ -107,8 +107,7 @@ public class LoginActivity extends Activity {
              */
             @Override
             public void onFailure(Exception exp) {
-                Toast.makeText(getBaseContext(), getString(R.string.Error_to_get_drives_list)
-                        + exp.toString() +"\n login", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), getString(R.string.Error_to_get_drives_list), Toast.LENGTH_LONG).show();
             }
         });
     }

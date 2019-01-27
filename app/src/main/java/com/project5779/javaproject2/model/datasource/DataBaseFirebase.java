@@ -14,6 +14,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.BoringLayout;
 import android.widget.Toast;
 
@@ -54,6 +55,7 @@ public class DataBaseFirebase implements BackEnd {
 
     private static ChildEventListener driveRefChildEventListener;
     private static ChildEventListener driverRefChildEventListener;
+    private ChildEventListener serviceListener;
 
     private static List<Drive> driveList;
     private static List<Driver> driverList;
@@ -131,9 +133,41 @@ public class DataBaseFirebase implements BackEnd {
     //@Override
     public void notifyToDriveList(final NotifyDataChange<List<Drive>> notifyDataChange){
         if(notifyDataChange != null){
-            if(driveRefChildEventListener != null){
-                notifyDataChange.onFailure(new Exception("first unNotify drive list"));
-                return;
+            if(driveRefChildEventListener != null) {
+                if (serviceListener != null) {
+                    notifyDataChange.onFailure(new Exception("first unNotify drive list"));
+                    return;
+                }
+                else {
+                    serviceListener = new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                            notifyDataChange.onDataChange(driveList);
+                        }
+
+                        @Override
+                        public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                        }
+
+                        @Override
+                        public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                        }
+
+                        @Override
+                        public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    };
+                    DriveRef.addChildEventListener(serviceListener);
+                    return;
+                }
             }
             driveList.clear();
             driveRefChildEventListener = new ChildEventListener(){
@@ -377,13 +411,8 @@ public class DataBaseFirebase implements BackEnd {
         int countError = 0;
         for(Drive d:driveList) {
             try {
-//                Geocoder gcd = new Geocoder(context, Locale.getDefault());
-//                List<Address> addresses = gcd.getFromLocation(d.getLat(context), d.getLon(context), 1);
-//                if (addresses.size() > 0 && ! cities.contains(addresses.get(0).getLocality())) {
-//                    cities.add(addresses.get(0).getLocality());
-//                }
                 String city = getCity(d, context);
-                if(city != null && !cities.contains(city)){
+                if (city != null && !cities.contains(city)) {
                     cities.add(city);
                 }
             } catch (Exception ex) {
@@ -437,7 +466,7 @@ public class DataBaseFirebase implements BackEnd {
                 }
             }
             catch (Exception e){
-                Toast.makeText(context, "שגיאה בסינון הנסיעות לפי KM", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, R.string.error_filter_by_km, Toast.LENGTH_LONG).show();
             }
 
         }

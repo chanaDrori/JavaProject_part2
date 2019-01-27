@@ -12,6 +12,7 @@ import com.project5779.javaproject2.model.backend.BackEnd;
 import com.project5779.javaproject2.model.backend.BackEndFactory;
 import com.project5779.javaproject2.model.datasource.DataBaseFirebase;
 import com.project5779.javaproject2.model.entities.Drive;
+import com.project5779.javaproject2.model.entities.StateOfDrive;
 
 import java.util.List;
 
@@ -26,15 +27,18 @@ public class DriveService extends Service {
         context = getApplicationContext();
         backEndManger = BackEndFactory.getInstance(context);
 
-        Intent intent2 = new Intent(context, BroadCastReceiverNotification.class);
-        sendBroadcast(intent2);
         backEndManger.notifyToDriveList(new DataBaseFirebase.NotifyDataChange<List<Drive>>() {
             @Override
-            public void onDataChange(List<Drive> obj) {
+            public void onDataChange(List<Drive> driveList) {
                 try {
-                    Intent intent = new Intent(context, BroadCastReceiverNotification.class);
-                    sendBroadcast(intent);
-                }catch (Exception ex){
+                    for (Drive d : driveList) {
+                        if (d.getState().equals(StateOfDrive.AVAILABLE)) {
+                            Intent intent = new Intent(context, BroadCastReceiverNotification.class);
+                            sendBroadcast(intent);
+                            break;
+                        }
+                    }
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }

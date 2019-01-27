@@ -13,11 +13,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Location;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
 //import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.telephony.SmsManager;
 import android.view.View;
 
 import java.util.List;
@@ -29,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
@@ -58,6 +61,10 @@ public class AvailableDriveFragment extends Fragment {
     private NumberPicker numberPickerKM;
     private Spinner spinnerCity;
     private Button buttonSearch;
+    private Button buttonSendSMS;
+    private Button buttonSendEmail;
+    private LinearLayout linearLayoutDetail;
+
     //Defines fields for a fragment
     private FusedLocationProviderClient mFusedLocationClient;
     private List<Drive> driveList;
@@ -83,6 +90,7 @@ public class AvailableDriveFragment extends Fragment {
         try {
             //Initializes the fragment for the user
             checkedDrive = null;
+            driverLocation = null;
             myView = inflater.inflate(R.layout.fragment_drive_available, container, false);
             backEnd = BackEndFactory.getInstance(myView.getContext());
             findViews();
@@ -112,15 +120,52 @@ public class AvailableDriveFragment extends Fragment {
         spinnerCity = (Spinner)myView.findViewById(R.id.spinnerCity);
         numberPickerKM = (NumberPicker)myView.findViewById(R.id.numberPickerKM);
         buttonSearch = (Button)myView.findViewById(R.id.buttonSearch);
+        buttonSendSMS = (Button)myView.findViewById(R.id.buttonSendSMS);
+        buttonSendEmail = (Button)myView.findViewById(R.id.buttonSendEmail);
+        linearLayoutDetail = (LinearLayout)myView.findViewById(R.id.linearLayoutDetail);
 
-        // set the button of add contact to false enabled
+        // set the button of addContact, buttonSendEmail and sentSMS to false enabled
         ButtonAddToContact.setEnabled(false);
+        buttonSendSMS.setEnabled(false);
+        buttonSendEmail.setEnabled(false);
         //show the list of the drive
         driveAdapter = new ArrayAdapter<Drive>(myView.getContext(), android.R.layout.simple_list_item_1, driveList);
         listView.setAdapter(driveAdapter);
         //set the range of km
         numberPickerKM.setMinValue(1);
         numberPickerKM.setMaxValue(300);
+
+        buttonSendSMS.setOnClickListener(new View.OnClickListener() {
+            /**
+             * onClick of buttonSendSMS
+             * @param v View buttonSendSMS
+             */
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse(getString(R.string.smsto)+ checkedDrive.getPhoneClient());
+                Intent intentSMS = new Intent(Intent.ACTION_SENDTO, uri);
+                intentSMS.putExtra(getString(R.string.sms_body), getString(R.string.hello) + " " + checkedDrive.getNameClient()
+                        +"\n" + getString(R.string.sms_body_come)+ " " + checkedDrive.getStartPointString() +"\n" +getString(R.string.to) +" " +checkedDrive.getEndPointString());
+                startActivity(intentSMS);
+            }
+        });
+
+        buttonSendEmail.setOnClickListener(new View.OnClickListener() {
+            /**
+             * onClick of buttonSendEmail
+             * @param v View buttonSendEmail
+             */
+            @Override
+            public void onClick(View v) {
+                Intent intentEmail = new Intent(Intent.ACTION_SENDTO,
+                        Uri.fromParts("mailto", checkedDrive.getEmailClient(), null));
+                intentEmail.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject_mail));
+                intentEmail.putExtra(Intent.EXTRA_TEXT, getString(R.string.hello) + " " + checkedDrive.getNameClient()
+                        +"\n" + getString(R.string.sms_body_come)+ " " + checkedDrive.getStartPointString() +"\n"
+                        + getString(R.string.to) + " " +checkedDrive.getEndPointString());
+                startActivity(intentEmail);
+            }
+        });
 
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             /**
@@ -193,12 +238,15 @@ public class AvailableDriveFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 checkedDrive = (Drive) listView.getItemAtPosition(position);
                 String detail ="";
+                linearLayoutDetail.setVisibility(View.VISIBLE);
                 detail += getString(R.string.name)+ ": "+ checkedDrive.getNameClient() + "\n"
                         + getString(R.string.phone)+ ": " + checkedDrive.getPhoneClient() + "\n"
                         + getString(R.string.start_point)+ ": " + checkedDrive.getStartPointString() +"\n"
                         + getString(R.string.Start_time) + " : " + checkedDrive.getStartTime() + "\n";
                 detailDrive.setText(detail);
                 ButtonAddToContact.setEnabled(true);
+                buttonSendSMS.setEnabled(true);
+                buttonSendEmail.setEnabled(true);
             }
         });
 
@@ -320,8 +368,10 @@ public class AvailableDriveFragment extends Fragment {
          */
         @Override
         protected void onPostExecute(List<Drive> updateDriveList) {
-            driveAdapter = new ArrayAdapter<Drive>(myView.getContext(), android.R.layout.simple_list_item_1, updateDriveList);
-            listView.setAdapter(driveAdapter);
+            if (driveList != null) {
+                driveAdapter = new ArrayAdapter<Drive>(myView.getContext(), android.R.layout.simple_list_item_1, updateDriveList);
+                listView.setAdapter(driveAdapter);
+            }
         }
     }
 
@@ -356,7 +406,7 @@ public class AvailableDriveFragment extends Fragment {
                         //save the location
                         driverLocation = _location;
                     } else {
-                        Toast.makeText(myView.getContext(), R.string.cant_find_your_location, Toast.LENGTH_LONG).show();
+                        Toast.makeText(myView.getContext(), getString(R.string.cant_find_your_location), Toast.LENGTH_LONG).show();
                     }
                 }
             });

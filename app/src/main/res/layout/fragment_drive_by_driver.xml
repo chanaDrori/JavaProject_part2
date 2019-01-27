@@ -12,10 +12,30 @@
         style="@style/myTextStyle"
         android:text="@string/your_drives"/>
 
-    <ListView
-        android:id="@+id/list_view"
+    <Switch
+        android:id="@+id/switch_drive_in_progress"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="@string/show_the_trip_in_progress" />
+    <TextView
+        android:id="@+id/text_view_work"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/black">
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:background="@color/yellow"/>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/TextViewWithoutDrives"

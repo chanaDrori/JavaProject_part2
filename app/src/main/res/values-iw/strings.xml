@@ -12,6 +12,7 @@
     <string name="phone">מספר פלאפון</string>
     <string name="Email">אימייל</string>
     <string name="credit_card_number">מספר כרטיס אשראי</string>
+
     <string name="create_an_account">צור חשבון</string>
     <string name="confirm_password">אישור סיסמה</string>
     <string name="created_successfully">החשבון נוצר בהצלחה</string>
@@ -20,7 +21,7 @@
     <string name="Error_to_get_drivers_list">שגיאה בהוספת נהג לרשימה</string>
     <string name="not_found_user">האימייל והסיסמה לא קיימים במערכת, נסה שנית.</string>
     <string name="menu">תפריט</string>
-    <string name="hello">שלום</string>
+    <string name="hello">שלום </string>
     <string name="Register">הרשמה</string>
     <string name="log_in">התחבר</string>
     <string name="create_a_new_account_for_free">צור חשבון חדש כעת!</string>
@@ -39,21 +40,30 @@
     <string name="failure_update_drive">לא ניתן לקבל את הנסיעה</string>
     <string name="please_finish_driving">קיימת נסיעה שלא הסתיימה. אנא סיים אותה תחילה.</string>
     <string name="failureEndDrive">לא נמצאה נסיעה בטיפול</string>
-    <string name="success_finish_drive">הנסיעה הסתיימה, תודה לך.</string>
+    <string name="success_finish_drive">הנסיעה הסתיימה, תודה.</string>
     <string name="no_drive_selected">לא נבחרה נסיעה</string>
-    <string name="cant_find_your_location">can\'t find your location</string>
+    <string name="cant_find_your_location">לא ניתן למצוא את מיקומך הנוכחי</string>
     <string name="select">בחר שיטה למיון הנסיעות</string>
     <string name="sort_by_km">מיון לפי מרחק נקודת המוצא</string>
     <string name="sort_by_city">מיון לפי עיר מוצא</string>
     <string name="no_drive_selected_show">לא נבחרה נסיעה להצגה</string>
     <string name="select_distance">בחר מרחק ממיקומך הנוכחי (בקילומטר)</string>
-    <string name="Can_not_get">Can not get</string>
+    <string name="Can_not_get">שגיאה בקבלת רשימת הערים</string>
     <string name="cities">ערים</string>
     <string name="the_drive_finish">הנסיעה הסתיימה, תודה לך.</string>
     <string name="location_services_impossible">לא ניתן לגשת כעת למיקומך. אנא הדלק שירותי מיקום ונסה שנית.</string>
     <string name="Start_time">זמן התחלה</string>
     <string name="New_drive_received">התקבלה נסיעה חדשה</string>
-    <string name="notifiction_text_new_drive">נוספה נסיעה חדשה למערכת, צפה בפרטים באפליקציה</string>
+    <string name="notifiction_text_new_drive">נוספה נסיעה חדשה למערכת</string>
+    <string name="big_text">ניתן לראות את פרטי הנסיעה החדשה באפליקציה</string>
+    <string name="error_filter_by_km">שגיאה בסינון הנסיעות לפי KM</string>
+    <string name="sent_sms">שלח הודעה</string>
+    <string name="sms_body_come">אני מגיע/ה לקחת אותך מ:</string>
+    <string name="to">ל:</string>
+    <string name="sent_email">שלח מייל</string>
+    <string name="subject_mail">אני בדרך לאסוף אותך!</string>
+    <string name="show_the_trip_in_progress">Show the trip in progress</string>
+    <string name="no_trip_progress">There is no trip in progress</string>
 
 
     <!--string-array name="nav_drawer_item">
