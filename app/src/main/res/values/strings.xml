@@ -59,7 +59,7 @@
     <string name="New_drive_received">New trip received</string>
     <string name="notification_text_new_drive">Added a new trip.</string>
     <string name="big_text">You can launch the application and start driving</string>
-    <string name="error_filter_by_km">שגיאה בסינון הנסיעות לפי KM</string>
+    <string name="error_filter_by_km">Error filtering the trips according to km</string>
     <string name="sent_sms">Sent SMS</string>
     <string name="sms_body_come">I am coming to take you from:</string>
     <string name="smsto">smsto:</string>
@@ -73,6 +73,9 @@
     <string name="subject_mail">The driver is coming to you!</string>
     <string name="show_the_trip_in_progress">Show the trip in progress</string>
     <string name="no_trip_progress">There is no trip in progress</string>
+    <string name="off">OFF</string>
+    <string name="on">ON</string>
+    <string name="open_web_browser">About as in a web browser</string>
 
 
 </resources>

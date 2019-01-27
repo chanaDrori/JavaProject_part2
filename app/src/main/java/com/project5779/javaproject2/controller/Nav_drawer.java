@@ -1,3 +1,9 @@
+/**
+ * Project in java-Android part 2
+ * writers: Tirtza Rubinstain and Chana Drori
+ * 01/2019
+ * Nav_drawer activity navigation drawer
+ */
 package com.project5779.javaproject2.controller;
 
 import android.app.Activity;
@@ -8,6 +14,7 @@ import android.app.FragmentManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
@@ -48,6 +55,7 @@ public class Nav_drawer extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_drawer);
 
+        // start service DriveService, check if there is a new drive
         if(service == null){
             Intent intentStartService = new Intent(getBaseContext(), DriveService.class);
             service = startService(intentStartService);
@@ -68,21 +76,22 @@ public class Nav_drawer extends Activity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
-        if (position == 0)
-        {
+        if (position == 0) {
             fragmentManager.beginTransaction()
-                     .replace(R.id.content_frame, new AvailableDriveFragment())
+                    .replace(R.id.content_frame, new AvailableDriveFragment())
                     .commit();
         }
 
-        if (position == 1)
-        {
+        if (position == 1) {
             fragmentManager.beginTransaction()
                     .replace(R.id.content_frame, new DriveByDriverFragment())
                     .commit();
         }
-        if (position == 2)
-        {
+        if (position == 2) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://gett.com/il/about /"));
+            startActivity(browserIntent);
+        }
+        if (position == 3) {
             this.finish();
         }
     }
@@ -97,7 +106,10 @@ public class Nav_drawer extends Activity
                 mTitle = getString(R.string.title_section2);
                 break;
             case 3:
-                mTitle = getString(R.string.title_section3);
+                mTitle = getString(R.string.open_web_browser);
+                break;
+            case 4:
+                mTitle =  getString(R.string.title_section3);
                 break;
         }
     }

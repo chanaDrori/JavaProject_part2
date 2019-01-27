@@ -1,3 +1,9 @@
+/**
+ * Project in java-Android part 2
+ * writers: Tirtza Rubinstain and Chana Drori
+ * 01/2019
+ * DriveService
+ */
 package com.project5779.javaproject2.service;
 
 import android.app.Service;
@@ -21,6 +27,13 @@ public class DriveService extends Service {
     Context context;
     private BackEnd backEndManger;
 
+    /**
+     * onStartCommand of DriveService send intent when add a new drive
+     * @param intent Intent
+     * @param flags int
+     * @param startId int
+     * @return START_REDELIVER_INTENT
+     */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 

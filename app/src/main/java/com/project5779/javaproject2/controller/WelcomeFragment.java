@@ -1,5 +1,13 @@
+/**
+ * Project in java-Android part 2
+ * writers: Tirtza Rubinstain and Chana Drori
+ * 01/2019
+ * WelcomeFragment code
+ * main view of the app. get the driver name from the intent.
+ */
 package com.project5779.javaproject2.controller;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,6 +26,14 @@ public class WelcomeFragment extends Fragment {
 
     View myView;
 
+    /**
+     * onCreateView of WelcomeFragment display the name of the user (driver)
+     * @param inflater LayoutInflater
+     * @param container ViewGroup
+     * @param savedInstanceState Bundle
+     * @return View myView
+     */
+    @SuppressLint("SetTextI18n")
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -33,7 +49,6 @@ public class WelcomeFragment extends Fragment {
                 textView.setText(getString(R.string.welcome) +"\n" + d.getName() + " " + d.getLastName());
             }
         }
-
         return myView;
     }
 }

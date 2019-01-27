@@ -10,19 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         style="@style/myTextStyle"
-        android:text="@string/your_drives"/>
-
-    <Switch
-        android:id="@+id/switch_drive_in_progress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:checked="false"
-        android:text="@string/show_the_trip_in_progress" />
-    <TextView
-        android:id="@+id/text_view_work"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"/>
+        android:text="@string/your_drives"
+        android:textStyle="bold"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
+            style="@style/myTextStyle20"
             android:background="@color/yellow"/>
     </LinearLayout>
 
@@ -47,4 +37,21 @@
         android:layout_gravity="start"
         android:layout_margin="10dp"
         android:layout_marginTop="25dp"/>
+
+    <!--Switch
+        android:id="@+id/switch_drive_in_progress"
+        style="@style/myTextStyle20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:checked="false"
+        android:text="@string/show_the_trip_in_progress"/>
+
+    <TextView
+        android:id="@+id/text_view_work"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/myTextStyle20"
+        android:layout_margin="5dp"
+        android:layout_marginTop="10dp" /-->
 </LinearLayout>

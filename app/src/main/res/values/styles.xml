@@ -9,4 +9,9 @@
         <item name="android:textSize">@dimen/textSize</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
+    <style name="myTextStyle20" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">@dimen/textSize20</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>

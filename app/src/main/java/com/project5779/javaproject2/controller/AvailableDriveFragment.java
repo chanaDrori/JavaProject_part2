@@ -135,6 +135,7 @@ public class AvailableDriveFragment extends Fragment {
         numberPickerKM.setMinValue(1);
         numberPickerKM.setMaxValue(300);
 
+        //sent sms to the client
         buttonSendSMS.setOnClickListener(new View.OnClickListener() {
             /**
              * onClick of buttonSendSMS
@@ -149,7 +150,7 @@ public class AvailableDriveFragment extends Fragment {
                 startActivity(intentSMS);
             }
         });
-
+        //send email to the client
         buttonSendEmail.setOnClickListener(new View.OnClickListener() {
             /**
              * onClick of buttonSendEmail
@@ -249,7 +250,7 @@ public class AvailableDriveFragment extends Fragment {
                 buttonSendEmail.setEnabled(true);
             }
         });
-
+        //send to the app of the contacts.
         ButtonAddToContact.setOnClickListener(new View.OnClickListener() {
             /**
              * onClick of ButtonAddToContact sent to the app of the contacts.
@@ -368,7 +369,7 @@ public class AvailableDriveFragment extends Fragment {
          */
         @Override
         protected void onPostExecute(List<Drive> updateDriveList) {
-            if (driveList != null) {
+            if (updateDriveList != null) {
                 driveAdapter = new ArrayAdapter<Drive>(myView.getContext(), android.R.layout.simple_list_item_1, updateDriveList);
                 listView.setAdapter(driveAdapter);
             }

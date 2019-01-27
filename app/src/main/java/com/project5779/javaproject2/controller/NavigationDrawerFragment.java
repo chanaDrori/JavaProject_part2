@@ -1,3 +1,9 @@
+/**
+ * Project in java-Android part 2
+ * writers: Tirtza Rubinstain and Chana Drori
+ * 01/2019
+ *NavigationDrawerFragment
+ */
 package com.project5779.javaproject2.controller;
 
 
@@ -112,6 +118,7 @@ public class NavigationDrawerFragment extends Fragment {
                 new String[]{
                         getString(R.string.title_section1),
                         getString(R.string.title_section2),
+                        getString(R.string.open_web_browser),
                         getString(R.string.title_section3),
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);

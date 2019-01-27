@@ -68,35 +68,6 @@ public class DataBaseFirebase implements BackEnd {
         driverList = new ArrayList<>();
     }
 
-//    public DataBaseFirebase() {
-/////////////////////////////////////////////////////
-//        list_toDelete_after();
-/////////////////////////////////////////////////////////////////////////////////
-//        this.notifyToDriveList(new NotifyDataChange<List<Drive>>() {
-//            @Override
-//            public void onDataChange(List<Drive> obj) {
-//                driveList = obj;
-//            }
-//
-//            @Override
-//            public void onFailure(Exception exp) {
-//                //Toast.makeText().show;
-//            }
-//        });
-//
-//        this.notifyToDriverList(new NotifyDataChange<List<Driver>>() {
-//            @Override
-//            public void onDataChange(List<Driver> obj) {
-//                driverList = obj;
-//            }
-//
-//            @Override
-//            public void onFailure(Exception exp) {
-//
-//            }
-//        });
-//    }
-
     /**
      * interface NotifyDataChange. For update the list from the firebase.
      * @param <T>
@@ -194,13 +165,6 @@ public class DataBaseFirebase implements BackEnd {
                 @Override
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                     Drive drive = dataSnapshot.getValue(Drive.class);
-//                    for (Drive d : driveList){
-//                        if(d.equals(drive)){
-//                            driveList.remove(d);
-//                            driveList.add(drive);
-//                            break;
-//                        }
-//                    }
                     for (int i=0; i < driveList.size(); i++){
                         if(driveList.get(i).equals(drive)) {
                             driveList.set(i, drive);
@@ -398,6 +362,13 @@ public class DataBaseFirebase implements BackEnd {
         return  driveByDriver;
     }
 
+    /**
+     * getCity get city from location
+     * @param drive Drive
+     * @param context Context
+     * @return String city from location
+     * @throws Exception
+     */
     private String getCity(Drive drive, Context context)throws Exception {
         Geocoder gcd = new Geocoder(context, Locale.getDefault());
         List<Address> addresses = gcd.getFromLocation(drive.getLat(context), drive.getLon(context), 1);
@@ -406,6 +377,11 @@ public class DataBaseFirebase implements BackEnd {
         return null;
     }
 
+    /**
+     * ListCitiesOfDrive extract the cities from the drives list
+     * @param context Context
+     * @return List<String> cities
+     */
     public List<String> ListCitiesOfDrive(Context context){
         List<String> cities = new ArrayList<>();
         int countError = 0;
@@ -435,8 +411,6 @@ public class DataBaseFirebase implements BackEnd {
        List<Drive> driveByCity = new ArrayList<>();
        for(Drive d : driveList) {
            try {
-//               Geocoder gcd = new Geocoder(context, Locale.getDefault());
-//               List<Address> addresses = gcd.getFromLocation(d.getLat(context), d.getLon(context), 1);
                if(getCity(d, context) != null && getCity(d, context).equals(city)) {
                    driveByCity.add(d);
                }
@@ -499,6 +473,12 @@ public class DataBaseFirebase implements BackEnd {
         return null;
     }
 
+    /**
+     * startDrive update the drive detail in the fire base
+     * @param drive Drive
+     * @param driverID String driver ID
+     * @param action Action<String>
+     */
     @Override
     public void startDrive(final Drive drive, final String driverID, final Action<String> action) {
         List<Drive> listDrive = getListDriveByDriver(driverID);
@@ -508,21 +488,6 @@ public class DataBaseFirebase implements BackEnd {
                 return;
             }
         }
-//        DriveRef.child(drive.getKey()).child("state").setValue(StateOfDrive.WORK);
-//        DriveRef.child(drive.getKey()).child("driverID").setValue(driverID)
-//        .addOnSuccessListener(new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//               action.onSuccess(driverID);
-//            }
-//
-//        })
-//        .addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                action.onFailure(e);
-//            }
-//        });
         drive.setDriverID(driverID);
         drive.setState(StateOfDrive.WORK);
         DriveRef.child(drive.getKey()).setValue(drive).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -533,6 +498,11 @@ public class DataBaseFirebase implements BackEnd {
         });
     }
 
+    /**
+     * endDrive update the drive detail in the fire base
+     * @param driverID String driver ID
+     * @param action Action<String> contain on success and failure
+     */
     public void endDrive(String driverID, final Action<String> action)
     {
         List<Drive> driveList = getListDriveByDriver(driverID);
@@ -547,19 +517,6 @@ public class DataBaseFirebase implements BackEnd {
 
                 DriveRef.child(d.getKey()).child("endTime").setValue(endTime);
                 DriveRef.child(d.getKey()).child("state").setValue(StateOfDrive.FINISH);
-//                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                            @Override
-//                            public void onSuccess(Void aVoid) {
-//                                action.onSuccess(String.valueOf(R.string.success_finish_drive));
-//                            }
-//
-//                        })
-//                        .addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                action.onFailure(new Exception(""));
-//                            }
-//                        });
                 d.setState(StateOfDrive.FINISH);
                 d.setEndTime(endTime);
                 DriveRef.child(d.getKey()).setValue(d).addOnSuccessListener(new OnSuccessListener<Void>() {

@@ -1,3 +1,10 @@
+/**
+ * Project in java-Android part 2
+ * writers: Tirtza Rubinstain and Chana Drori
+ * 01/2019
+ * BroadCast Receiver get the intent from the service
+ * when there is a new drive and show notification
+ */
 package com.project5779.javaproject2.controller;
 
 import android.annotation.SuppressLint;
@@ -19,7 +26,11 @@ import android.widget.Toast;
 import com.project5779.javaproject2.R;
 
 public class BroadCastReceiverNotification extends BroadcastReceiver{
-
+    /**
+     * onReceive display notification on status bar
+     * @param context Context
+     * @param intent Intent
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         try {

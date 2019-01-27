@@ -62,14 +62,9 @@
     <string name="to">ל:</string>
     <string name="sent_email">שלח מייל</string>
     <string name="subject_mail">אני בדרך לאסוף אותך!</string>
-    <string name="show_the_trip_in_progress">Show the trip in progress</string>
-    <string name="no_trip_progress">There is no trip in progress</string>
+    <string name="show_the_trip_in_progress">הצג נסיעה שמבוצעת כעת</string>
+    <string name="no_trip_progress">לא נמצאה נסיעה להצגה</string>
+    <string name="open_web_browser">פתח אתר אודות החברה</string>
 
-
-    <!--string-array name="nav_drawer_item">
-        <item>הצג נסיעות פנויות</item>
-        <item>הנסיעות שלי</item>
-        <item>התנתק</item>
-    </string-array-->
 
 </resources>

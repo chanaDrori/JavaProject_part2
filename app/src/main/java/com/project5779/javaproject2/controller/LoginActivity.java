@@ -113,12 +113,10 @@ public class LoginActivity extends Activity {
     }
 
     /**
-     * onDestroy function. Sent to  DataBaseFirebase.stopNotifyToDriverList();
+     * onDestroy function.
      */
     @Override
     protected void onDestroy() {
-        //BackEndFactory.getInstance(getApplicationContext()).stopNotifyToDriveList();
-        //BackEndFactory.getInstance(getApplicationContext()).stopNotifyToDriverList();
         super.onDestroy();
     }
 

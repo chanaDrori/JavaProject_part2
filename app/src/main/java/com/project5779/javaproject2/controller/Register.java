@@ -244,7 +244,6 @@ public class Register extends Activity {
                 }
             }
         });
-
     }
 
     /**
@@ -274,7 +273,6 @@ public class Register extends Activity {
         EditTextPassword.setText("");
         EditTextFirstName.setText("");
         EditTextLastName.setText("");
-
     }
 
 
