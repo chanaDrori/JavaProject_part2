@@ -68,7 +68,8 @@ public class DriveByDriverFragment extends Fragment {
             }
         }
         listView = (ListView)myView.findViewById(R.id.list_view);
-        adapter = new ArrayAdapter<Drive>(myView.getContext(), android.R.layout.simple_list_item_1, drivesFinish);
+        //adapter = new ArrayAdapter<Drive>(myView.getContext(), android.R.layout.simple_list_item_1, drivesFinish);
+        adapter = new ArrayAdapter<Drive>(myView.getContext(), android.R.layout.simple_list_item_1, driveListToShow);
         listView.setAdapter(adapter);
 
 //        switchDriveInProgress.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

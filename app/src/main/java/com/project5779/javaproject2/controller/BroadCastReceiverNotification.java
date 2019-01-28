@@ -36,11 +36,13 @@ public class BroadCastReceiverNotification extends BroadcastReceiver{
         try {
             String NOTIFICATION_CHANNEL_ID = "my_channel_id_01";
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, LoginActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
+                    new Intent(context, LoginActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 @SuppressLint("WrongConstant")
-                NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "My Notifications", NotificationManager.IMPORTANCE_MAX);
+                NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
+                        "My Notifications", NotificationManager.IMPORTANCE_MAX);
 
                 notificationChannel.setDescription("Notification alert when add new drive");
                 notificationChannel.enableLights(true);
@@ -55,14 +57,13 @@ public class BroadCastReceiverNotification extends BroadcastReceiver{
                     .setContentIntent(pendingIntent)
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND)
-                    .setContentIntent(pendingIntent)
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(context.getString(R.string.big_text)))
-                    .setShowWhen(true);
+                    .setShowWhen(true)
+                    .setAutoCancel(true);
 
             if (notificationManager != null) {
                 notificationManager.notify(1, myBuilder.build());
             }
-
         } catch (Exception ex) {
             Toast.makeText(context, ex.toString(), Toast.LENGTH_LONG).show();
         }

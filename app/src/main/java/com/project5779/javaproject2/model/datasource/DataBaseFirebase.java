@@ -385,7 +385,8 @@ public class DataBaseFirebase implements BackEnd {
     public List<String> ListCitiesOfDrive(Context context){
         List<String> cities = new ArrayList<>();
         int countError = 0;
-        for(Drive d:driveList) {
+        List<Drive> available = getListDriveAvailable();
+        for(Drive d:available) {
             try {
                 String city = getCity(d, context);
                 if (city != null && !cities.contains(city)) {
@@ -469,8 +470,17 @@ public class DataBaseFirebase implements BackEnd {
      * @return List<Drive>
      */
     @Override
-    public List<Drive> getListDriveByPayment(int payment) {
-        return null;
+    public List<Drive> getListDriveByPayment(Context context,int payment)throws Exception {
+
+        double COST_FOR_KM = 2.0;
+        int START_MONEY = 20;
+        List<Drive> listDriveByPayment = new ArrayList<>();
+        for (Drive d : driveList){
+            if(START_MONEY + d.getLocation(context).distanceTo(d.getEndLocation(context)) *COST_FOR_KM >= payment){
+                listDriveByPayment.add(d);
+            }
+        }
+        return listDriveByPayment;
     }
 
     /**

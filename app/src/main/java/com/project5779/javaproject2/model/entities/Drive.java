@@ -270,6 +270,12 @@ public class Drive {
         return this.getStartPointString() + ", " +this.getStartTime();
     }
 
+    /**
+     * getLocation create a start point Location from the drive StartPointString
+     * @param context Contex
+     * @return Location StartPointString
+     * @throws Exception if not success to convert the string to location.
+     */
     public Location getLocation(Context context) throws Exception {
         Geocoder gc = new Geocoder(context, Locale.getDefault());
         Location locationA = null;
@@ -303,5 +309,22 @@ public class Drive {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public Location getEndLocation(Context context) throws Exception {
+        Geocoder gc = new Geocoder(context, Locale.getDefault());
+        Location locationA = null;
+        if(gc.isPresent()){
+            List<Address> list = gc.getFromLocationName(getEndPointString(), 1);
+            Address address = list.get(0);
+            double lat = address.getLatitude();
+            double lng = address.getLongitude();
+
+            locationA = new Location("A");
+
+            locationA.setLatitude(lat);
+            locationA.setLongitude(lng);
+        }
+        return locationA;
     }
 }

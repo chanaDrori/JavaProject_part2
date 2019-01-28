@@ -25,7 +25,8 @@ import java.util.List;
 public class DriveService extends Service {
 
     Context context;
-    private BackEnd backEndManger;
+    DataBaseFirebase backEndManger;
+    Boolean isRun;
 
     /**
      * onStartCommand of DriveService send intent when add a new drive
@@ -38,8 +39,8 @@ public class DriveService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         context = getApplicationContext();
-        backEndManger = BackEndFactory.getInstance(context);
-
+        backEndManger = (DataBaseFirebase) BackEndFactory.getInstance(context);
+        List<Drive> driveListOld = backEndManger.getListDriveAvailable();
         backEndManger.notifyToDriveList(new DataBaseFirebase.NotifyDataChange<List<Drive>>() {
             @Override
             public void onDataChange(List<Drive> driveList) {

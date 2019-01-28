@@ -40,7 +40,7 @@ public interface BackEnd {
     public List<Drive> getListDriveByTarget(Context context, String city);
     public List<Drive> getListDriveByKM(Context context, int KM, Location driverLocation);
     public List<Drive> getListDriveByTime(String time);
-    public List<Drive> getListDriveByPayment(int payment);
+    public List<Drive> getListDriveByPayment(Context context, int payment)throws Exception;
     public List<String> ListCitiesOfDrive(Context context);
     public void startDrive(Drive drive, String driverID, final Action<String> action);
     public void endDrive(String driverID, final Action<String> action);
